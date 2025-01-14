@@ -5,60 +5,59 @@
     font-style: normal;
 }
 
-.book-registration-container {
+.bookRegistrationContainer {
     padding: 20px;
     font-family: 'Pretendard-Regular';
     max-width: 800px;
     margin: auto;
-  }
-  
-  .book-registration-container h1 {
+}
+
+.bookRegistrationContainer h1 {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .book-registration-form hr {
+}
+
+.bookRegistrationForm hr {
     margin-bottom: 20px;
-  }
-  
-  .form-group {
+}
+
+.formGroup {
     margin-bottom: 15px;
-  }
-  
-  .form-group label {
+}
+
+.formGroup label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-  }
-  
-  .form-group input {
+}
+
+.formGroup input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-  }
-  
-  .form-actions {
+}
+
+.formActions {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-  }
-  
-  .cancel-button,
-  .submit-button {
+}
+
+.cancelButton,
+.submitButton {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     color: white;
-  }
-  
-  .cancel-button {
+}
+
+.cancelButton {
     background-color: orange;
-  }
-  
-  .submit-button {
+}
+
+.submitButton {
     background-color: blue;
-  }
-  
+}
