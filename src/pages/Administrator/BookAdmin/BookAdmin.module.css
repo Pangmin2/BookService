@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.bookRegistrationContainer {
+    padding: 20px;
+    font-family: 'Pretendard-Regular';
+    max-width: 800px;
+    margin: auto;
+}
+
+.bookRegistrationContainer h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bookRegistrationForm hr {
+    margin-bottom: 20px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.formActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.cancelButton,
+.submitButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.cancelButton {
+    background-color: orange;
+}
+
+.submitButton {
+    background-color: blue;
+}
