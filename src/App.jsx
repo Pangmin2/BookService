@@ -7,7 +7,9 @@ import "./App.css";
 
 function App() {
   return (
-    <BookManage/>
+    <BookManage />
+    //<BookAdmin />
+    //<MemberManage />
     //<MainPage />
   );
 }
