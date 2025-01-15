@@ -1,0 +1,48 @@
+.hero {
+  margin-top: 38px 0 38px 0;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.contents {
+  color: #1f98ff;
+  background-color: #d2e7f8;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0 0 20px 0;
+  padding: 20px;
+}
+
+.search {
+  width: 100%;
+  display: flex; /* 검색창과 버튼을 가로로 배치 */
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center;
+}
+
+.search input {
+  width: 40%; /* 입력창 너비 */
+  padding: 12px;
+  font-size: 12px; /* 텍스트 크기 */
+  background-color: white;
+  border: none;
+  outline: none;
+  border-radius: 12px 0 0 12px; /* 모서리 둥글게 */
+}
+
+.search button {
+  padding: 12px 16px;
+  font-size: 12px;
+  color: white;
+  background-color: #1f98ff;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  cursor: pointer;
+}
