@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Main_Page.css';
-import Banner from '../../assets/Banner.png';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./Main_Page.css";
 
 const mockNotices = [
   { id: 1, content: "첫 번째 공지사항 내용", date: "2024-07-31" },
@@ -34,15 +33,16 @@ const mockFreeBoard = [
 ];
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000', 
+  baseURL: "http://localhost:3000",
 });
 
 const fetchData = (endpoint, mockData) => {
-  return api.get(endpoint)
-    .then(response => response.data)
-    .catch(error => {
-      console.error('API 요청 실패:', error);
-      return mockData; 
+  return api
+    .get(endpoint)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("API 요청 실패:", error);
+      return mockData;
     });
 };
 
@@ -55,10 +55,10 @@ const MainPage = () => {
 
   useEffect(() => {
     Promise.all([
-      fetchData('/notices', mockNotices),
-      fetchData('/activities', mockActivities),
-      fetchData('/resources', mockResources),
-      fetchData('/free-board', mockFreeBoard)
+      fetchData("/notices", mockNotices),
+      fetchData("/activities", mockActivities),
+      fetchData("/resources", mockResources),
+      fetchData("/free-board", mockFreeBoard),
     ]).then(([noticesData, activitiesData, resourcesData, freeBoardData]) => {
       setNotices(noticesData);
       setActivities(activitiesData);
@@ -75,10 +75,12 @@ const MainPage = () => {
   return (
     <div className="main-page">
       <header className="header">
-        <img src={Banner} alt="CHIP_SAT" className="banner" />
+        <img src="" alt="CHIP_SAT" className="banner" />
         <div className="header-overlay">
           <div className="menu-icon">&#9776;</div>
-          <a href="#" className="login-link">login</a>
+          <a href="#" className="login-link">
+            login
+          </a>
         </div>
       </header>
 
@@ -100,7 +102,9 @@ const MainPage = () => {
         <h2 className="section-title">활동</h2>
         <div className="activities">
           {activities.map((activity) => (
-            <div key={activity.id} className="activity-box">{activity.title}</div>
+            <div key={activity.id} className="activity-box">
+              {activity.title}
+            </div>
           ))}
         </div>
       </section>
@@ -109,7 +113,9 @@ const MainPage = () => {
         <h2 className="section-title">자료 공유</h2>
         <div className="resources">
           {resources.map((resource) => (
-            <div key={resource.id} className="resource-box">{resource.title}</div>
+            <div key={resource.id} className="resource-box">
+              {resource.title}
+            </div>
           ))}
         </div>
       </section>
