@@ -7,7 +7,8 @@
 .contents {
   color: #1f98ff;
   background-color: #d2e7f8;
-  padding: 20px;
+  padding: 36px;
+  gap: 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +29,7 @@ h1 {
 }
 
 .search input {
-  width: 40%; /* 입력창 너비 */
+  width: 36%; /* 입력창 너비 */
   padding: 12px;
   font-size: 12px; /* 텍스트 크기 */
   background-color: white;
