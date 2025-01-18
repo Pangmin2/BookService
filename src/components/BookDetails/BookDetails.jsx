@@ -1,14 +1,14 @@
-import styles from "./BookDetails.module.css";
+import style from "./BookDetails.module.css";
 const BookDetails = () => {
   return (
-    <div className={styles.container}>
+    <div className={style.container}>
       <h2>HTTP 완벽 가이드</h2>
       <hr />
-      <div className={styles.contents}>
-        <div className={styles.bookImage}>
+      <div className={style.contents}>
+        <div className={style.bookImage}>
           <img src="https://picsum.photos/200"></img>
         </div>
-        <div className={styles.bookDetails}>
+        <div className={style.bookDetails}>
           <ul>
             <li>제목: 어쩌고저쩌고</li>
             <li>저자: 어쩌고저쩌고</li>
@@ -20,8 +20,7 @@ const BookDetails = () => {
         </div>
       </div>
       <hr />
-      <div className={styles.button}>
-        <button>대기</button>
+      <div className={style.button}>
         <button>예약</button>
       </div>
     </div>
