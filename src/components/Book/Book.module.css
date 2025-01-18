@@ -24,6 +24,7 @@ hr {
 .bookImage {
   width: 160px;
   height: 220px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,6 +44,15 @@ hr {
 .bookIntro h2,
 p {
   margin: 0 0 12px 0;
+}
+
+.bookIntro h2 {
+  display: inline-block;
+}
+
+.bookIntro h2:hover {
+  color: #1f98ff;
+  cursor: pointer;
 }
 
 .bookIntro p {
