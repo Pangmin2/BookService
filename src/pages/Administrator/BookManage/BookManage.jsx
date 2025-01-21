@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BookManage.module.css';
+import Header from '../../../components/Header/Header';
+import Footer from '../../../components/Footer/Footer';
 
 const BookManagement = () => {
   const [reservations, setReservations] = useState([]);
@@ -35,86 +37,90 @@ const BookManagement = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      {/* 예약 현황 */}
-      <div className={`${styles.section} ${styles.reservationSection}`}>
-        <h2 className={styles.title}>예약 현황</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>제목</th>
-              <th>예약자</th>
-              <th>예약일</th>
-              <th>상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reservations.map((reservation, index) => (
-              <tr key={index}>
-                <td>{reservation.title}</td>
-                <td>{reservation.reserver}</td>
-                <td>{reservation.date}</td>
-                <td>
-                  <button className={styles.approveButton}>승인</button>
-                </td>
+    <>
+      <Header />
+      <div className={styles.container}>
+        {/* 예약 현황 */}
+        <div className={`${styles.section} ${styles.reservationSection}`}>
+          <h2 className={styles.title}>예약 현황</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>제목</th>
+                <th>예약자</th>
+                <th>예약일</th>
+                <th>상태</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {reservations.map((reservation, index) => (
+                <tr key={index}>
+                  <td>{reservation.title}</td>
+                  <td>{reservation.reserver}</td>
+                  <td>{reservation.date}</td>
+                  <td>
+                    <button className={styles.approveButton}>승인</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      {/* 대출 현황 */}
-      <div className={`${styles.section} ${styles.loanSection}`}>
-        <h2 className={styles.title}>대출 현황</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>제목</th>
-              <th>대출일</th>
-              <th>반납예정일</th>
-              <th>관리</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loans.map((loan, index) => (
-              <tr key={index}>
-                <td>{loan.title}</td>
-                <td>{loan.startdate}</td>
-                <td>{loan.enddate}</td>
-                <td>
-                  <button className={styles.returnButton}>반납</button>
-                </td>
+        {/* 대출 현황 */}
+        <div className={`${styles.section} ${styles.loanSection}`}>
+          <h2 className={styles.title}>대출 현황</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>제목</th>
+                <th>대출일</th>
+                <th>반납예정일</th>
+                <th>관리</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {loans.map((loan, index) => (
+                <tr key={index}>
+                  <td>{loan.title}</td>
+                  <td>{loan.startdate}</td>
+                  <td>{loan.enddate}</td>
+                  <td>
+                    <button className={styles.returnButton}>반납</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      {/* 반납 현황 */}
-      <div className={`${styles.section} ${styles.returnSection}`}>
-        <h2 className={styles.title}>반납 현황</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>제목</th>
-              <th>반납자</th>
-              <th>상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            {returns.map((returnItem, index) => (
-              <tr key={index}>
-                <td>{returnItem.title}</td>
-                <td>{returnItem.returner}</td>
-                <td className={returnItem.status === '반납' ? styles.statusReturn : styles.statusOverdue}>
-                  {returnItem.status}
-                </td>
+        {/* 반납 현황 */}
+        <div className={`${styles.section} ${styles.returnSection}`}>
+          <h2 className={styles.title}>반납 현황</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>제목</th>
+                <th>반납자</th>
+                <th>상태</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {returns.map((returnItem, index) => (
+                <tr key={index}>
+                  <td>{returnItem.title}</td>
+                  <td>{returnItem.returner}</td>
+                  <td className={returnItem.status === '반납' ? styles.statusReturn : styles.statusOverdue}>
+                    {returnItem.status}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
