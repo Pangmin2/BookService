@@ -19,6 +19,46 @@ const BookManagement = () => {
     setReturns(updatedReturns);
   };
 
+  {/*
+    const handleStatusChange = async (index, newStatus) => {
+  try {
+    const returnItem = returns[index];
+    
+    // 백엔드 API 호출
+    const response = await fetch('API_URL/returns/status', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        // 필요한 경우 인증 토큰 추가
+        // 'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        returnId: returnItem.id, // 반납 기록의 고유 ID
+        status: newStatus,
+        // 필요한 추가 데이터
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('상태 변경에 실패했습니다.');
+    }
+
+    // API 호출이 성공하면 로컬 상태 업데이트
+    const updatedReturns = returns.map((item, i) => {
+      if (i === index) {
+        return { ...item, status: newStatus };
+      }
+      return item;
+    });
+    setReturns(updatedReturns);
+
+  } catch (error) {
+    console.error('상태 변경 중 오류 발생:', error);
+    alert('상태 변경에 실패했습니다. 다시 시도해주세요.');
+  }
+};
+     */}
+
   useEffect(() => {
     // 목데이터 설정
     const mockReservations = [

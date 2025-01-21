@@ -13,6 +13,7 @@
     padding: 1rem;
     width: 80%;
     margin: 38px auto 0;
+    font-family: 'pretendard-regular';
 }
 
 .section {
@@ -154,24 +155,23 @@ select.statusOverdue {
   font-weight: 500;
   text-align: center;
   transition: all 0.2s ease;
+  background-color: transparent;
 }
 
 select.statusReturn {
-  background-color: #e8f5e9;
   color: #2e7d32;
 }
 
 select.statusReturn:hover {
-  background-color: #c8e6c9;
+  background-color: rgba(200, 230, 201, 0.3);
 }
 
 select.statusOverdue {
-  background-color: #ffebee;
   color: #c62828;
 }
 
 select.statusOverdue:hover {
-  background-color: #ffcdd2;
+  background-color: rgba(255, 205, 210, 0.3);
 }
 
 /* 드롭다운 화살표 제거 */
