@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "./Header.module.css";
+import style from "./Header.module.css";
 import { FaBars } from "react-icons/fa";
 import { useState } from "react";
 
@@ -7,25 +7,25 @@ const Header = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   return (
-    <header className={styles.header}>
-      <div className={styles.contents}>
+    <header className={style.header}>
+      <div className={style.contents}>
         <div 
-          className={styles.bars}
+          className={style.bars}
           onMouseEnter={() => setIsMenuVisible(true)}
         >
           <FaBars />
         </div>
         {isMenuVisible && (
           <div 
-            className={styles.sideMenu}
+            className={style.sideMenu}
             onMouseLeave={() => setIsMenuVisible(false)}
             onMouseEnter={() => setIsMenuVisible(true)}
           >
-            <div className={styles.profileSection}>
-              <div className={styles.profileImage}>
+            <div className={style.profileSection}>
+              <div className={style.profileImage}>
                 {/* 프로필 이미지 */}
               </div>
-              <div className={styles.profileInfo}>
+              <div className={style.profileInfo}>
                 {/* 프로필 정보, 추후 수정해야함 */}
                 <h3>관리자</h3>
                 <p>컴퓨터공학과</p>
@@ -37,9 +37,9 @@ const Header = () => {
             </ul>
           </div>
         )}
-        <nav className={styles.navigation}>
+        <nav className={style.navigation}>
           <ul>
-          <li>
+            <li>
               <Link to="/login">로그인</Link>
             </li>
             <li>

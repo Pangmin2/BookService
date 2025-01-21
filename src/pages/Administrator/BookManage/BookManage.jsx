@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './BookManage.module.css';
+import style from './BookManage.module.css';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer'
 
@@ -50,11 +50,11 @@ const BookManagement = () => {
   return (
     <>
       <Header />
-      <div className={styles.container}>
+      <div className={style.container}>
         {/* 예약 현황 */}
-        <div className={`${styles.section} ${styles.reservationSection}`}>
-          <h2 className={styles.title}>예약 현황</h2>
-          <table className={styles.table}>
+        <div className={`${style.section} ${style.reservationSection}`}>
+          <h2 className={style.title}>예약 현황</h2>
+          <table className={style.table}>
             <thead>
               <tr>
                 <th>제목</th>
@@ -70,7 +70,7 @@ const BookManagement = () => {
                   <td>{reservation.reserver}</td>
                   <td>{reservation.date}</td>
                   <td>
-                    <button className={styles.approveButton}>승인</button>
+                    <button className={style.approveButton}>승인</button>
                   </td>
                 </tr>
               ))}
@@ -79,9 +79,9 @@ const BookManagement = () => {
         </div>
 
       {/* 대출 현황 */}
-      <div className={`${styles.section} ${styles.loanSection}`}>
-        <h2 className={styles.title}>대출 현황</h2>
-        <table className={styles.table}>
+      <div className={`${style.section} ${style.loanSection}`}>
+        <h2 className={style.title}>대출 현황</h2>
+        <table className={style.table}>
           <thead>
             <tr>
               <th>제목</th>
@@ -99,7 +99,7 @@ const BookManagement = () => {
                 <td>{loan.startdate}</td>
                 <td>{loan.enddate}</td>
                 <td>
-                  <button className={styles.returnButton}>반납</button>
+                  <button className={style.returnButton}>반납</button>
                 </td>
               </tr>
             ))}
@@ -108,9 +108,9 @@ const BookManagement = () => {
       </div>
 
         {/* 반납 현황 */}
-        <div className={`${styles.section} ${styles.returnSection}`}>
-          <h2 className={styles.title}>반납 현황</h2>
-          <table className={styles.table}>
+        <div className={`${style.section} ${style.returnSection}`}>
+          <h2 className={style.title}>반납 현황</h2>
+          <table className={style.table}>
             <thead>
               <tr>
                 <th>제목</th>
@@ -131,7 +131,7 @@ const BookManagement = () => {
                     <select
                       value={returnItem.status}
                       onChange={(e) => handleStatusChange(index, e.target.value)}
-                      className={returnItem.status === '반납' ? styles.statusReturn : styles.statusOverdue}
+                      className={returnItem.status === '반납' ? style.statusReturn : style.statusOverdue}
                     >
                       <option value="반납">반납</option>
                       <option value="연체">연체</option>

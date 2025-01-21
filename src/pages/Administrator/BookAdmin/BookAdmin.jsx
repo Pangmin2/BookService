@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./BookAdmin.module.css";
+import style from "./BookAdmin.module.css";
 
 const BookAdmin = () => {
   const [form, setForm] = useState({
@@ -24,10 +24,10 @@ const BookAdmin = () => {
   };
 
   return (
-    <div className={styles.bookRegistrationContainer}>
+    <div className={style.container}>
       <h1>도서 등록</h1>
       <hr />
-      <form onSubmit={handleSubmit} className={styles.bookRegistrationForm}>
+      <form onSubmit={handleSubmit} className={style.bookRegistrationForm}>
         {[
           { label: "제목", name: "title", placeholder: "여기에 제목을 입력하세요" },
           { label: "이미지 등록", name: "image", placeholder: "이미지 URL을 입력하세요" },
@@ -35,7 +35,7 @@ const BookAdmin = () => {
           { label: "발행처", name: "publisher", placeholder: "발행처를 입력하세요" },
           { label: "발행년도", name: "year", placeholder: "발행년도를 입력하세요" },
         ].map(({ label, name, placeholder }, index) => (
-          <div key={index} className={styles.formGroup}>
+          <div key={index} className={style.formGroup}>
             <label>{label}</label>
             <input
               type="text"
@@ -47,15 +47,15 @@ const BookAdmin = () => {
           </div>
         ))}
         <hr />
-        <div className={styles.formActions}>
+        <div className={style.formActions}>
           <button
             type="button"
             onClick={() => setForm({ title: "", image: "", author: "", publisher: "", year: "" })}
-            className={styles.cancelButton}
+            className={style.cancelButton}
           >
             취소
           </button>
-          <button type="submit" className={styles.submitButton}>
+          <button type="submit" className={style.submitButton}>
             완료
           </button>
         </div>
