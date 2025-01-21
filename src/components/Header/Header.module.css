@@ -5,6 +5,7 @@
   width: 100%;
   height: 38px;
   background-color: white;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15);
   font-family: 'pretendard-regular';
 }
 
@@ -105,19 +106,30 @@
   align-items: center;
 }
 
+.navigation ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+}
+
 .navigation li {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navigation li a {
   font-size: 14px;
   text-decoration: none;
+  justify-content: center;
   color: #1f98ff;
 }
 
 .navigation li div {
-  height: 14px;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  height: 14px;
   border-left: 1.5px solid #1f98ff;
   margin: 0 0.8rem;
 }

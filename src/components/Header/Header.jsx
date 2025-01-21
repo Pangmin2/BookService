@@ -39,7 +39,6 @@ const Header = () => {
         )}
         <nav className={styles.navigation}>
           <ul>
-          <li>
               <Link to="/login">로그인</Link>
             </li>
             <li>
@@ -56,5 +55,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// TODO: bars 수평 중앙에 위치하도록록
