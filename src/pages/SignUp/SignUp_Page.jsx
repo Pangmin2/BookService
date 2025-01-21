@@ -2,7 +2,8 @@ import style from "./SignUp_Page.module.css";
 import UserInput from "../../components/UserInput/UserInput";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const SignUp = () => {
   //TODO: 모든 입력 필드 관리
@@ -18,18 +19,88 @@ const SignUp = () => {
     phone_number: "",
   });
 
+  //TODO: 정규식 에러 코드 관리
+  const [usernameError, setUserNameError] = useState("");
+  const [passwordError, setPassWordError] = useState("");
+  const [student_idError, setStudentIdError] = useState("");
+  const [phone_numberError, setPhoneNumberError] = useState("");
+
+  //TODO: 학과 리스트
+  const [departments, setDepartments] = useState([]);
+
   //TODO: 웹메일 인증여부, 인증번호 확인 여부, 비밀번호 동일 여부, 아래 모든 입력칸 제대로 입력 여부를 관리하는 상태
 
   //TODO: 회원가입 버튼 클릭시 서버에 전달될 정보
 
   //TODO: 회원가입 버튼 클릭시 서버에 정보 전송 이벤트 핸들러
+
   //TODO: 웹메일 "인증" 버튼 클릭시 서버에 정보 전송 이벤트 핸들러
+
   //TODO: 인증번호 "확인" 버튼 클릭시 서버에 정보 전송 이벤트 핸들러
 
   //TODO: 웹메일 정규식 확인 이벤트 핸들러
+  const usernameCheck = (username) => {
+    const usernameRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@kumoh\.ac\.kr$/;
+    if (username === "" || !usernameRegex.test(username)) {
+      setUserNameError("올바른 메일 형식으로 입력해주세요.");
+      return false;
+    } else {
+      setUserNameError("");
+      return true;
+    }
+  };
+
   //TODO: 비밀번호 정규식 확인 이벤트 핸들러
+  const passwordCheck = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{10,20}$/;
+    if (password === "" || !passwordRegex.test(password)) {
+      setPassWordError(
+        "영문 대/소문자, 숫자, 특수문자를 조합하여 입력해주세요. (10~20자)"
+      );
+      return false;
+    } else {
+      setPassWordError("");
+      return true;
+    }
+  };
+
   //TODO: 학번 정규식 확인 이벤트 핸들러
+  const student_idCheck = (student_id) => {
+    const student_idRegex = /^\d{8}$/;
+    if (student_id === "" || !student_idRegex.test(student_id)) {
+      setStudentIdError("학번 8자를 모두 입력해주세요.");
+      return false;
+    } else {
+      setStudentIdError("");
+      return true;
+    }
+  };
+
   //TODO: 전화번호 정규식 확인 이벤트 핸들러
+  const phone_numberCheck = (phone_number) => {
+    const phone_numberRegex = /^\d{3}-\d{4}-\d{4}$/;
+    if (phone_number === "" || !phone_numberRegex.test(phone_number)) {
+      setPhoneNumberError("010-1234-5678 형식으로 입력해주세요.");
+      return false;
+    } else {
+      setPhoneNumberError("");
+      return true;
+    }
+  };
+
+  //TODO: 정규식 유효성 검사
+  useEffect(() => {
+    if (userInfo.username) {
+      const isMatch = usernameCheck(userInfo.username);
+    } else if (userInfo.password) {
+      const isMatch = passwordCheck(userInfo.password);
+    } else if (userInfo.student_id) {
+      const isMatch = student_idCheck(userInfo.student_id);
+    } else if (userInfo.phone_number) {
+      const isMatch = phone_numberCheck(userInfo.phone_number);
+    }
+  }, [userInfo]);
 
   //TODO: 웹메일 인증 여부 상태
   //TODO: 인증번호 인증 여부 상태
@@ -46,7 +117,21 @@ const SignUp = () => {
   };
 
   //TODO: 비밀번호 확인에 입력한 값과 비밀번호에 입력한 값이 동일한지 확인하는 이벤트 핸들러
+
   //TODO: 회원가입 페이지 들어왔을 때 학과 리스트 서버 요청
+  useEffect(() => {
+    const getDepartments = async () => {
+      try {
+        const response = await axios.get("서버주소");
+        setDepartments(response.data);
+      } catch (error) {
+        console.error("학과 정보를 가져오는데 실패했습니다:", error);
+        setDepartments([]);
+      }
+    };
+
+    getDepartments();
+  }, []);
 
   return (
     <>
@@ -70,6 +155,11 @@ const SignUp = () => {
                   인증
                 </button>
               </div>
+              {usernameError && (
+                <div className={style.error}>
+                  <small>{usernameError}</small>
+                </div>
+              )}
               <div className={style.verificationCode}>
                 <UserInput
                   type="text"
@@ -92,6 +182,11 @@ const SignUp = () => {
                   maxLength={20}
                 />
               </div>
+              {passwordError && (
+                <div className={style.error}>
+                  <small>{passwordError}</small>
+                </div>
+              )}
               <div className={style.checkPasswd}>
                 <UserInput
                   type="password"
@@ -121,6 +216,11 @@ const SignUp = () => {
                   maxLength={8}
                 />
               </div>
+              {student_idError && (
+                <div className={style.error}>
+                  <small>{student_idError}</small>
+                </div>
+              )}
               <div className={style.major}>
                 <select
                   name="department"
@@ -148,6 +248,11 @@ const SignUp = () => {
                   onChange={onChange}
                 />
               </div>
+              {phone_numberError && (
+                <div className={style.error}>
+                  <small>{phone_numberError}</small>
+                </div>
+              )}
               <div className={style.signupButton}>
                 <button type="submit">회원가입</button>
               </div>
