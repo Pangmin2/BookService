@@ -18,8 +18,8 @@ const BookManagement = () => {
       { title: '책 제목 2', reserver: '사용자 B', date: '2023-10-02', status: '대기' },
     ];
     const mockLoans = [
-      { title: '책 제목 3', date: '2023-09-25' },
-      { title: '책 제목 4', date: '2023-09-26' },
+      { title: '책 제목 3', startdate: '2023-09-25', enddate: '2023-10-10' },
+      { title: '책 제목 4', startdate: '2023-09-26', enddate: '2023-10-11' },
     ];
     const mockReturns = [
       { title: '책 제목 5', returner: '사용자 C', status: '반납' },
@@ -66,18 +66,28 @@ const BookManagement = () => {
       {/* 대출 현황 */}
       <div className={`${styles.section} ${styles.loanSection}`}>
         <h2 className={styles.title}>대출 현황</h2>
-        <div className={styles.cardContainer}>
-          {loans.map((loan, index) => (
-            <div className={styles.card} key={index}>
-              <p>{loan.title}</p>
-              <p>{loan.date}</p>
-              <div className={styles.buttonGroup}>
-                <button className={styles.returnButton}>반납</button>
-                <button className={styles.extendButton}>연체</button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>대출일</th>
+              <th>반납예정일</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loans.map((loan, index) => (
+              <tr key={index}>
+                <td>{loan.title}</td>
+                <td>{loan.startdate}</td>
+                <td>{loan.enddate}</td>
+                <td>
+                  <button className={styles.returnButton}>반납</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* 반납 현황 */}
