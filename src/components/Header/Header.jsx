@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import { FaBars } from "react-icons/fa";
 
@@ -11,13 +12,13 @@ const Header = () => {
         <nav className={styles.navigation}>
           <ul>
             <li>
-              <a href="/">로그인</a>
+              <Link to="/login">로그인</Link>
             </li>
             <li>
               <div className="verticalLine"> </div>
             </li>
             <li>
-              <a href="/">회원가입</a>
+              <Link to="/signup">회원가입</Link>
             </li>
           </ul>
         </nav>
@@ -27,5 +28,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// TODO: bars 수평 중앙에 위치하도록록

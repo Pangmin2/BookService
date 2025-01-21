@@ -6,7 +6,7 @@ const Footer = () => {
       <div className={styles.content}>
         <p>Related</p>
         <p>국립금오공과대학교 컴퓨터공학부</p>
-        <p>@ CHIP_SAT Page 2024</p>
+        <p>© CHIP_SAT</p>
       </div>
     </footer>
   );
