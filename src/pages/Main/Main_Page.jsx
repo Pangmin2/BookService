@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./Main_Page.css";
+import style from "./Main_Page.module.css";
 
 const mockNotices = [
   { id: 1, content: "첫 번째 공지사항 내용", date: "2024-07-31" },
@@ -73,61 +73,61 @@ const MainPage = () => {
   }
 
   return (
-    <div className="main-page">
-      <header className="header">
-        <img src="" alt="CHIP_SAT" className="banner" />
-        <div className="header-overlay">
-          <div className="menu-icon">&#9776;</div>
-          <a href="#" className="login-link">
+    <div className={style.mainPage}>
+      <header className={style.header}>
+        <img src="" alt="CHIP_SAT" className={style.banner} />
+        <div className={style.headerOverlay}>
+          <div className={style.menuIcon}>&#9776;</div>
+          <a href="#" className={style.loginLink}>
             login
           </a>
         </div>
       </header>
 
-      <h2 className="section-title">공지사항</h2>
-      <section className="notice-section">
-        <div className="notice-list">
+      <h2 className={style.sectionTitle}>공지사항</h2>
+      <section className={style.noticeSection}>
+        <div className={style.noticeList}>
           <ul>
             {notices.map((notice) => (
               <li key={notice.id}>
                 <span>{notice.content}</span>
-                <span className="date">{notice.date}</span>
+                <span className={style.date}>{notice.date}</span>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="activities-section">
-        <h2 className="section-title">활동</h2>
-        <div className="activities">
+      <section className={style.activitiesSection}>
+        <h2 className={style.sectionTitle}>활동</h2>
+        <div className={style.activities}>
           {activities.map((activity) => (
-            <div key={activity.id} className="activity-box">
+            <div key={activity.id} className={style.activityBox}>
               {activity.title}
             </div>
           ))}
         </div>
       </section>
 
-      <section className="resources-section">
-        <h2 className="section-title">자료 공유</h2>
-        <div className="resources">
+      <section className={style.resourcesSection}>
+        <h2 className={style.sectionTitle}>자료 공유</h2>
+        <div className={style.resources}>
           {resources.map((resource) => (
-            <div key={resource.id} className="resource-box">
+            <div key={resource.id} className={style.resourceBox}>
               {resource.title}
             </div>
           ))}
         </div>
       </section>
 
-      <h2 className="section-title">자유 게시판</h2>
-      <section className="free-board-section">
-        <div className="free-board-list">
+      <h2 className={style.sectionTitle}>자유 게시판</h2>
+      <section className={style.freeBoardSection}>
+        <div className={style.freeBoardList}>
           <ul>
             {freeBoard.map((post) => (
               <li key={post.id}>
                 <span>{post.content}</span>
-                <span className="date">{post.date}</span>
+                <span className={style.date}>{post.date}</span>
               </li>
             ))}
           </ul>
