@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 30rem;
+  padding: 0 25rem;
 }
 
 h2 {
@@ -67,10 +67,17 @@ hr {
   padding: 10px 0;
 }
 
-.button button {
+.button .button {
   cursor: pointer;
   border-radius: 8px;
   padding: 4px 6px;
   border: 1px solid black;
+  background-color: white;
+}
+
+.button .disableButton {
+  border-radius: 8px;
+  padding: 4px 6px;
+  border: 1px solid #b7b7b7;
   background-color: white;
 }
