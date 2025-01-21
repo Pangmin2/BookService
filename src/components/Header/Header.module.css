@@ -4,9 +4,8 @@
   top: 0;
   width: 100%;
   height: 38px;
-  font-family: 'pretendard-regular';
-  /* border: 1px solid black; */
   background-color: white;
+  font-family: 'pretendard-regular';
 }
 
 .contents {
