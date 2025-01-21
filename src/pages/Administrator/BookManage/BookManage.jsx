@@ -20,15 +20,15 @@ const BookManagement = () => {
       { title: '책 제목 2', reserver: '사용자 B', date: '2023-10-02', status: '대기' },
     ];
     const mockLoans = [
-      { title: '책 제목 3', startdate: '2023-09-25', enddate: '2023-10-10' },
-      { title: '책 제목 4', startdate: '2023-09-26', enddate: '2023-10-11' },
+      { title: '책 제목 3', name:'사용자 A', startdate: '2023-09-25', enddate: '2023-10-10' },
+      { title: '책 제목 4', name:'사용자 A', startdate: '2023-09-26', enddate: '2023-10-11' },
     ];
     const mockReturns = [
-      { title: '책 제목 5', returner: '사용자 C', status: '반납' },
-      { title: '책 제목 5', returner: '사용자 C', status: '반납' },
-      { title: '책 제목 5', returner: '사용자 C', status: '반납' },
-      { title: '책 제목 5', returner: '사용자 C', status: '반납' },
-      { title: '책 제목 6', returner: '사용자 D', status: '연체' },
+      { title: '책 제목 5', name:'사용자 A', startdate: '2023-09-25', enddate: '2023-10-10', status: '반납' },
+      { title: '책 제목 5', name:'사용자 A', startdate: '2023-09-25', enddate: '2023-10-10', status: '반납' },
+      { title: '책 제목 5', name:'사용자 A', startdate: '2023-09-25', enddate: '2023-10-10', status: '반납' },
+      { title: '책 제목 5', name:'사용자 A', startdate: '2023-09-25', enddate: '2023-10-10', status: '반납' },
+      { title: '책 제목 6', name:'사용자 A', startdate: '2023-09-25', enddate: '2023-10-10', status: '연체' },
     ];
 
     setReservations(mockReservations);
@@ -67,32 +67,34 @@ const BookManagement = () => {
           </table>
         </div>
 
-        {/* 대출 현황 */}
-        <div className={`${styles.section} ${styles.loanSection}`}>
-          <h2 className={styles.title}>대출 현황</h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>제목</th>
-                <th>대출일</th>
-                <th>반납예정일</th>
-                <th>관리</th>
+      {/* 대출 현황 */}
+      <div className={`${styles.section} ${styles.loanSection}`}>
+        <h2 className={styles.title}>대출 현황</h2>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>이름</th>
+              <th>대출일</th>
+              <th>반납예정일</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loans.map((loan, index) => (
+              <tr key={index}>
+                <td>{loan.title}</td>
+                <td>{loan.name}</td>
+                <td>{loan.startdate}</td>
+                <td>{loan.enddate}</td>
+                <td>
+                  <button className={styles.returnButton}>반납</button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {loans.map((loan, index) => (
-                <tr key={index}>
-                  <td>{loan.title}</td>
-                  <td>{loan.startdate}</td>
-                  <td>{loan.enddate}</td>
-                  <td>
-                    <button className={styles.returnButton}>반납</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
         {/* 반납 현황 */}
         <div className={`${styles.section} ${styles.returnSection}`}>
@@ -101,7 +103,9 @@ const BookManagement = () => {
             <thead>
               <tr>
                 <th>제목</th>
-                <th>반납자</th>
+                <th>이름</th>
+                <th>대출일</th>
+                <th>반납일</th>
                 <th>상태</th>
               </tr>
             </thead>
@@ -109,7 +113,9 @@ const BookManagement = () => {
               {returns.map((returnItem, index) => (
                 <tr key={index}>
                   <td>{returnItem.title}</td>
-                  <td>{returnItem.returner}</td>
+                  <td>{returnItem.name}</td>
+                  <td>{returnItem.startdate}</td>
+                  <td>{returnItem.enddate}</td>
                   <td className={returnItem.status === '반납' ? styles.statusReturn : styles.statusOverdue}>
                     {returnItem.status}
                   </td>

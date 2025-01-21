@@ -12,7 +12,7 @@
     gap: 2rem;
     padding: 1rem;
     width: 80%;
-    margin: auto;
+    margin: 38px auto 0;
 }
 
 .section {
@@ -48,14 +48,13 @@
 .table {
     width: 100%;
     border-collapse: collapse;
-    border: none;
 }
 
 .table th,
 .table td {
     padding: 0.75rem;
     text-align: center;
-    border: none;
+    border-bottom: 1px solid #eee;
 }
 
 .table th {
