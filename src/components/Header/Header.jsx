@@ -25,17 +25,14 @@ const Header = () => {
                 {/* 프로필 이미지 */}
               </div>
               <div className={styles.profileInfo}>
-                <h3>홍길동</h3>
+                {/* 프로필 정보, 추후 수정해야함 */}
+                <h3>관리자</h3>
                 <p>컴퓨터공학과</p>
               </div>
             </div>
             <ul>
-              <li><a href="/mypage">마이페이지</a></li>
-              <li><a href="/posts">게시글 작성</a></li>
-              <li><a href="/notice">공지사항</a></li>
-              <li><a href="/activities">활동</a></li>
-              <li><a href="/resources">자료 공유</a></li>
-              <li><a href="/board">자유 게시판</a></li>
+              <li><a href="/bookassign">도서 등록</a></li>
+              <li><a href="/membermanage">부원 관리</a></li>
             </ul>
           </div>
         )}
