@@ -1,10 +1,10 @@
 import React from "react";
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/Main/Main_Page";
 import BookAdmin from "./pages/Administrator/BookAdmin/BookAdmin";
 import BookManage from "./pages/Administrator/BookManage/BookManage";
 import MemberManage from "./pages/Administrator/MemberManage/MemberManage";
+import "./App.css";
 import SearchBook from "./pages/SearchBook/SearchBook";
 import Login from "./pages/Login/Login_Page";
 import SignUp from "./pages/SignUp/SignUp_Page";
@@ -22,6 +22,10 @@ function App() {
         <Route path="/book_admin" element={<BookAdmin />} />
         <Route path="/member_manage" element={<MemberManage />} />
         <Route path="/main" element={<MainPage />} />
+        {/* 나중에 다른 라우트가 필요할 때를 위해 주석 처리로 남겨둠 */}
+        {/* <Route path="/admin" element={<BookAdmin />} />
+        <Route path="/members" element={<MemberManage />} />
+        <Route path="/main" element={<MainPage />} /> */}
       </Routes>
     </Router>
   );

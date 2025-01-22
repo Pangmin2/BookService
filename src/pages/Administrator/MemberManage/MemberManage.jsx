@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./MemberManage.module.css";
+import style from "./MemberManage.module.css";
 
 const MemberManage = () => {
   const [search, setSearch] = useState("");
@@ -31,17 +31,17 @@ const MemberManage = () => {
   );
 
   return (
-    <div className={styles.memberManagementContainer}>
+    <div className={style.memberManagementContainer}>
       <h1>부원 관리</h1>
       <hr />
-      <div className={styles.searchBar}>
+      <div className={style.searchBar}>
         <input
           type="text"
           placeholder="검색"
           value={search}
           onChange={handleSearch}
         />
-        <button className={styles.searchButton}>🔍</button>
+        <button className={style.searchButton}>🔍</button>
       </div>
       <table>
         <thead>
@@ -64,7 +64,7 @@ const MemberManage = () => {
               <td>{member.joinDate}</td>
               <td>
                 <button
-                  className={styles.deleteButton}
+                  className={style.deleteButton}
                   onClick={() => handleDelete(member.id)}
                 >
                   삭제
