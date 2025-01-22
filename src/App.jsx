@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./pages/Main/Main_Page";
+import MainPage from "./pages/Main/MainPage";
 import BookAdmin from "./pages/Administrator/BookAdmin/BookAdmin";
 import BookManage from "./pages/Administrator/BookManage/BookManage";
 import MemberManage from "./pages/Administrator/MemberManage/MemberManage";

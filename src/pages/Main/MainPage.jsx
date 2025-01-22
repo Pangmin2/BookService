@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import style from "./Main_Page.module.css";
+import style from "./MainPage.module.css";
 
 const mockNotices = [
   { id: 1, content: "첫 번째 공지사항 내용", date: "2024-07-31" },
