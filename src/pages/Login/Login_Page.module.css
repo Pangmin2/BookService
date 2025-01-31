@@ -1,0 +1,66 @@
+.Content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  height: calc(100vh - 76px); /* 헤더와 푸터를 제외한 높이 */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #c3c3c3;
+  border-radius: 30px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 400px;
+  height: 460px;
+  padding: 3rem 4rem;
+}
+
+h1 {
+  font-size: 38px;
+  color: #1f98ff;
+  margin: 0;
+}
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.contents form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.findPasswd {
+  font-size: 12px;
+  color: #c3c3c3;
+  cursor: pointer;
+}
+
+.loginButton {
+  width: 270px;
+  height: 40px;
+  border: none;
+  border-radius: 7px;
+  background: #1f98ff;
+  color: white;
+  cursor: pointer;
+}
+
+.signupButton {
+  width: 270px;
+  height: 40px;
+  border: none;
+  border-radius: 7px;
+  background: #c3c3c3;
+  color: white;
+  cursor: pointer;
+}

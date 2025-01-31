@@ -1,9 +1,20 @@
 .tag {
   display: inline-block;
   padding: 6px 10px;
-  background-color: #fe6e42;
   color: white;
   border-radius: 10px;
   font-size: 12px;
   text-align: center;
+}
+
+.available {
+  background-color: #1f98ff;
+}
+
+.reserved {
+  background-color: #feb342;
+}
+
+.fullyReserved {
+  background-color: #fe6e42;
 }
