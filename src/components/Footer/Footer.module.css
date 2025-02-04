@@ -1,5 +1,6 @@
 .footer {
-  position: fixed;
+  /* position: fixed; */
+  margin-top: 32px;
   left: 0;
   bottom: 0;
   width: 100%;

@@ -33,7 +33,7 @@ h1 {
   padding: 12px;
   font-size: 12px; /* 텍스트 크기 */
   background-color: white;
-  border: none;
+  border: 1px solid white;
   outline: none;
   border-radius: 12px 0 0 12px; /* 모서리 둥글게 */
 }

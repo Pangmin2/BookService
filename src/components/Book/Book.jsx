@@ -1,20 +1,23 @@
 import styles from "./Book.module.css";
 import Tag from "../Tag/Tag";
+import { Link } from "react-router-dom";
 
-const Book = () => {
+const Book = ({ book }) => {
   return (
     <div className={styles.container}>
       <hr />
       <div className={styles.contents}>
         <div className={styles.bookImage}>
-          <img src="https://picsum.photos/200"></img>
+          <img src={book.bookUrl} alt={book.title}></img>
         </div>
         <div className={styles.bookIntro}>
-          <h2>제목</h2>
-          <p>저자 : 어쩌고 저쩌고</p>
-          <p>발행처 : 어쩌고 저쩌고</p>
-          <p>발행년 : 어쩌고 저쩌고</p>
-          <Tag />
+          <Link to="/book_info" state={{ book: book }}>
+            <h2>제목: {book.title}</h2>
+          </Link>
+          <p>저자 : {book.author}</p>
+          <p>발행처 : {book.publisher}</p>
+          <p>발행년 : {book.publishYear}</p>
+          <Tag status={book.status} />
         </div>
       </div>
       <hr />
