@@ -6,19 +6,24 @@
 }
 
 .bookRegistrationContainer {
+    width: 90%;
     padding: 20px;
     font-family: 'Pretendard-Regular';
     max-width: 800px;
     margin: auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .bookRegistrationContainer h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #333;
 }
 
 .bookRegistrationForm hr {
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .formGroup {
@@ -29,6 +34,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #555;
 }
 
 .formGroup input {
@@ -37,6 +43,12 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.formGroup input:focus {
+    border-color: blue;
+    outline: none;
 }
 
 .formActions {
@@ -52,12 +64,21 @@
     border-radius: 5px;
     cursor: pointer;
     color: white;
+    transition: background-color 0.3s;
 }
 
 .cancelButton {
     background-color: orange;
 }
 
+.cancelButton:hover {
+    background-color: darkorange;
+}
+
 .submitButton {
     background-color: blue;
+}
+
+.submitButton:hover {
+    background-color: darkblue;
 }
