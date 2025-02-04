@@ -7,7 +7,6 @@ import Footer from "../../../components/Footer/Footer";
 const BookAdmin = () => {
   const [form, setForm] = useState({
     title: "",
-    image: "",
     author: "",
     publisher: "",
     year: "",
@@ -29,13 +28,12 @@ const BookAdmin = () => {
         author: form.author,
         publisher: form.publisher,
         publishYear: form.year,
-        fileId: 4, // 필요한 경우 fileId를 동적으로 설정
+        fileId: 4,
       });
 
       if (response.data.success) {
         console.log("도서 등록 성공", response.data);
-        // 추가적인 성공 처리 로직 (예: 폼 초기화)
-        setForm({ title: "", image: "", author: "", publisher: "", year: "" });
+        setForm({ title: "", author: "", publisher: "", year: "" });
       } else {
         console.error("도서 등록 실패", response.data);
       }
@@ -48,13 +46,12 @@ const BookAdmin = () => {
   return (
     <>
       <Header />
-      <div className={style.bookRegistrationContainer} style={{ marginTop: '38px' }}>
+      <div className={style.bookRegistrationContainer} style={{ marginTop: '50px' }}>
         <h1>도서 등록</h1>
         <hr />
         <form onSubmit={handleSubmit} className={style.bookRegistrationForm}>
           {[
             { label: "제목", name: "title", placeholder: "여기에 제목을 입력하세요" },
-            { label: "이미지 등록", name: "image", placeholder: "이미지 URL을 입력하세요" },
             { label: "저자", name: "author", placeholder: "저자를 입력하세요" },
             { label: "발행처", name: "publisher", placeholder: "발행처를 입력하세요" },
             { label: "발행년도", name: "year", placeholder: "발행년도를 입력하세요" },
@@ -74,7 +71,7 @@ const BookAdmin = () => {
           <div className={style.formActions}>
             <button
               type="button"
-              onClick={() => setForm({ title: "", image: "", author: "", publisher: "", year: "" })}
+              onClick={() => setForm({ title: "", author: "", publisher: "", year: "" })}
               className={style.cancelButton}
             >
               취소

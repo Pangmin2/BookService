@@ -59,6 +59,24 @@ const BookManagement = () => {
      */}
 
   useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const response = await axios.get('http://43.200.3.98:80/book/admin/reservations?page=0&size=3&sort=reservationDate%2Casc');
+        
+        if (response.data.success) {
+          setReservations(response.data.data.reservations);
+        } else {
+          console.error("예약 조회 실패", response.data);
+        }
+      } catch (error) {
+        console.error("예약 조회 중 오류 발생:", error);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
+  useEffect(() => {
     // 목데이터 설정
     const mockReservations = [
       { title: '책 제목 1', reserver: '사용자 A', date: '2023-10-01', status: '대기' },
@@ -96,21 +114,23 @@ const BookManagement = () => {
           <table className={style.table}>
             <thead>
               <tr>
-                <th>제목</th>
-                <th>예약자</th>
-                <th>예약일</th>
-                <th>상태</th>
+                <th>도서 ID</th>
+                <th>도서 제목</th>
+                <th>예약 ID</th>
+                <th>사용자 ID</th>
+                <th>사용자 이름</th>
+                <th>예약 날짜</th>
               </tr>
             </thead>
             <tbody>
-              {reservations.map((reservation, index) => (
-                <tr key={index}>
-                  <td>{reservation.title}</td>
-                  <td>{reservation.reserver}</td>
-                  <td>{reservation.date}</td>
-                  <td>
-                    <button className={style.approveButton}>승인</button>
-                  </td>
+              {reservations.map((reservation) => (
+                <tr key={reservation.reservationId}>
+                  <td>{reservation.bookId}</td>
+                  <td>{reservation.bookTitle}</td>
+                  <td>{reservation.reservationId}</td>
+                  <td>{reservation.userId}</td>
+                  <td>{reservation.userName}</td>
+                  <td>{new Date(reservation.reservationDate).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
