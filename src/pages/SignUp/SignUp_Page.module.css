@@ -1,8 +1,8 @@
-.Content {
+.wrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: calc(100vh - 76px); /* 헤더와 푸터를 제외한 높이 */
+  justify-content: center;
+  height: 100%;
 }
 
 .container {
@@ -16,7 +16,6 @@
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
   width: 460px;
   height: 680px;
-
   padding: 0 4.4rem;
   gap: 32px;
 }
@@ -49,15 +48,29 @@ form {
   gap: 10px;
 }
 
-.webMail button,
-.verificationCode button {
+.webMail .button {
   background-color: #c3c3c3;
   color: white;
   border: none;
   border-radius: 8px;
   padding: 4px;
   width: 3.4rem;
-  font-size: 12px;
+  font-size: 12p;
+}
+
+.webMail .buttonActive {
+  background-color: #1f98ff;
+  cursor: pointer;
+}
+
+.verificationCode .button {
+  background-color: #1f98ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 4px;
+  width: 3.4rem;
+  font-size: 12p;
 }
 
 .verificationCode {
