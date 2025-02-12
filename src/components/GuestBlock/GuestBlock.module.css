@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  background-color: #e4e4e4;
+}
+
+.lock {
+  font-size: 40px;
+  color: #828282;
+}
+
+.msg {
+  color: #828282;
+  font-size: 14px;
+  font-weight: 600;
+}
