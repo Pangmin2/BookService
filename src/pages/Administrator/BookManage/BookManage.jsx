@@ -8,7 +8,8 @@ const BookManagement = () => {
   const [reservations, setReservations] = useState([]);
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
-
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJreW91bmcxNjc4QG5hdmVyLmNvbSIsImlhdCI6MTczNzY5NDQ5OSwiZXhwIjoxNzM3Njk4MDk5LCJzdWIiOiJreW91bmcwMTYxQGt1bW9oLmFjLmtyIiwiaWQiOjEsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXX0.yR8hQ6swQzzB_MRko-N0BMq-Jmodhf-AANQvMMpTHV4";
+  
   // 상태 변경 핸들러 추가 (반납/연체 상태 변경)
   const handleStatusChange = (index, newStatus) => {
     const updatedReturns = returns.map((item, i) => {
@@ -61,20 +62,25 @@ const BookManagement = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await axios.get('http://43.200.3.98:80/book/admin/reservations?page=0&size=3&sort=reservationDate%2Casc');
-        
+        const response = await axios.get('http://43.200.3.98:80/book/admin/reservations?page=0&size=3&sort=reservationDate%2Casc', {
+          headers: {
+            'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
+          },
+        });
+ 
         if (response.data.success) {
           setReservations(response.data.data.reservations);
         } else {
           console.error("예약 조회 실패", response.data);
         }
       } catch (error) {
+        console.log(token);
         console.error("예약 조회 중 오류 발생:", error);
       }
     };
 
     fetchReservations();
-  }, []);
+  }, );
 
   useEffect(() => {
     // 목데이터 설정
