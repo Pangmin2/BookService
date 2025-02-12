@@ -1,0 +1,16 @@
+.container {
+  width: 1000px;
+  padding: 2rem 0;
+}
+
+.outline {
+  background-color: #a4a4a4;
+  border: none;
+  height: 1px;
+}
+
+.inline {
+  background-color: #dddddd;
+  border: none;
+  height: 1px;
+}
