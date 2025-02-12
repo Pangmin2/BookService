@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 const Book = ({ book }) => {
   return (
     <div className={styles.container}>
-      <hr />
       <div className={styles.contents}>
         <div className={styles.bookImage}>
-          <img src={book.bookUrl} alt={book.title}></img>
+          <img
+            src={book.bookUrl || "https://picsum.photos/200"}
+            alt={book.title}
+          ></img>
         </div>
         <div className={styles.bookIntro}>
-          <Link to="/book_info" state={{ book: book }}>
+          <Link to="/book_info" state={{ book }}>
             <h2>제목: {book.title}</h2>
           </Link>
           <p>저자 : {book.author}</p>
@@ -20,7 +22,6 @@ const Book = ({ book }) => {
           <Tag status={book.status} />
         </div>
       </div>
-      <hr />
     </div>
   );
 };
