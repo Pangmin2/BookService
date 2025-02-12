@@ -1,28 +1,21 @@
-.header {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
+.contents {
   height: 38px;
   background-color: white;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15);
-  font-family: 'pretendard-regular';
-}
-
-.contents {
+  padding: 0 12px;
   color: #1f98ff;
   display: flex;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0 12px;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 10;
 }
 
 .bars {
   cursor: pointer;
   font-size: 20px;
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .sideMenu {
@@ -32,7 +25,7 @@
   height: 100vh;
   width: 280px;
   background-color: white;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   z-index: 1000;
   animation: slideIn 0.3s ease-out;
@@ -123,6 +116,15 @@
   text-decoration: none;
   justify-content: center;
   color: #1f98ff;
+}
+
+.navigation li button {
+  font-size: 14px;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #1f98ff;
+  cursor: pointer;
 }
 
 .navigation li div {
