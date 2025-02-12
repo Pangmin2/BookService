@@ -15,19 +15,56 @@ const Findform = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // 비밀번호 찾기 함수
+  const findPassword = async () => {
+    const url = 'http://43.200.3.98:80/login/password';
+    const data = {
+      username: formData.email,
+      name: formData.name,
+      student_id: formData.id
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (result.success) {
+        console.log(data);
+        alert('비밀번호 찾기 성공: ' + result.data);
+      } else {
+        alert('비밀번호 찾기 실패: ' + result.code);
+      }
+    } catch (error) {
+      console.error('오류 발생:', error);
+      alert('오류 발생: ' + error.message);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    findPassword();
+  };
+
   return (
     <>
       <Header />
       <div className={styles.container}>
         <h2 className={styles.title}>비밀번호 찾기</h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <UserInput
-            type="text"
-            placeholder="아이디"
-            name="id"
-            value={formData.id}
+            type="email"
+            placeholder="이메일"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            maxLength={30}
+            maxLength={50}
           />
           <UserInput
             type="text"
@@ -38,14 +75,14 @@ const Findform = () => {
             maxLength={20}
           />
           <UserInput
-            type="email"
-            placeholder="이메일"
-            name="email"
-            value={formData.email}
+            type="text"
+            placeholder="아이디"
+            name="id"
+            value={formData.id}
             onChange={handleChange}
-            maxLength={50}
+            maxLength={30}
           />
-          <button className={styles.submitButton}>비밀번호 찾기</button>
+          <button type="submit" className={styles.submitButton}>비밀번호 찾기</button>
         </form>
         <div className={styles.links}>
           <a href="/signup" className={styles.link}>회원가입하기</a>
