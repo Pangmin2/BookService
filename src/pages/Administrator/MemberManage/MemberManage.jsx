@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import style from "./MemberManage.module.css";
+import Header from '../../../components/Header/Header';
+import Footer from '../../../components/Footer/Footer'
 
 const MemberManage = () => {
   const [search, setSearch] = useState("");
@@ -31,7 +33,9 @@ const MemberManage = () => {
   );
 
   return (
-    <div className={style.memberManagementContainer}>
+    <>
+    <Header />
+    <div className={style.memberManagementContainer}  style={{ marginTop: '50px' }}>
       <h1>부원 관리</h1>
       <hr />
       <div className={style.searchBar}>
@@ -75,6 +79,10 @@ const MemberManage = () => {
         </tbody>
       </table>
     </div>
+    <Footer />
+    </>
+
+    
   );
 };
 
