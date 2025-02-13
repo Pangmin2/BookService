@@ -76,7 +76,7 @@ const Findform = () => {
           />
           <UserInput
             type="text"
-            placeholder="아이디"
+            placeholder="학번"
             name="id"
             value={formData.id}
             onChange={handleChange}

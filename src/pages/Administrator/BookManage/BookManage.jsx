@@ -8,7 +8,7 @@ const BookManagement = () => {
   const [reservations, setReservations] = useState([]);
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJreW91bmcxNjc4QG5hdmVyLmNvbSIsImlhdCI6MTczNzY5NDQ5OSwiZXhwIjoxNzM3Njk4MDk5LCJzdWIiOiJreW91bmcwMTYxQGt1bW9oLmFjLmtyIiwiaWQiOjEsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXX0.yR8hQ6swQzzB_MRko-N0BMq-Jmodhf-AANQvMMpTHV4";
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJreW91bmcxNjc4QG5hdmVyLmNvbSIsImlhdCI6MTczOTM2MTMyMywiZXhwIjoxNzM5MzY0OTIzLCJzdWIiOiJreW91bmcwMTYxQGt1bW9oLmFjLmtyIiwiaWQiOjEwOCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdfQ.YJ3n_HwEEyblEirhbCIWfWfiveYeiUqQBPs35q8yEEA";
   
   // 상태 변경 핸들러 추가 (반납/연체 상태 변경)
   const handleStatusChange = (index, newStatus) => {
@@ -21,43 +21,41 @@ const BookManagement = () => {
     setReturns(updatedReturns);
   };
 
-  {/*
-    const handleStatusChange = async (index, newStatus) => {
-      try {
-        const returnItem = returns[index];
-        
-        // 백엔드 API 호출
-        const response = await axios.put('API_URL/returns/status', {
-          returnId: returnItem.id, // 반납 기록의 고유 ID
-          status: newStatus,
-          // 필요한 추가 데이터
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            // 필요한 경우 인증 토큰 추가
-            // 'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (response.status !== 200) {
-          throw new Error('상태 변경에 실패했습니다.');
-        }
-
-        // API 호출이 성공하면 로컬 상태 업데이트
-        const updatedReturns = returns.map((item, i) => {
-          if (i === index) {
-            return { ...item, status: newStatus };
-          }
-          return item;
-        });
-        setReturns(updatedReturns);
-
-      } catch (error) {
-        console.error('상태 변경 중 오류 발생:', error);
-        alert('상태 변경에 실패했습니다. 다시 시도해주세요.');
+  // 대여 현황 조회
+  const fetchLoans = async () => {
+    try {
+      const response = await axios.get('http://43.200.3.98:80/book/admin/loans?page=0&size=3&sort=borrowDate,asc', {
+        headers: {
+          'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
+        },
+      });
+      if (response.data.success) {
+        setLoans(response.data.data.loans);
+      } else {
+        console.error("대여 현황 조회 실패", response.data);
       }
-    };
-     */}
+    } catch (error) {
+      console.error("대여 현황 조회 중 오류 발생:", error);
+    }
+  };
+
+  // 반납 현황 조회
+  const fetchReturns = async () => {
+    try {
+      const response = await axios.get('http://43.200.3.98:80/book/admin/returns?page=0&size=3&sort=returnDate,desc', {
+        headers: {
+          'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
+        },
+      });
+      if (response.data.success) {
+        setReturns(response.data.data.returns);
+      } else {
+        console.error("반납 현황 조회 실패", response.data);
+      }
+    } catch (error) {
+      console.error("반납 현황 조회 중 오류 발생:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -80,7 +78,9 @@ const BookManagement = () => {
     };
 
     fetchReservations();
-  }, );
+    fetchLoans();
+    fetchReturns();
+  }, []);
 
   useEffect(() => {
     // 목데이터 설정
@@ -159,10 +159,10 @@ const BookManagement = () => {
           <tbody>
             {loans.map((loan, index) => (
               <tr key={index}>
-                <td>{loan.title}</td>
-                <td>{loan.name}</td>
-                <td>{loan.startdate}</td>
-                <td>{loan.enddate}</td>
+                <td>{loan.bookTitle}</td>
+                <td>{loan.userName}</td>
+                <td>{new Date(loan.borrowDate).toLocaleString()}</td>
+                <td>{new Date(loan.returnDueDate).toLocaleString()}</td>
                 <td>
                   <button className={style.returnButton}>반납</button>
                 </td>
@@ -188,10 +188,10 @@ const BookManagement = () => {
             <tbody>
               {returns.map((returnItem, index) => (
                 <tr key={index}>
-                  <td>{returnItem.title}</td>
-                  <td>{returnItem.name}</td>
-                  <td>{returnItem.startdate}</td>
-                  <td>{returnItem.enddate}</td>
+                  <td>{returnItem.bookTitle}</td>
+                  <td>{returnItem.userName}</td>
+                  <td>{new Date(returnItem.borrowDate).toLocaleString()}</td>
+                  <td>{new Date(returnItem.returnDate).toLocaleString()}</td>
                   <td>
                     <select
                       value={returnItem.status}

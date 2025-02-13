@@ -7,11 +7,11 @@
 
 .container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 2rem;
     padding: 1rem;
-    width: 80%;
+    width: 85%;
     margin: 38px auto 0;
     font-family: 'pretendard-regular';
 }
@@ -27,16 +27,22 @@
 .reservationSection {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .loanSection {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .returnSection {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .title {
@@ -54,7 +60,7 @@
 
 .table th,
 .table td {
-    padding: 12px;
+    padding: 10px;
     text-align: center;
     border: none;
 }

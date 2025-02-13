@@ -5,7 +5,7 @@ import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 
 const BookAdmin = () => {
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJreW91bmcxNjc4QG5hdmVyLmNvbSIsImlhdCI6MTczNzY5NDQ5OSwiZXhwIjoxNzM3Njk4MDk5LCJzdWIiOiJreW91bmcwMTYxQGt1bW9oLmFjLmtyIiwiaWQiOjEsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXX0.yR8hQ6swQzzB_MRko-N0BMq-Jmodhf-AANQvMMpTHV4";
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJreW91bmcxNjc4QG5hdmVyLmNvbSIsImlhdCI6MTczOTM2MTMyMywiZXhwIjoxNzM5MzY0OTIzLCJzdWIiOiJreW91bmcwMTYxQGt1bW9oLmFjLmtyIiwiaWQiOjEwOCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdfQ.YJ3n_HwEEyblEirhbCIWfWfiveYeiUqQBPs35q8yEEA";
   const [form, setForm] = useState({
     title: "",
     author: "",
@@ -29,7 +29,7 @@ const BookAdmin = () => {
         author: form.author,
         publisher: form.publisher,
         publishYear: form.year,
-        fileId: 4,
+        fileId: 2
       }, {
         headers: {
           Authorization: `Bearer ${token}`,
