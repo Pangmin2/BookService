@@ -1,5 +1,8 @@
-* {
-  box-sizing: border-box;
+.wrapper {
+  margin-top: 4rem;
+  height: 100%;
+  width: 100%;
+  padding: 0 25rem;
 }
 
 .container {
@@ -7,7 +10,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 25rem;
 }
 
 h2 {
