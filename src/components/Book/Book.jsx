@@ -13,7 +13,7 @@ const Book = ({ book }) => {
           ></img>
         </div>
         <div className={styles.bookIntro}>
-          <Link to="/book_info" state={{ book }}>
+          <Link to="/book_info" state={{ id: book.id }}>
             <h2>제목: {book.title}</h2>
           </Link>
           <p>저자 : {book.author}</p>

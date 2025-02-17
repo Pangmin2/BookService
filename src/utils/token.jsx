@@ -21,6 +21,7 @@ export const RefreshAccessToken = async () => {
     }
   } catch (error) {
     //Refresh Token이 만료된 경우 재로그인
+    console.log("refresh token 재발급");
     if (error.response?.data.code === "A008") {
       alert("세션이 만료되어 재로그인이 필요합니다.");
       console.error(error.response?.data.msg);
