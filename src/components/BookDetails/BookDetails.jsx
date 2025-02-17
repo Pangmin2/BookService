@@ -2,12 +2,14 @@ import { useLocation } from "react-router-dom";
 import style from "./BookDetails.module.css";
 import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
+import useBookStore from "../../../store/useBookStore";
 
 const BookDetails = () => {
   const location = useLocation();
   const id = location.state.id;
-  const [canCancel, setCanCancel] = useState(false);
   const [book, setBook] = useState(null);
+  const { addReservation, removeReservation, isReserved } = useBookStore();
+  const canCancel = isReserved(id); // 현재 책이 예약된 상태인지 확인
 
   useEffect(() => {
     console.log("마운트");
@@ -42,14 +44,18 @@ const BookDetails = () => {
     try {
       const response = await requestWithAuth(
         "POST",
-        `/books/reservation/${book.id}`
+        `/books/reservation/${book?.id}`
       );
       console.log("응답: ", response);
       console.log(response.success);
       if (response.success) {
         alert("예약 신청 성공");
-        setCanCancel(true);
+        addReservation(book?.id);
         //TODO 예약 신청하면 재렌더링 돼서 인원바로 변경되도록
+        setBook((prevBook) => ({
+          ...prevBook,
+          borrowCount: prevBook.borrowCount + 1, // 예약 인원 증가
+        }));
         console.log(response.data);
         return true;
       }
@@ -77,11 +83,16 @@ const BookDetails = () => {
     try {
       const response = await requestWithAuth(
         "DELETE",
-        `/books/reservation/${book.id}`
+        `/books/reservation/${book?.id}`
       );
       console.log("취소:", response);
       if (response.success) {
         alert("예약 취소 요청 성공");
+        removeReservation(book?.id);
+        setBook((prevBook) => ({
+          ...prevBook,
+          borrowCount: prevBook.borrowCount - 1, // 예약 인원 감소
+        }));
         console.log(response.data);
         return true;
       }
@@ -130,7 +141,7 @@ const BookDetails = () => {
             취소
           </button>
           <button
-            disabled={book?.borrowCount >= 3}
+            disabled={book?.borrowCount >= 3 || canCancel}
             className={
               book?.borrowCount >= 3 ? style.disableButton : style.button
             }
