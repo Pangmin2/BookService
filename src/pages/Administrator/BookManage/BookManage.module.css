@@ -1,146 +1,138 @@
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-
 .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    gap: 2rem;
-    padding: 1rem;
-    width: 80%;
-    margin: 38px auto 0;
-    font-family: 'pretendard-regular';
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 2rem;
+  padding: 1rem;
+  width: 80%;
+  margin: 38px auto 0;
 }
 
 .section {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-top: 0.5rem;
-    min-height: 500px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-top: 0.5rem;
+  min-height: 500px;
 }
 
 .reservationSection {
-    grid-column: 1 / 2;
-    grid-row: 1 / span 2;
+  grid-column: 1 / 2;
+  grid-row: 1 / span 2;
 }
 
 .loanSection {
-    grid-column: 2 / 3;
-    grid-row: 1;
+  grid-column: 2 / 3;
+  grid-row: 1;
 }
 
 .returnSection {
-    grid-column: 2 / 3;
-    grid-row: 2;
+  grid-column: 2 / 3;
+  grid-row: 2;
 }
 
 .title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-top: 1px;
-    margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1px;
+  margin-bottom: 1rem;
 }
 
 .table {
-    width: 90%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  width: 90%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
 .table th,
 .table td {
-    padding: 12px;
-    text-align: center;
-    border: none;
+  padding: 12px;
+  text-align: center;
+  border: none;
 }
 
 .table th {
-    background-color: transparent;
-    color: #666;
-    font-weight: 500;
+  background-color: transparent;
+  color: #666;
+  font-weight: 500;
 }
 
 .table tr {
-    border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
 
 .table tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .approveButton {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .approveButton:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .cardContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .card {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 1rem;
-    width: 200px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 200px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .returnButton {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .returnButton:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .extendButton {
-    background-color: #ffc107;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+  background-color: #ffc107;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .extendButton:hover {
-    background-color: #e0a800;
+  background-color: #e0a800;
 }
 
 .statusReturn {
-    color: #28a745;
-    font-weight: bold;
+  color: #28a745;
+  font-weight: bold;
 }
 
 .statusOverdue {
-    color: #dc3545;
-    font-weight: bold;
+  color: #dc3545;
+  font-weight: bold;
 }
 
 select.statusReturn,
@@ -179,7 +171,7 @@ select.statusOverdue::-ms-expand {
 }
 
 .button {
-  background-color: #4CAF50; /* 초록색 배경 */
+  background-color: #4caf50; /* 초록색 배경 */
   color: white; /* 흰색 글자 */
   border: none; /* 테두리 없음 */
   padding: 6px 12px; /* 패딩 조정 */
