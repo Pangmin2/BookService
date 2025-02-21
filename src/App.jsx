@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp/SignUp_Page";
 import BookInfo from "./pages/BookInfo/BookInfo";
 import SearchPassWord from "./pages/SearchPassWord/SearchPassWord";
 import GuestBlock from "./components/GuestBlock/GuestBlock";
+import ChangePassWord from "./pages/ChangePassWord/ChangePassWord";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/book_info" element={<BookInfo />} />
         <Route path="/login" element={<Login />} />
         <Route path="/search_password" element={<SearchPassWord />} />
+        <Route path="/change_password" element={<ChangePassWord />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/book_manage" element={<BookManage />} />
         <Route path="/book_admin" element={<BookAdmin />} />
