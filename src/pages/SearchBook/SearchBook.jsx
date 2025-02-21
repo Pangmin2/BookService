@@ -33,6 +33,7 @@ const SearchBook = () => {
         throw new Error("Unexpected data format");
       }
     } catch (error) {
+      alert("여기 세션이 만료되었습니다.");
       console.error("책 정보를 불러오는 데 실패했습니다:", error.message);
       // alert("회원만 접근 가능합니다.");
       setBooks([]); // 오류 발생 시 빈 배열 설정

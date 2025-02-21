@@ -10,7 +10,7 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
 
     const config = {
       method,
-      url: `${HTTPS}${endpoint}`,
+      url: `${SERVER}${endpoint}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
@@ -20,8 +20,12 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
     };
 
     const response = await axios(config);
+    console.log("API 요청 성공:", response.data);
     return response.data; //성공 응답 반환
   } catch (error) {
+    console.error(error.response.data.code);
+    console.error("API 요청 실패", error);
+
     const ERROR = error.response.data;
     switch (ERROR.code) {
       case "C001": //액세스 토큰이 존재하지 않는 경우
@@ -30,6 +34,7 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
         return null;
       case "A007": {
         //액세스 토큰이 만료된 경우
+        console.log("access token 만료");
         const accessToken = await RefreshAccessToken();
         if (accessToken) {
           //새로운 Access Token으로 다시 요청
@@ -64,7 +69,9 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
         console.log("AT가 유효하지 않음");
         return null;
       default:
+        // alert("알 수 없는 에러");
         console.error("알 수 없는 에러:", ERROR);
+
         return ERROR;
     }
   }

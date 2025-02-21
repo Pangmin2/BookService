@@ -1,23 +1,38 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import style from "./BookDetails.module.css";
 import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
+import useBookStore from "../../../store/useBookStore";
 
-const BookDetails = ({ book }) => {
-  const [canCancel, setCanCancel] = useState(false);
-  const navigate = useNavigate();
+const BookDetails = () => {
+  const location = useLocation();
+  const id = location.state.id;
+  const [book, setBook] = useState(null);
+  const { addReservation, removeReservation, isReserved } = useBookStore();
+  const canCancel = isReserved(id); // 현재 책이 예약된 상태인지 확인
 
   useEffect(() => {
-    if (!book || Object.keys(book).length === 0) {
-      console.error("책 정보가 없습니다. 홈으로 이동합니다.");
-      alert("잘못된 접근입니다. 홈으로 이동합니다.");
-      navigate("/"); // 올바른 데이터가 없을 경우 홈으로 이동
-    }
-  }, [book, navigate]);
+    console.log("마운트");
+    console.log("전달된 id값", id);
+  }, []);
 
-  // if (!book || Object.keys(book).length === 0) {
-  //   return null; // 리디렉션 처리 중 화면에 아무것도 표시하지 않음
-  // }
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        console.log("요청하는 URL:", `/books/${id}`);
+        const response = await requestWithAuth("GET", `/books/${id}`);
+        console.log(response);
+        if (response.success) {
+          setBook(response.data);
+        }
+      } catch (error) {
+        alert("도서 정보를 가져오는 데 실패했습니다.");
+        console.error("도서 정보를 가져오는 데 실패했습니다.", error);
+      }
+    };
+
+    if (id) fetchBookDetails();
+  }, [id]);
 
   const bookStatus = {
     AVAILABLE: "대여 가능",
@@ -29,13 +44,18 @@ const BookDetails = ({ book }) => {
     try {
       const response = await requestWithAuth(
         "POST",
-        `/books/reservation/${book.id}`
+        `/books/reservation/${book?.id}`
       );
       console.log("응답: ", response);
       console.log(response.success);
       if (response.success) {
         alert("예약 신청 성공");
-        setCanCancel(true);
+        addReservation(book?.id);
+        //TODO 예약 신청하면 재렌더링 돼서 인원바로 변경되도록
+        setBook((prevBook) => ({
+          ...prevBook,
+          borrowCount: prevBook.borrowCount + 1, // 예약 인원 증가
+        }));
         console.log(response.data);
         return true;
       }
@@ -63,11 +83,16 @@ const BookDetails = ({ book }) => {
     try {
       const response = await requestWithAuth(
         "DELETE",
-        `/books/reservation/${book.id}`
+        `/books/reservation/${book?.id}`
       );
       console.log("취소:", response);
       if (response.success) {
         alert("예약 취소 요청 성공");
+        removeReservation(book?.id);
+        setBook((prevBook) => ({
+          ...prevBook,
+          borrowCount: prevBook.borrowCount - 1, // 예약 인원 감소
+        }));
         console.log(response.data);
         return true;
       }
@@ -86,23 +111,23 @@ const BookDetails = ({ book }) => {
   return (
     <div className={style.wrapper}>
       <div className={style.container}>
-        <h2>{book.title}</h2>
+        <h2>{book?.title}</h2>
         <hr />
         <div className={style.contents}>
           <div className={style.bookImage}>
             <img
-              src={book.bookUrl || "https://picsum.photos/200"}
-              alt={book.title}
+              src={book?.bookUrl || "https://picsum.photos/200"}
+              alt={book?.title}
             ></img>
           </div>
           <div className={style.bookDetails}>
             <ul>
-              <li>제목: {book.title}</li>
-              <li>저자: {book.author}</li>
-              <li>발행처: {book.publisher}</li>
-              <li>발행년: {book.publishYear}</li>
-              <li>상태: {bookStatus[book.status]}</li>
-              <li>예약: {book.borrowCount}명</li>
+              <li>제목: {book?.title}</li>
+              <li>저자: {book?.author}</li>
+              <li>발행처: {book?.publisher}</li>
+              <li>발행년: {book?.publishYear}</li>
+              <li>상태: {bookStatus[book?.status]}</li>
+              <li>예약: {book?.borrowCount}명</li>
             </ul>
           </div>
         </div>
@@ -116,9 +141,9 @@ const BookDetails = ({ book }) => {
             취소
           </button>
           <button
-            disabled={book.borrowCount >= 3}
+            disabled={book?.borrowCount >= 3 || canCancel}
             className={
-              book.borrowCount >= 3 ? style.disableButton : style.button
+              book?.borrowCount >= 3 ? style.disableButton : style.button
             }
             onClick={requestReservation}
           >

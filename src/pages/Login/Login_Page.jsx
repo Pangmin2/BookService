@@ -46,7 +46,7 @@ const Login = () => {
     if (validInput) {
       try {
         const response = await axios.post(
-          `${HTTPS}/login`,
+          `${SERVER}/login`,
           {
             username: login_userInfo.username,
             password: login_userInfo.password,
