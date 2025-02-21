@@ -123,7 +123,7 @@ const Login = () => {
                     </button>
                   </div>
                   <div className={style.findPasswd}>
-                    <Link to="/search_password">비밀번호 찾기</Link>
+                    <Link to="/findform">비밀번호 찾기</Link>
                     <div className={style.verticalLine}> </div>
                     <Link to="/change_password">비밀번호 변경</Link>
                   </div>
