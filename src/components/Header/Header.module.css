@@ -126,6 +126,13 @@
   color: #1f98ff;
 }
 
+.navigation span {
+  font-size: 14px;
+  text-decoration: none;
+  justify-content: center;
+  color: #1f98ff;
+}
+
 .navigation li button {
   font-size: 14px;
   border: none;
