@@ -55,7 +55,7 @@ const Header = () => {
               )}
             </li>
             <li>
-              <div className="verticalLine"> </div>
+              <div></div>
             </li>
             <li>
               <Link to="/signup">회원가입</Link>
