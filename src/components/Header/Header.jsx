@@ -47,7 +47,7 @@ const Header = () => {
           <ul>
             <li>
               {isLogined ? (
-                <button onClick={onLogout}>로그아웃</button>
+                <span onClick={onLogout} style={{ cursor: 'pointer' }}>로그아웃</span>
               ) : (
                 <Link to="/login">로그인</Link>
               )}
