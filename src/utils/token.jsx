@@ -8,7 +8,7 @@ const HTTPS = import.meta.env.VITE_HTTPS_URL;
 export const RefreshAccessToken = async () => {
   try {
     const response = await axios.post(
-      `${HTTPS}/refreshToken`,
+      `${SERVER}/refreshToken`,
       // {},
       { withCredentials: true }
     );
