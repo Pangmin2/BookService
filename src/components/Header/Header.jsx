@@ -38,6 +38,7 @@ const Header = () => {
             <ul>
               <li><a href="/">메인 홈</a></li>
               <li><a href="/book_admin">도서 등록</a></li>
+              <li><a href="/book_edit">도서 수정</a></li>
               <li><a href="/book_manage">도서 관리</a></li>
               <li><a href="/member_manage">부원 관리</a></li>
             </ul>
