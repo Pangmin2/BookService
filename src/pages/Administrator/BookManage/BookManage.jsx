@@ -57,7 +57,6 @@ const BookManagement = () => {
         console.error("반납 조회 실패", response.data);
       }
     } catch (error) {
-      console.log(token);
       console.error("반납 조회 중 오류 발생:", error);
     }
   }, [SERVER, token]);
