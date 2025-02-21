@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className={style.contents}>
+      <div className={style.HeaderContents}>
         <div className={style.bars} onMouseEnter={() => setIsMenuVisible(true)}>
           <FaBars />
         </div>
@@ -36,12 +36,10 @@ const Header = () => {
               </div>
             </div>
             <ul>
-              <li>
-                <a href="/bookassign">도서 등록</a>
-              </li>
-              <li>
-                <a href="/membermanage">부원 관리</a>
-              </li>
+              <li><a href="/">메인 홈</a></li>
+              <li><a href="/book_admin">도서 등록</a></li>
+              <li><a href="/book_manage">도서 관리</a></li>
+              <li><a href="/member_manage">부원 관리</a></li>
             </ul>
           </div>
         )}
@@ -49,7 +47,7 @@ const Header = () => {
           <ul>
             <li>
               {isLogined ? (
-                <button onClick={onLogout}>로그아웃</button>
+                <span onClick={onLogout} style={{ cursor: 'pointer' }}>로그아웃</span>
               ) : (
                 <Link to="/login">로그인</Link>
               )}

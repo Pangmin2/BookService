@@ -10,7 +10,7 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
 
     const config = {
       method,
-      url: `${HTTPS}${endpoint}`,
+      url: `${SERVER}${endpoint}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
