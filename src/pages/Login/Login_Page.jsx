@@ -41,7 +41,7 @@ const Login = () => {
   //로그인 요청 핸들러
   const login_Handler = async (e) => {
     e.preventDefault();
-
+    console.log(`${HTTPS}/login`);
     const validInput = Object.values(isValid).every((value) => value === true);
     if (validInput) {
       try {
@@ -105,15 +105,12 @@ const Login = () => {
                       required
                     />
                   </div>
-                  <div className={style.findPasswd}>
-                    <Link to="/search_password">비밀번호 찾기</Link>
-                  </div>
                   <div>
                     <button className={style.loginButton} type="submit">
                       로그인
                     </button>
                   </div>
-                  <hr />
+                  <div className={style.horizontalLine}></div>
                   <div>
                     <button
                       className={style.signupButton}
@@ -124,6 +121,11 @@ const Login = () => {
                     >
                       회원가입
                     </button>
+                  </div>
+                  <div className={style.findPasswd}>
+                    <Link to="/findform">비밀번호 찾기</Link>
+                    <div className={style.verticalLine}> </div>
+                    <Link to="/change_password">비밀번호 변경</Link>
                   </div>
                 </form>
               </div>

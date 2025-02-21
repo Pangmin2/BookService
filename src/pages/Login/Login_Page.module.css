@@ -28,14 +28,19 @@ h1 {
 .contents {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: center;
 }
 
 .contents form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+}
+
+.horizontalLine {
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid #c3c3c3;
 }
 
 .findPasswd {
@@ -69,4 +74,13 @@ h1 {
   background: #c3c3c3;
   color: white;
   cursor: pointer;
+}
+
+.verticalLine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 14px;
+  border-left: 1px solid #c3c3c3;
+  margin: 0 0.8rem;
 }
