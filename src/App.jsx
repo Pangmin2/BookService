@@ -26,10 +26,6 @@ function App() {
         <Route path="/member_manage" element={<MemberManage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/findform" element={<Findform />} />
-        {/* 나중에 다른 라우트가 필요할 때를 위해 주석 처리로 남겨둠 */}
-        {/* <Route path="/admin" element={<BookAdmin />} />
-        <Route path="/members" element={<MemberManage />} />
-        <Route path="/main" element={<MainPage />} /> */}
       </Routes>
     </Router>
   );
