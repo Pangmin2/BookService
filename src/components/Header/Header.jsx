@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className={style.contents}>
+      <div className={style.HeaderContents}>
         <div className={style.bars} onMouseEnter={() => setIsMenuVisible(true)}>
           <FaBars />
         </div>
@@ -36,6 +36,7 @@ const Header = () => {
               </div>
             </div>
             <ul>
+              <li><a href="/">메인 홈</a></li>
               <li><a href="/book_admin">도서 등록</a></li>
               <li><a href="/book_manage">도서 관리</a></li>
               <li><a href="/member_manage">부원 관리</a></li>
