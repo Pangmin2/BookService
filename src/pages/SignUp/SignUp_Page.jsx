@@ -127,7 +127,11 @@ const SignUp = () => {
       }
     } catch (error) {
       if (error.response.data.code === "U001") {
-        alert(error.response.data.msg);
+        swal({
+          title: error.response.data.msg,
+          button: "확인",
+          icon: "warning",
+        });
       } else {
         console.error("웹메일 인증 중 오류가 발생했습니다.");
       }
