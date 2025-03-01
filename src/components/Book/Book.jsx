@@ -14,7 +14,7 @@ const Book = ({ book }) => {
         </div>
         <div className={styles.bookIntro}>
           <Link to="/book_info" state={{ id: book.id }}>
-            <h2>제목: {book.title}</h2>
+            <h2>{book.title}</h2>
           </Link>
           <p>저자 : {book.author}</p>
           <p>발행처 : {book.publisher}</p>
