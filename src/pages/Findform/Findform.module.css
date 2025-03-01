@@ -4,13 +4,13 @@
   align-items: center;
   justify-content: center;
   height: 80vh;
-  background-color: #ffffff;
+  gap: 1rem;
 }
 
 .title {
   font-size: 24px;
   font-weight: bold;
-  color: #007bff;
+  color: #1f98ff;
   margin-bottom: 20px;
 }
 
@@ -23,18 +23,14 @@
 .submitButton {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #1f98ff;
   color: white;
   font-size: 16px;
-  font-weight: bold;
   border: none;
-  border-radius: 5px;
+  border-radius: 7px;
   cursor: pointer;
   margin-top: 10px;
-}
-
-.submitButton:hover {
-  background-color: #0056b3;
+  cursor: pointer;
 }
 
 .links {
@@ -44,7 +40,7 @@
 }
 
 .link {
-  color: #007bff;
+  color: #1f98ff;
   text-decoration: none;
   margin: 0 10px;
   font-size: 14px;
