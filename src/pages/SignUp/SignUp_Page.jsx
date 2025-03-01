@@ -375,7 +375,7 @@ const SignUp = () => {
                     value={userInfo.student_id}
                     name="student_id"
                     onChange={onChange}
-                    maxLength={10}
+                    maxLength={8}
                   />
                 </div>
                 {student_idError && (
