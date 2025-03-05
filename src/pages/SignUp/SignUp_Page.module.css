@@ -19,7 +19,7 @@
   gap: 32px;
 }
 
-h1 {
+.container h1 {
   font-size: 38px;
   color: #1f98ff;
   margin: 0;
