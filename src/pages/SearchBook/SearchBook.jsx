@@ -13,30 +13,27 @@ const SearchBook = () => {
   const [filterBooks, setFilterBooks] = useState([]);
 
   const isLogined = useUserStore((state) => state.isLogined);
+  const setIsLogined = useUserStore((state) => state.setIsLogined);
+
+  const navigate = useNavigate();
 
   // API 요청 함수 (requestWithAuth 사용)
   const fetchBooks = async () => {
     try {
-      const response = await requestWithAuth("GET", "/books");
+      const response = await requestWithAuth("GET", "/books", null, null);
 
       console.log("API Response:", response); // 전체 응답 로그 출력
-      if (!response || !response.data) {
-        throw new Error("Invalid response structure");
-      }
 
+      if (response === null) {
+        throw new Error();
+      }
       // 응답 구조 확인
       console.log("Response Data:", response.data);
-
-      if (Array.isArray(response.data)) {
-        setBooks(response.data);
-      } else {
-        throw new Error("Unexpected data format");
-      }
+      setBooks(response.data);
     } catch (error) {
-      alert("여기 세션이 만료되었습니다.");
-      console.error("책 정보를 불러오는 데 실패했습니다:", error.message);
-      // alert("회원만 접근 가능합니다.");
+      console.error("책 정보를 불러오는 데 실패했습니다:", error);
       setBooks([]); // 오류 발생 시 빈 배열 설정
+      setIsLogined(false);
       // navigate("/login");
     }
   };

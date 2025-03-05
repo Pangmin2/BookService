@@ -1,12 +1,12 @@
 import style from "./SignUp_Page.module.css";
+import swal from "sweetalert";
 import UserInput from "../../components/UserInput/UserInput";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../../components/Layout/Layout";
 import { useNavigate } from "react-router-dom";
 
-// const SERVER = import.meta.env.VITE_SERVER_URL;
-const HTTPS = import.meta.env.VITE_HTTPS_URL;
+const SERVER = import.meta.env.VITE_SERVER_URL;
 
 const SignUp = () => {
   const [userInfo, setUserInfo] = useState({
@@ -33,7 +33,7 @@ const SignUp = () => {
 
   // 이메일 인증 관련 상태
   const [isverify_mailCode, setIsVerify_mailCode] = useState(false);
-  const [canPost_username, setCanPostUsername] = useState(false);
+  // const [canPost_username, setCanPostUsername] = useState(false);
   const [isVerificationPending, setIsVerificationPending] = useState(false);
 
   // 모든 필드 입력 및 유효성 검사 함수
@@ -58,19 +58,29 @@ const SignUp = () => {
     e.preventDefault();
 
     if (!isAllFieldsValid()) {
-      alert("모든 필드를 올바르게 입력해주세요.");
+      swal({
+        title: "모든 필드를 올바르게 입력해주세요.",
+        icon: "warning",
+        button: "확인",
+      });
+      // alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
 
     try {
-      const response = await axios.post(`${HTTPS}/register`, userInfo, {
+      const response = await axios.post(`${SERVER}/register`, userInfo, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       if (response.data.success) {
-        alert("회원가입이 완료되었습니다.");
+        swal({
+          title: "회원가입이 완료되었습니다.",
+          icon: "success",
+          button: "확인",
+        });
+        // alert("회원가입이 완료되었습니다.");
         navigate("/login");
         return response.data.success;
       }
@@ -85,19 +95,19 @@ const SignUp = () => {
   };
 
   // 웹메일 입력 유효성 검사 후 버튼 활성화 상태 변경
-  const CanPost_username = (username) => {
-    if (username && !usernameError) {
-      setCanPostUsername(true);
-    } else {
-      setCanPostUsername(false);
-    }
-  };
+  // const CanPost_username = (username) => {
+  //   if (username && !usernameError) {
+  //     setCanPostUsername(true);
+  //   } else {
+  //     setCanPostUsername(false);
+  //   }
+  // };
 
   // 웹메일 인증번호 요청
   const verify_username = async () => {
     try {
       const response = await axios.post(
-        `${HTTPS}/register/mail`,
+        `${SERVER}/register/mail`,
         { username: userInfo.username },
         {
           headers: {
@@ -107,16 +117,21 @@ const SignUp = () => {
       );
 
       if (response.data.success) {
-        alert("인증번호를 보냈습니다. 확인해주세요.");
+        swal({ text: "인증번호를 보냈습니다. 확인해주세요.", button: "확인" });
+        // alert("인증번호를 보냈습니다. 확인해주세요.");
         setIsVerificationPending(true);
-        setCanPostUsername(false);
+        // setCanPostUsername(false);
         // console.log(response.data.data);
         // console.log(canPost_username);
         return true;
       }
     } catch (error) {
       if (error.response.data.code === "U001") {
-        alert(error.response.data.msg);
+        swal({
+          title: error.response.data.msg,
+          button: "확인",
+          icon: "warning",
+        });
       } else {
         console.error("웹메일 인증 중 오류가 발생했습니다.");
       }
@@ -128,7 +143,7 @@ const SignUp = () => {
   const check_mailCode = async () => {
     try {
       const response = await axios.post(
-        `${HTTPS}/register/mail/verification`,
+        `${SERVER}/register/mail/verification`,
         { username: userInfo.username, mailCode: userInfo.mailCode },
         {
           headers: {
@@ -140,7 +155,8 @@ const SignUp = () => {
       if (response.data.success) {
         setIsVerify_mailCode(true);
         setIsVerificationPending(false);
-        alert("인증이 완료되었습니다.");
+        swal({ title: "인증이 완료되었습니다.", icon: "success" });
+        // alert("인증이 완료되었습니다.");
         return true;
       }
     } catch (error) {
@@ -160,7 +176,7 @@ const SignUp = () => {
   useEffect(() => {
     const getDepartments = async () => {
       try {
-        const response = await axios.get(`${HTTPS}/register`);
+        const response = await axios.get(`${SERVER}/register`);
         setDepartments(response.data.data);
         console.log(departments);
       } catch (error) {
@@ -184,7 +200,7 @@ const SignUp = () => {
     switch (name) {
       case "username":
         usernameCheck(value);
-        CanPost_username(value);
+        // CanPost_username(value);
         break;
       case "password":
         passwordCheck(value);
@@ -230,9 +246,9 @@ const SignUp = () => {
 
   // 학번 정규식 확인
   const student_idCheck = (student_id) => {
-    const student_idRegex = /^\d{8}$/;
+    const student_idRegex = /^\d{8,10}$/;
     if (!student_idRegex.test(student_id)) {
-      setStudentIdError("학번 8자를 모두 입력해주세요.");
+      setStudentIdError("학번 8-10자를 모두 입력해주세요.");
     } else {
       setStudentIdError("");
     }
@@ -359,7 +375,7 @@ const SignUp = () => {
                     value={userInfo.student_id}
                     name="student_id"
                     onChange={onChange}
-                    maxLength={8}
+                    maxLength={10}
                   />
                 </div>
                 {student_idError && (
