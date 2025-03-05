@@ -26,7 +26,7 @@ const BookManagement = () => {
     setReturns(updatedReturns);
   };
 
-  // 예약 승인 함수 추가
+  // 예약 승인 함수 수정
   const acceptReservation = async (reservationId) => {
     try {
       const response = await axios.post(`${SERVER}/book/admin/${reservationId}/accept`, {}, {
@@ -36,8 +36,9 @@ const BookManagement = () => {
       });
 
       if (response.data.success) {
-        fetchReservations();
-        fetchReturns();
+        fetchReservations(); // 예약 현황 업데이트
+        fetchLoans();       // 대출 현황 업데이트
+        fetchReturns();     // 반납 현황 업데이트
       } else {
         console.error("예약 승인 실패", response.data);
       }
@@ -49,7 +50,7 @@ const BookManagement = () => {
   // 반납 현황 조회 함수 추가
   const fetchReturns = useCallback(async () => {
     try {
-      const response = await axios.get(`${SERVER}/book/admin/returns?page=0&size=3&sort=returnDate,desc`, {
+      const response = await axios.get(`${SERVER}/book/admin/returns?page=0&size=10&sort=returnDate,desc`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -68,7 +69,7 @@ const BookManagement = () => {
   // 예약 목록을 가져오는 함수
   const fetchReservations = useCallback(async () => {
     try {
-      const response = await axios.get(`${SERVER}/book/admin/reservations?page=0&size=3&sort=reservationDate%2Casc`, {
+      const response = await axios.get(`${SERVER}/book/admin/reservations?page=0&size=10&sort=reservationDate%2Casc`, {
         headers: {
           'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
         },
@@ -87,7 +88,7 @@ const BookManagement = () => {
   // 대출 목록을 가져오는 함수
   const fetchLoans = useCallback(async () => {
     try {
-      const response = await axios.get(`${SERVER}/book/admin/loans?page=0&size=3&sort=borrowDate,asc`, {
+      const response = await axios.get(`${SERVER}/book/admin/loans?page=0&size=10&sort=borrowDate,asc`, {
         headers: {
           'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
         },
@@ -156,21 +157,6 @@ const BookManagement = () => {
       console.error("상태 변경 중 오류 발생:", error);
     }
   };
-
-  // 목데이터 설정
-  useEffect(() => {
-    const mockReservations = [
-      { title: '책 제목 1', reserver: '사용자 A', date: '2023-10-01', status: '대기' },
-      { title: '책 제목 2', reserver: '사용자 B', date: '2023-10-02', status: '대기' },
-    ];
-    const mockReturns = [
-      { title: '책 제목 5', name: '사용자 C', startdate: '2023-09-25', enddate: '2023-10-10', status: '반납' },
-      { title: '책 제목 6', name: '사용자 D', startdate: '2023-09-25', enddate: '2023-10-10', status: '연체' },
-    ];
-
-    setReservations(mockReservations);
-    setReturns(mockReturns);
-  }, []);
 
   return (
     <>
