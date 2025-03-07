@@ -34,7 +34,9 @@ const Header = () => {
     { path: "/my_info_page", label: "마이페이지" },
   ];
 
-  const menuItems = role === "ADMIN" ? adminMenuItems : userMenuItems;
+  const menuItems = role === "ADMIN" ? adminMenuItems :
+    role === "USER" ? userMenuItems :
+      userMenuItems;
 
   return (
     <header>
