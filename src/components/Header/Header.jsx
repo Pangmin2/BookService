@@ -22,8 +22,8 @@ const Header = () => {
   const adminMenuItems = [
     { path: "/", label: "메인 홈" },
     { path: "/book_admin", label: "도서 등록" },
+    { path: "/book_edit", label: "도서 수정" },
     { path: "/book_manage", label: "도서 관리" },
-    { path: "/member_manage", label: "부원 관리" },
     { path: "/my_book_page", label: "도서 대여 현황" },
     { path: "/my_info_page", label: "마이페이지" },
   ];

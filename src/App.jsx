@@ -13,6 +13,7 @@ import ChangePassWord from "./pages/ChangePassWord/ChangePassWord";
 import Findform from "./pages/Findform/Findform";
 import MyInfoPage from "./pages/MyPage/MyInfoPage";
 import MyBookPage from "./pages/MyPage/MyBookPage";
+import BookEdit from "./pages/Administrator/BookEdit/BookEdit";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/findform" element={<Findform />} />
         <Route path="/my_info_page" element={<MyInfoPage />} />
         <Route path="/my_book_page" element={<MyBookPage />} />
+        <Route path="/book_edit" element={<BookEdit />} />
       </Routes>
     </Router>
   );
