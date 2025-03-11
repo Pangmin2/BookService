@@ -1,10 +1,11 @@
 import style from "./BookDetails.module.css";
-import useBookStore from "../../../store/useBookStore";
 
-const BookDetails = ({ book, requestReservation, requestCancel }) => {
-  const { isReserved } = useBookStore();
-  const canCancel = isReserved(book.id); // 현재 책이 예약된 상태인지 확인
-  // console.log(book);
+const BookDetails = ({
+  book,
+  requestReservation,
+  requestCancel,
+  canReserved,
+}) => {
   const bookStatus = {
     AVAILABLE: "대여 가능",
     RESERVED: "예약중",
@@ -37,14 +38,14 @@ const BookDetails = ({ book, requestReservation, requestCancel }) => {
         <hr />
         <div className={style.button}>
           <button
-            disabled={!canCancel}
-            className={!canCancel ? style.disableButton : style.button}
+            disabled={canReserved}
+            className={canReserved ? style.disableButton : style.button}
             onClick={requestCancel}
           >
             취소
           </button>
           <button
-            disabled={book?.borrowCount >= 3 || canCancel}
+            disabled={book?.borrowCount >= 3 || !canReserved}
             className={
               book?.borrowCount >= 3 ? style.disableButton : style.button
             }

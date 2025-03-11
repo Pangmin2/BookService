@@ -6,14 +6,17 @@ import GuestBlock from "../../components/GuestBlock/GuestBlock";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
-import useBookStore from "../../../store/useBookStore";
 import swal from "sweetalert";
+import useBookStore from "../../../store/useBookStore";
 
 const BookInfo = () => {
   const [book, setBook] = useState(null);
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
-  const { addReservation, removeReservation } = useBookStore();
+
+  const addReservation = useBookStore((state) => state.addReservation);
+  const removeReservation = useBookStore((state) => state.removeReservation);
+  const isReserved = useBookStore((state) => state.isReserved);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,6 +33,12 @@ const BookInfo = () => {
         }
         if (response.success) {
           setBook(response.data);
+          if (
+            book?.reservationStatus === "RESERVED" ||
+            book?.reservationStatus === "BORROWING"
+          ) {
+            addReservation(response.data.id);
+          }
         }
       } catch (error) {
         console.error("도서 정보를 가져오는 데 실패했습니다.", error);
@@ -59,12 +68,12 @@ const BookInfo = () => {
           icon: "success",
           button: "완료",
         });
-        addReservation(book?.id);
 
         setBook((prevBook) => ({
           ...prevBook,
           borrowCount: prevBook.borrowCount + 1, // 예약 인원 증가
         }));
+        addReservation(book?.id);
         console.log(response.data);
         return true;
       }
@@ -120,11 +129,12 @@ const BookInfo = () => {
           icon: "success",
           button: "완료",
         });
-        removeReservation(book?.id);
+
         setBook((prevBook) => ({
           ...prevBook,
           borrowCount: prevBook.borrowCount - 1, // 예약 인원 감소
         }));
+        removeReservation(book?.id);
         console.log(response.data);
         return true;
       }
@@ -150,6 +160,7 @@ const BookInfo = () => {
               book={book}
               requestReservation={requestReservation}
               requestCancel={requestCancel}
+              canReserved={!isReserved(book?.id)}
             />
           ) : (
             <div>도서 정보를 불러오는 중...</div>
