@@ -212,85 +212,91 @@ const BookAdmin = () => {
         <div className={style.bookFormContainer}>
           <div className={style.formHeader}>
             <h2>도서 등록</h2>
+            <p>새로운 도서를 등록하기 위한 정보를 입력해주세요.</p>
           </div>
           <div className={style.formContent}>
             <form onSubmit={handleSubmit} className={style.bookRegistrationForm}>
+              <div className={style.formGrid}>
+                <div className={style.formGroup}>
+                  <label>도서 제목</label>
+                  <div className={style.inputWrapper}>
+                    <input
+                      type="text"
+                      name="title"
+                      value={form.title}
+                      onChange={handleChange}
+                      placeholder="도서 제목을 입력하세요"
+                      required
+                    />
+                  </div>
+                </div>
 
-              <div className={style.formGroup}>
-                <label>제목</label>
-                <div className={style.inputWrapper}>
+                <div className={style.formGroup}>
+                  <label>저자</label>
                   <input
                     type="text"
-                    name="title"
-                    value={form.title}
+                    name="author"
+                    value={form.author}
                     onChange={handleChange}
-                    placeholder="제목을 입력하세요"
+                    placeholder="저자명을 입력하세요 (복수 저자는 쉼표로 구분)"
+                    required
+                  />
+                </div>
+
+                <div className={style.formGroup}>
+                  <label>출판사</label>
+                  <input
+                    type="text"
+                    name="publisher"
+                    value={form.publisher}
+                    onChange={handleChange}
+                    placeholder="출판사명을 입력하세요"
+                    required
+                  />
+                </div>
+
+                <div className={style.formGroup}>
+                  <label>출판년도</label>
+                  <input
+                    type="text"
+                    name="year"
+                    value={form.year}
+                    onChange={handleChange}
+                    placeholder="YYYY"
+                    maxLength="4"
+                    pattern="\d{4}"
+                    required
                   />
                 </div>
               </div>
 
-              <div className={style.formGroup}>
-                <label>저자</label>
-                <input
-                  type="text"
-                  name="author"
-                  value={form.author}
-                  onChange={handleChange}
-                  placeholder="저자가 2명이상인 경우 ,를 써주세요"
-                />
-              </div>
-
-              <div className={style.formGroup}>
-                <label>발행처</label>
-                <input
-                  type="text"
-                  name="publisher"
-                  value={form.publisher}
-                  onChange={handleChange}
-                  placeholder="발행처를 입력하세요"
-                />
-              </div>
-
-              <div className={style.formGroup}>
-                <label>출판년도</label>
-                <input
-                  type="text"
-                  name="year"
-                  value={form.year}
-                  onChange={handleChange}
-                  placeholder="출판년도를 입력하세요 (예: 2024)"
-                  maxLength="4" // 4자리 연도만 입력 가능하도록 제한
-                  pattern="\d{4}" // 숫자 4자리만 허용
-                />
-              </div>
               <div className={style.fileUploadSection}>
-                <span>파일 선택</span>
+                <label>도서 표지 이미지</label>
                 <div className={style.uploadBox}>
                   <input
                     type="file"
                     id="bookImage"
                     onChange={handleFileChange}
+                    accept="image/*"
                     style={{ display: 'none' }}
+                    required
                   />
-                  <label htmlFor="bookImage" className={style.browseButton}>Browse</label>
-                  <span className={style.fileName}>
-                    {form.selectedFile ? form.selectedFile.name : "파일을 선택해주세요"}
-                  </span>
+                  <label htmlFor="bookImage" className={style.uploadLabel}>
+                    <span className={style.uploadIcon}>📁</span>
+                    <span className={style.fileName}>
+                      {form.selectedFile ? form.selectedFile.name : "이미지 파일을 선택해주세요"}
+                    </span>
+                  </label>
                 </div>
               </div>
 
               <div className={style.formActions}>
-                <div className={style.buttonGroup}>
-                  <button type="button" onClick={handleCancel} className={style.cancelButton}>
-                    초기화
-                  </button>
-                  <button type="button" className={style.draftButton}>
-                    등록된 도서 확인
-                  </button>
-                  <button type="submit" className={style.submitButton}>
-                    등록
-                  </button>
-                </div>
+                <button type="button" onClick={handleCancel} className={style.cancelButton}>
+                  초기화
+                </button>
+                <button type="submit" className={style.submitButton}>
+                  도서 등록
+                </button>
               </div>
             </form>
           </div>

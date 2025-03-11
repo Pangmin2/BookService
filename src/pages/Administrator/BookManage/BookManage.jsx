@@ -13,6 +13,9 @@ const BookManagement = () => {
   const [returns, setReturns] = useState([]);
   const [activeTab, setActiveTab] = useState('reservations');
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
   const SERVER = import.meta.env.VITE_SERVER_URL;
 
   // 상태 변경 핸들러 추가 (반납/연체 상태 변경)
@@ -47,17 +50,24 @@ const BookManagement = () => {
     }
   };
 
-  // 반납 현황 조회 함수 추가
-  const fetchReturns = useCallback(async () => {
+  // 반납 현황 조회 함수 수정
+  const fetchReturns = useCallback(async (page = 0) => {
     try {
-      const response = await axios.get(`${SERVER}/book/admin/returns?page=0&size=10&sort=returnDate,desc`, {
+      const response = await axios.get(`${SERVER}/book/admin/returns?page=${page}&size=10&sort=returnDate,desc`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
 
       if (response.data.success) {
-        setReturns(response.data.data.returns);
+        const adjustedReturns = response.data.data.returns.map(item => ({
+          ...item,
+          returnDate: new Date(new Date(item.returnDate).getTime() + 9 * 60 * 60 * 1000).toISOString()
+        }));
+        setReturns(adjustedReturns);
+        setTotalPages(response.data.data.totalPages);
+        setTotalElements(response.data.data.totalElements);
+        setCurrentPage(page);
       } else {
         console.error("반납 조회 실패", response.data);
       }
@@ -66,17 +76,26 @@ const BookManagement = () => {
     }
   }, [SERVER, token]);
 
+  // 페이지 변경 핸들러 추가
+  const handlePageChange = (newPage) => {
+    fetchReturns(newPage);
+  };
+
   // 예약 목록을 가져오는 함수
   const fetchReservations = useCallback(async () => {
     try {
       const response = await axios.get(`${SERVER}/book/admin/reservations?page=0&size=10&sort=reservationDate%2Casc`, {
         headers: {
-          'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
+          'Authorization': `Bearer ${token}`,
         },
       });
 
       if (response.data.success) {
-        setReservations(response.data.data.reservations);
+        const adjustedReservations = response.data.data.reservations.map(item => ({
+          ...item,
+          reservationDate: new Date(new Date(item.reservationDate).getTime() + 9 * 60 * 60 * 1000).toISOString()
+        }));
+        setReservations(adjustedReservations);
       } else {
         console.error("예약 조회 실패", response.data);
       }
@@ -90,12 +109,16 @@ const BookManagement = () => {
     try {
       const response = await axios.get(`${SERVER}/book/admin/loans?page=0&size=10&sort=borrowDate,asc`, {
         headers: {
-          'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
+          'Authorization': `Bearer ${token}`,
         },
       });
 
       if (response.data.success) {
-        setLoans(response.data.data.loans);
+        const adjustedLoans = response.data.data.loans.map(item => ({
+          ...item,
+          borrowDate: new Date(new Date(item.borrowDate).getTime() + 9 * 60 * 60 * 1000).toISOString()
+        }));
+        setLoans(adjustedLoans);
       } else {
         console.error("대여 조회 실패", response.data);
       }
@@ -199,6 +222,10 @@ const BookManagement = () => {
             <ReturnStatus
               returns={returns}
               updateReturnStatus={updateReturnStatus}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalElements={totalElements}
+              onPageChange={handlePageChange}
             />
           )}
         </div>
