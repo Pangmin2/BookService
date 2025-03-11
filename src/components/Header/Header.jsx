@@ -61,7 +61,10 @@ const Header = () => {
               <div className={style.profileImage}>{/* 프로필 이미지 */}</div>
               <div className={style.profileInfo}>
                 <h3>{name || "사용자"}</h3>
-                <p>{department || "학과정보 없음"} / {role === "ADMIN" ? "관리자" : "사용자"}</p>
+                <p>
+                  {department || "학과정보 없음"} /{" "}
+                  {role === "ADMIN" ? "관리자" : "사용자"}
+                </p>
               </div>
             </div>
             <ul>
@@ -78,10 +81,10 @@ const Header = () => {
                 <a href="/member_manage">부원 관리</a>
               </li>
               <li>
-                <a href="/my_book_page">도서 대여 현황</a>
+                <a href="/mybookpage">도서 대여 현황</a>
               </li>
               <li>
-                <a href="/my_info_page">마이페이지</a>
+                <a href="/mypage">마이페이지</a>
               </li>
             </ul>
           </div>
