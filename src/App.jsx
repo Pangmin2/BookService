@@ -9,10 +9,9 @@ import SearchBook from "./pages/SearchBook/SearchBook";
 import Login from "./pages/Login/Login_Page";
 import SignUp from "./pages/SignUp/SignUp_Page";
 import BookInfo from "./pages/BookInfo/BookInfo";
-import ChangePassWord from "./pages/ChangePassWord/ChangePassWord";
 import Findform from "./pages/Findform/Findform";
-import MyInfoPage from "./pages/MyPage/MyInfoPage";
-import MyBookPage from "./pages/MyPage/MyBookPage";
+import MyBookPage from "./pages/UserBookInfo/MyBookPage";
+import MyPage from "./pages/MyPage/MyPage";
 
 function App() {
   return (
@@ -21,14 +20,13 @@ function App() {
         <Route path="/" element={<SearchBook />} />
         <Route path="/book_info" element={<BookInfo />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/change_password" element={<ChangePassWord />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/book_manage" element={<BookManage />} />
         <Route path="/book_admin" element={<BookAdmin />} />
         <Route path="/member_manage" element={<MemberManage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/findform" element={<Findform />} />
-        <Route path="/my_info_page" element={<MyInfoPage />} />
         <Route path="/my_book_page" element={<MyBookPage />} />
       </Routes>
     </Router>

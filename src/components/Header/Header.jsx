@@ -52,7 +52,7 @@ const Header = () => {
                 <a href="/my_book_page">도서 대여 현황</a>
               </li>
               <li>
-                <a href="/my_info_page">마이페이지</a>
+                <a href="/mypage">마이페이지</a>
               </li>
             </ul>
           </div>
