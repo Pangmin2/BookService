@@ -10,8 +10,6 @@ const ReservationStatus = ({ reservations, acceptReservation }) => {
                     <tr>
                         <th>도서 ID</th>
                         <th>도서 제목</th>
-                        <th>예약 ID</th>
-                        <th>사용자 ID</th>
                         <th>사용자 이름</th>
                         <th>예약 날짜</th>
                         <th>승인</th>
@@ -22,8 +20,6 @@ const ReservationStatus = ({ reservations, acceptReservation }) => {
                         <tr key={reservation.reservationId}>
                             <td>{reservation.bookId}</td>
                             <td>{reservation.bookTitle}</td>
-                            <td>{reservation.reservationId}</td>
-                            <td>{reservation.userId}</td>
                             <td>{reservation.userName}</td>
                             <td>{new Date(reservation.reservationDate).toLocaleString()}</td>
                             <td>

@@ -10,8 +10,6 @@ const LoanStatus = ({ loans, returnLoan }) => {
                     <tr>
                         <th>도서 ID</th>
                         <th>도서 제목</th>
-                        <th>예약 ID</th>
-                        <th>사용자 ID</th>
                         <th>사용자 이름</th>
                         <th>대출일</th>
                         <th>반납예정일</th>
@@ -23,8 +21,6 @@ const LoanStatus = ({ loans, returnLoan }) => {
                         <tr key={loan.reservationId}>
                             <td>{loan.bookId}</td>
                             <td>{loan.bookTitle}</td>
-                            <td>{loan.reservationId}</td>
-                            <td>{loan.userId}</td>
                             <td>{loan.userName}</td>
                             <td>{new Date(loan.borrowDate).toLocaleString()}</td>
                             <td>{new Date(loan.returnDueDate).toLocaleString()}</td>
