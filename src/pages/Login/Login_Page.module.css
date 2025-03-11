@@ -1,39 +1,38 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.contents {
+  display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
-  height: 100%;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 34px;
   align-items: center;
   background: #ffffff;
-  border: 1px solid #c3c3c3;
+  border: 1px solid #dbdbdb;
   border-radius: 30px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.16);
   width: 400px;
   padding: 3rem 4rem;
 }
 
-h1 {
-  font-size: 38px;
+h2 {
   color: #1f98ff;
   margin: 0;
 }
 
-.contents {
+.container form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.contents form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .horizontalLine {
@@ -73,13 +72,4 @@ h1 {
   background: #c3c3c3;
   color: white;
   cursor: pointer;
-}
-
-.verticalLine {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 14px;
-  border-left: 1px solid #c3c3c3;
-  margin: 0 0.8rem;
 }
