@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import styles from "./Findform.module.css";
 import UserInput from "../../components/UserInput/UserInput";
 import Layout from "../../components/Layout/Layout";
@@ -26,15 +27,13 @@ const Findform = () => {
     };
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
+      const response = await axios.post(url, data, {
         headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+          'Content-Type': 'application/json'
+        }
       });
 
-      const result = await response.json();
+      const result = response.data;
       console.log(result);
       if (result.success) {
         console.log(data);
