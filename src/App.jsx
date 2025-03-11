@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp/SignUp_Page";
 import BookInfo from "./pages/BookInfo/BookInfo";
 import Findform from "./pages/Findform/Findform";
 import BookEdit from "./pages/Administrator/BookEdit/BookEdit";
+import MyBookPage from "./pages/UserBookInfo/MyBookPage";
 import MyPage from "./pages/MyPage/MyPage";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/book_info" element={<BookInfo />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mybookpage" element={<MyBookPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/book_manage" element={<BookManage />} />
         <Route path="/book_admin" element={<BookAdmin />} />
