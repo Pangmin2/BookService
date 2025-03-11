@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import style from "./SearchBook.module.css";
-import GuestBlock from "../../components/GuestBlock/GuestBlock";
 import useUserStore from "../../../store/useUserStore";
 import Book from "../../components/Book/Book";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +13,6 @@ const SearchBook = () => {
 
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
-
-  const navigate = useNavigate();
 
   // API 요청 함수 (requestWithAuth 사용)
   const fetchBooks = async () => {
@@ -67,22 +64,18 @@ const SearchBook = () => {
         isLogined ? <Hero section="도서 검색" onSearch={searchHandler} /> : null
       }
       content={
-        isLogined ? (
-          <div className={style.container}>
-            <hr className={style.outline} />
-            {filterBooks.map((book, index) => (
-              <div key={book.id}>
-                <Book book={book} />
-                {index < filterBooks.length - 1 && (
-                  <hr className={style.inline} />
-                )}
-              </div>
-            ))}
-            <hr className={style.outline} />
-          </div>
-        ) : (
-          <GuestBlock />
-        )
+        <div className={style.container}>
+          <hr className={style.outline} />
+          {filterBooks.map((book, index) => (
+            <div key={book.id}>
+              <Book book={book} />
+              {index < filterBooks.length - 1 && (
+                <hr className={style.inline} />
+              )}
+            </div>
+          ))}
+          <hr className={style.outline} />
+        </div>
       }
     ></Layout>
   );
