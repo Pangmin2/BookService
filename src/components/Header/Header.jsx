@@ -11,10 +11,14 @@ const Header = () => {
   const setIsLogined = useUserStore((state) => state.setIsLogined);
   const role = useUserStore((state) => state.role);
   const setRole = useUserStore((state) => state.setRole);
+  const name = useUserStore((state) => state.name);
+  const department = useUserStore((state) => state.department);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   const onLogout = () => {
     setIsLogined(false);
     setRole(null);
+    setUserInfo(null, null);
     localStorage.removeItem("accessToken");
     swal("로그아웃", "로그아웃 되었습니다.", "success");
   };
@@ -53,9 +57,8 @@ const Header = () => {
             <div className={style.profileSection}>
               <div className={style.profileImage}>{/* 프로필 이미지 */}</div>
               <div className={style.profileInfo}>
-                {/* 프로필 정보, 추후 수정해야함 */}
-                <h3>{role === "ADMIN" ? "관리자" : "사용자"}</h3>
-                <p>컴퓨터공학과</p>
+                <h3>{name || "사용자"}</h3>
+                <p>{department || "학과정보 없음"} / {role === "ADMIN" ? "관리자" : "사용자"}</p>
               </div>
             </div>
             <ul>
