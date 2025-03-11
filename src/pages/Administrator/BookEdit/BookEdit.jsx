@@ -3,6 +3,7 @@ import style from './BookEdit.module.css';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer'
 import axios from 'axios';
+import swal from 'sweetalert';
 
 const BookEdit = () => {
   const [books, setBooks] = useState([]);
@@ -73,18 +74,17 @@ const BookEdit = () => {
       );
 
       if (response.data.success) {
-        // 도서 목록 업데이트
         setBooks(books.map(book =>
           book.id === editingBook.id ?
             { ...book, ...editData } :
             book
         ));
         setEditingBook(null);
-        alert('도서가 성공적으로 수정되었습니다.');
+        swal("성공", "도서가 성공적으로 수정되었습니다.", "success");
       }
     } catch (error) {
       console.error("Error updating book:", error);
-      alert('도서 수정 중 오류가 발생했습니다.');
+      swal("오류", "도서 수정 중 오류가 발생했습니다.", "error");
     }
   };
 
@@ -100,14 +100,13 @@ const BookEdit = () => {
       );
 
       if (response.data.success) {
-        // 도서 목록에서 삭제된 도서 제거
         setBooks(books.filter(book => book.id !== deletingBook.id));
         setDeletingBook(null);
-        alert('도서가 성공적으로 삭제되었습니다.');
+        swal("성공", "도서가 성공적으로 삭제되었습니다.", "success");
       }
     } catch (error) {
       console.error("Error deleting book:", error);
-      alert('도서 삭제 중 오류가 발생했습니다.');
+      swal("오류", "도서 삭제 중 오류가 발생했습니다.", "error");
     }
   };
 
