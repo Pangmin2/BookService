@@ -24,9 +24,10 @@
   padding: 3rem 4rem;
 }
 
-h2 {
+.container h1 {
   color: #1f98ff;
   margin: 0;
+  padding: 0;
 }
 
 .container form {

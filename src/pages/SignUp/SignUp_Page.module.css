@@ -9,7 +9,6 @@
   flex: 1;
   align-items: center;
   justify-content: center;
-  /* height: 100%; */
 }
 
 .container {
@@ -27,7 +26,6 @@
 }
 
 .container h1 {
-  font-size: 38px;
   color: #1f98ff;
   margin: 0;
   padding: 0;
