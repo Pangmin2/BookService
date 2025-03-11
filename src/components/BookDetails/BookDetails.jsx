@@ -4,7 +4,7 @@ import useBookStore from "../../../store/useBookStore";
 const BookDetails = ({ book, requestReservation, requestCancel }) => {
   const { isReserved } = useBookStore();
   const canCancel = isReserved(book.id); // 현재 책이 예약된 상태인지 확인
-  console.log(book);
+  // console.log(book);
   const bookStatus = {
     AVAILABLE: "대여 가능",
     RESERVED: "예약중",
