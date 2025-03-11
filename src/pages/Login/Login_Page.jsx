@@ -24,6 +24,7 @@ const Login = () => {
   const navigate = useNavigate();
   const setIsLogined = useUserStore((state) => state.setIsLogined);
   const setRole = useUserStore((state) => state.setRole);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +66,7 @@ const Login = () => {
           localStorage.setItem(ACCESS_TOKEN, response.data.data.accessToken);
           setIsLogined(true);
           setRole(response.data.data.role);
+          setUserInfo(response.data.data.name, response.data.data.department);
           navigate("/"); // 로그인 후 이동할 페이지 설정
         }
       } catch (error) {
