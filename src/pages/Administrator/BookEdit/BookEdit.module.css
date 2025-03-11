@@ -6,193 +6,221 @@
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    gap: 2rem;
-    padding: 1rem;
-    width: 80%;
-    margin: 38px auto 0;
-    font-family: 'pretendard-regular';
+    padding: 15px;
+    height: calc(100vh - 120px);
+    /* 헤더와 푸터 공간 제외 */
+    display: flex;
+    gap: 20px;
+    max-width: 1600px;
+    /* 최대 너비 설정 */
+    margin: 0 auto;
+    /* 중앙 정렬 */
+    padding-left: 40px;
+    /* 좌측 여백 증가 */
+    padding-right: 40px;
+    /* 우측 여백 증가 */
 }
 
-.section {
-    background-color: #fff;
+/* 도서 목록 섹션 */
+.section:first-child {
+    flex: 3;
+    /* 비율 약간 조정 */
+    min-width: 300px;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+/* 수정/삭제 섹션을 포함할 컨테이너 */
+.rightContainer {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 280px;
+    height: 100%;
+    /* 전체 높이 사용 */
+}
+
+/* 모든 섹션에 동일한 기본 스타일 적용 */
+.section,
+.editSection,
+.deleteSection {
+    background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-top: 0.5rem;
-    min-height: 500px;
+    padding: 15px;
 }
 
-.reservationSection {
-    grid-column: 1 / 2;
-    grid-row: 1 / span 2;
+/* 수정/삭제 섹션 공통 스타일 */
+.editSection,
+.deleteSection {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    min-height: 150px;
+    /* 크기 줄임 */
+    height: calc(50% - 10px);
+    /* 상하 동일한 크기로 설정 (gap 고려) */
+    transition: all 0.3s ease;
 }
 
-.loanSection {
-    grid-column: 2 / 3;
-    grid-row: 1;
-}
-
-.returnSection {
-    grid-column: 2 / 3;
-    grid-row: 2;
+/* 드래그 오버 상태 스타일 */
+.editSection.dragOver,
+.deleteSection.dragOver {
+    background-color: #fafafa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-top: 1px;
-    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
 }
 
 .table {
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    font-size: 0.9rem;
 }
 
 .table th,
 .table td {
-    padding: 12px;
-    text-align: center;
-    border: none;
-}
-
-.table th {
-    background-color: transparent;
-    color: #666;
-    font-weight: 500;
-}
-
-.table tr {
+    padding: 8px;
+    text-align: left;
     border-bottom: 1px solid #eee;
 }
 
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* 드래그 가능한 행 스타일 */
+.table tbody tr {
+    cursor: move;
+    transition: background-color 0.2s;
+}
+
 .table tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: #f5f5f5;
 }
 
-.approveButton {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+/* 드래그 중인 행 스타일 */
+.table tbody tr:active {
+    background-color: #e9ecef;
+    opacity: 0.8;
 }
 
-.approveButton:hover {
-    background-color: #0056b3;
-}
-
-.cardContainer {
+/* 수정 폼 스타일 */
+.editForm {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
 }
 
-.card {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 1rem;
-    width: 200px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.editForm input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
 
-.buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
+.editForm input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
-.returnButton {
-    background-color: #28a745;
-    color: #fff;
+/* 버튼 스타일만 색상 유지 */
+.editForm button {
+    padding: 8px 15px;
+    background-color: #2196F3;
+    color: white;
     border: none;
     border-radius: 4px;
-    padding: 0.5rem 1rem;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
-.returnButton:hover {
-    background-color: #218838;
-}
-
-.extendButton {
-    background-color: #ffc107;
-    color: #fff;
+.deleteConfirm button {
+    padding: 8px 15px;
+    background-color: #f44336;
+    color: white;
     border: none;
     border-radius: 4px;
-    padding: 0.5rem 1rem;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
-.extendButton:hover {
-    background-color: #e0a800;
+/* 이미지 크기 조정 */
+.table img {
+    width: 40px;
+    height: auto;
 }
 
-.statusReturn {
-    color: #28a745;
-    font-weight: bold;
+/* 스크롤바 스타일링 */
+.section::-webkit-scrollbar {
+    width: 6px;
 }
 
-.statusOverdue {
-    color: #dc3545;
-    font-weight: bold;
+.section::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-select.statusReturn,
-select.statusOverdue {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  width: 80px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  font-weight: 500;
-  text-align: center;
-  transition: background-color 0.2s ease;
-  background-color: transparent;
+.section::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
 }
 
-select.statusReturn:hover,
-select.statusOverdue:hover {
-  background-color: rgba(255, 255, 255, 0.8);
+.section::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
-select.statusReturn {
-  color: #2e7d32;
+/* 삭제 확인 스타일 */
+.deleteConfirm {
+    text-align: center;
+    padding: 20px;
 }
 
-select.statusOverdue {
-  color: #c62828;
+.deleteConfirm p {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.1rem;
 }
 
-/* 드롭다운 화살표 제거 */
-select.statusReturn::-ms-expand,
-select.statusOverdue::-ms-expand {
-  display: none;
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+    .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
 }
 
-.button {
-  background-color: #4CAF50; /* 초록색 배경 */
-  color: white; /* 흰색 글자 */
-  border: none; /* 테두리 없음 */
-  padding: 6px 12px; /* 패딩 조정 */
-  text-align: center; /* 가운데 정렬 */
-  text-decoration: none; /* 밑줄 없음 */
-  display: inline-block; /* 인라인 블록 */
-  font-size: 12px; /* 글자 크기 조정 */
-  margin: 4px 2px; /* 마진 */
-  cursor: pointer; /* 커서 포인터 */
-  border-radius: 5px; /* 모서리 둥글게 */
-  transition: background-color 0.3s; /* 배경색 전환 효과 */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+    }
 }
 
-.button:hover {
-  background-color: #45a049; /* 호버 시 배경색 변경 */
+/* hover나 dragOver 상태일 때의 스타일 */
+.editSection:hover,
+.editSection.dragOver,
+.deleteSection:hover,
+.deleteSection.dragOver {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

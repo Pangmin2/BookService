@@ -6,10 +6,12 @@ import axios from 'axios';
 
 const BookEdit = () => {
   const [books, setBooks] = useState([]);
+  const [editingBook, setEditingBook] = useState(null);
+  const [deletingBook, setDeletingBook] = useState(null);
   const [reservations, setReservations] = useState([]);
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem('accessToken')); 
+  const [token, setToken] = useState(localStorage.getItem('accessToken'));
   const SERVER = import.meta.env.VITE_SERVER_URL; // 서버 주소
 
   useEffect(() => {
@@ -31,28 +33,105 @@ const BookEdit = () => {
     fetchBooks();
   }, [SERVER, token]);
 
+  const handleDragStart = (e, book) => {
+    e.dataTransfer.setData('book', JSON.stringify(book));
+  };
+
+  const handleEditDrop = (e) => {
+    e.preventDefault();
+    const book = JSON.parse(e.dataTransfer.getData('book'));
+    setEditingBook(book);
+  };
+
+  const handleDeleteDrop = (e) => {
+    e.preventDefault();
+    const book = JSON.parse(e.dataTransfer.getData('book'));
+    setDeletingBook(book);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      const editData = {
+        title: editingBook.title,
+        author: editingBook.author,
+        publisher: editingBook.publisher,
+        publishYear: editingBook.publishYear
+      };
+
+      const response = await axios.put(
+        `${SERVER}/book/admin?bookId=${editingBook.id}`,
+        editData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        // 도서 목록 업데이트
+        setBooks(books.map(book =>
+          book.id === editingBook.id ?
+            { ...book, ...editData } :
+            book
+        ));
+        setEditingBook(null);
+        alert('도서가 성공적으로 수정되었습니다.');
+      }
+    } catch (error) {
+      console.error("Error updating book:", error);
+      alert('도서 수정 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleDeleteSubmit = async () => {
+    try {
+      const response = await axios.delete(
+        `${SERVER}/book/admin?bookId=${deletingBook.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+
+      if (response.data.success) {
+        // 도서 목록에서 삭제된 도서 제거
+        setBooks(books.filter(book => book.id !== deletingBook.id));
+        setDeletingBook(null);
+        alert('도서가 성공적으로 삭제되었습니다.');
+      }
+    } catch (error) {
+      console.error("Error deleting book:", error);
+      alert('도서 삭제 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
     <>
       <Header />
       <div className={style.container}>
-        {/* 도서 목록 */}
-        <div className={`${style.section} ${style.reservationSection}`}>
+        <div className={style.section}>
           <h2 className={style.title}>도서 목록</h2>
           <table className={style.table}>
             <thead>
               <tr>
+                <th>표지</th>
                 <th>도서 ID</th>
                 <th>도서 제목</th>
                 <th>저자</th>
                 <th>출판 연도</th>
                 <th>출판사</th>
                 <th>상태</th>
-                <th>URL</th>
               </tr>
             </thead>
             <tbody>
               {books.map((book) => (
-                <tr key={book.id}>
+                <tr key={book.id} draggable onDragStart={(e) => handleDragStart(e, book)}>
                   <td>
                     {book.bookUrl && (
                       <img
@@ -68,86 +147,59 @@ const BookEdit = () => {
                   <td>{book.publishYear}</td>
                   <td>{book.publisher}</td>
                   <td>{book.status}</td>
-
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        {/* 대출 현황 */}
-        <div className={`${style.section} ${style.loanSection}`}>
-          <h2 className={style.title}>대출 현황</h2>
-          <table className={style.table}>
-            <thead>
-              <tr>
-                <th>도서 ID</th>
-                <th>도서 제목</th>
-                <th>예약 ID</th>
-                <th>사용자 ID</th>
-                <th>사용자 이름</th>
-                <th>대출일</th>
-                <th>반납예정일</th>
-                <th>반납 처리</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loans.map((loan) => (
-                <tr key={loan.reservationId}>
-                  <td>{loan.bookId}</td>
-                  <td>{loan.bookTitle}</td>
-                  <td>{loan.reservationId}</td>
-                  <td>{loan.userId}</td>
-                  <td>{loan.userName}</td>
-                  <td>{new Date(loan.borrowDate).toLocaleString()}</td>
-                  <td>{new Date(loan.returnDueDate).toLocaleString()}</td>
-                  <td>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <div className={style.rightContainer}>
+          <div
+            className={`${style.section} ${style.editSection}`}
+            onDrop={handleEditDrop}
+            onDragOver={handleDragOver}
+          >
+            <h2 className={style.title}>도서 수정</h2>
+            {editingBook && (
+              <div className={style.editForm}>
+                <input
+                  value={editingBook.title}
+                  onChange={(e) => setEditingBook({ ...editingBook, title: e.target.value })}
+                  placeholder="도서 제목"
+                />
+                <input
+                  value={editingBook.author}
+                  onChange={(e) => setEditingBook({ ...editingBook, author: e.target.value })}
+                  placeholder="저자"
+                />
+                <input
+                  value={editingBook.publishYear}
+                  onChange={(e) => setEditingBook({ ...editingBook, publishYear: e.target.value })}
+                  placeholder="출판 연도"
+                />
+                <input
+                  value={editingBook.publisher}
+                  onChange={(e) => setEditingBook({ ...editingBook, publisher: e.target.value })}
+                  placeholder="출판사"
+                />
+                <button onClick={handleEditSubmit}>수정하기</button>
+              </div>
+            )}
+          </div>
 
-        {/* 반납 현황 */}
-        <div className={`${style.section} ${style.returnSection}`}>
-          <h2 className={style.title}>반납 현황</h2>
-          <table className={style.table}>
-            <thead>
-              <tr>
-                <th>도서 ID</th>
-                <th>도서 제목</th>
-                <th>예약 ID</th>
-                <th>사용자 ID</th>
-                <th>사용자 이름</th>
-                <th>대출일</th>
-                <th>반납일</th>
-                <th>상태 변경</th>
-              </tr>
-            </thead>
-            <tbody>
-              {returns.map((returnItem) => (
-                <tr key={returnItem.reservationId}>
-                  <td>{returnItem.bookId}</td>
-                  <td>{returnItem.bookTitle}</td>
-                  <td>{returnItem.reservationId}</td>
-                  <td>{returnItem.userId}</td>
-                  <td>{returnItem.userName}</td>
-                  <td>{new Date(returnItem.borrowDate).toLocaleString()}</td>
-                  <td>{new Date(returnItem.returnDate).toLocaleString()}</td>
-                  <td>
-                    <select
-                      value={returnItem.status}
-                      className={returnItem.status === '반납' ? style.statusReturn : style.statusOverdue}
-                    >
-                      <option value="RETURNED">반납</option>
-                      <option value="OVERDUE_RETURNED">연체</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div
+            className={`${style.section} ${style.deleteSection}`}
+            onDrop={handleDeleteDrop}
+            onDragOver={handleDragOver}
+          >
+            <h2 className={style.title}>도서 삭제</h2>
+            {deletingBook && (
+              <div className={style.deleteConfirm}>
+                <p>"{deletingBook.title}" 도서를 삭제하시겠습니까?</p>
+                <button onClick={handleDeleteSubmit}>삭제하기</button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <Footer />
