@@ -2,17 +2,20 @@ import style from "./MyPage.module.css";
 import swal from "sweetalert";
 import Layout from "../../components/Layout/Layout";
 import UserInput from "../../components/UserInput/UserInput";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 
 const MyPage = () => {
-  const [uploadImg, setUploadImg] = useState(null);
+  const [image, setImage] = useState("사진진");
+  const [file, setFile] = useState("");
+  const fileInput = useRef(null);
+
   const [userInfo, setUserInfo] = useState({
     role: "",
     username: "",
     name: "",
-    department: "",
+    department: [],
     studentId: "",
     grade: "",
     phoneNumber: "",
@@ -68,14 +71,30 @@ const MyPage = () => {
   };
 
   //프로필 사진 변경
-  const changeProfileImg = (e) => {
-    const file = e.target.files[0];
-    const imgUrl = URL.createObjectURL(file);
-    setUploadImg(imgUrl);
+  const onChangeProfileImg = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      setFile(selectedFile);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImage(reader.result); // 이미지 미리보기 설정
+        }
+      };
+      reader.readAsDataURL(selectedFile);
+    }
   };
 
   // 프로필 사진 삭제
-  const deleteProfileImg = () => {};
+  const onDeleteProfileImg = () => {
+    setFile(null);
+    setImage("");
+    if (fileInput.current) {
+      fileInput.current.value = "";
+    }
+  };
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -96,22 +115,30 @@ const MyPage = () => {
             <form className={style.contents} onSubmit={submitUserInfo}>
               <hr />
               <div className={style.img}>
-                {/* <img src="https://picsum.photos/id/237/200/300"></img> */}
-                {!uploadImg ? (
-                  <img src="https://picsum.photos/id/237/200/300"></img>
-                ) : (
-                  <img alt="프로필 사진"></img>
-                )}
-
+                <img src={image} alt="프로필" />
                 {modifyMode ? (
-                  <div className={style.pButton}>
+                  <div className={style.profileImage}>
+                    <label htmlFor="profileImg" className={style.profileImg}>
+                      변경
+                    </label>
                     <input
                       type="file"
-                      onChange={changeProfileImg}
-                      className={style.profileChange}
+                      accept="image/*"
+                      id="profileImg"
+                      onChange={onChangeProfileImg}
+                      onClick={() => {
+                        fileInput.current.value = null;
+                        fileInput.current.click();
+                      }}
+                      ref={fileInput}
                     />
-                    <button className={style.profileButton}>변경</button>
-                    <button className={style.profileButton}>삭제</button>
+                    <button
+                      className={style.profileImg}
+                      type="button"
+                      onClick={onDeleteProfileImg}
+                    >
+                      삭제
+                    </button>
                   </div>
                 ) : (
                   <></>
@@ -176,6 +203,18 @@ const MyPage = () => {
               </div>
               <div className={style.field}>
                 <label>학과</label>
+                {/* <select
+                  name="department"
+                  onChange={onChange}
+                  value={userInfo?.department}
+                  disabled={!modifyMode}
+                >
+                  {userInfo?.department?.map((depart, index) => (
+                    <option key={index} value={depart}>
+                      {depart}
+                    </option>
+                  ))}
+                </select> */}
                 <UserInput
                   type="text"
                   name="department"

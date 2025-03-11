@@ -28,16 +28,20 @@
 .img img {
   width: 80px;
   height: 80px;
+  border-radius: 50%;
+  background-color: #c9c9c9;
 }
 
-.pButton {
+.profileImage {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  height: 24px;
+  gap: 6px;
 }
 
-.profileButton {
+.profileImage input {
+  display: none;
+}
+
+.profileImg {
   padding: 2px 8px;
   background-color: white;
   border: 1px solid #919191;
