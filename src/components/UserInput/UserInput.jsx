@@ -1,6 +1,14 @@
 import style from "./UserInput.module.css";
 
-const UserInput = ({ type, placeholder, value, name, onChange, maxLength }) => {
+const UserInput = ({
+  type,
+  placeholder,
+  value,
+  name,
+  onChange,
+  maxLength,
+  disabled,
+}) => {
   return (
     <input
       className={style.userInput}
@@ -10,6 +18,7 @@ const UserInput = ({ type, placeholder, value, name, onChange, maxLength }) => {
       name={name}
       onChange={onChange}
       maxLength={maxLength}
+      disabled={disabled}
     ></input>
   );
 };

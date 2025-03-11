@@ -3,7 +3,7 @@ import style from "./Header.module.css";
 import { FaBars } from "react-icons/fa";
 import { useState } from "react";
 import useUserStore from "../../../store/useUserStore";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 const Header = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -38,9 +38,12 @@ const Header = () => {
     { path: "/my_info_page", label: "마이페이지" },
   ];
 
-  const menuItems = role === "ADMIN" ? adminMenuItems :
-    role === "USER" ? userMenuItems :
-      userMenuItems;
+  const menuItems =
+    role === "ADMIN"
+      ? adminMenuItems
+      : role === "USER"
+      ? userMenuItems
+      : userMenuItems;
 
   return (
     <header>
@@ -62,11 +65,24 @@ const Header = () => {
               </div>
             </div>
             <ul>
-              {menuItems.map((item, index) => (
-                <li key={index}>
-                  <Link to={item.path}>{item.label}</Link>
-                </li>
-              ))}
+              <li>
+                <a href="/">메인 홈</a>
+              </li>
+              <li>
+                <a href="/book_admin">도서 등록</a>
+              </li>
+              <li>
+                <a href="/book_manage">도서 관리</a>
+              </li>
+              <li>
+                <a href="/member_manage">부원 관리</a>
+              </li>
+              <li>
+                <a href="/my_book_page">도서 대여 현황</a>
+              </li>
+              <li>
+                <a href="/my_info_page">마이페이지</a>
+              </li>
             </ul>
           </div>
         )}

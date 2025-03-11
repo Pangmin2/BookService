@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import styles from "./Findform.module.css";
+import style from "./Findform.module.css";
 import UserInput from "../../components/UserInput/UserInput";
-import Layout from "../../components/Layout/Layout";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const SERVER = import.meta.env.VITE_SERVER_URL;
 
@@ -29,8 +30,8 @@ const Findform = () => {
     try {
       const response = await axios.post(url, data, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       const result = response.data;
@@ -53,52 +54,53 @@ const Findform = () => {
   };
 
   return (
-    <>
-      <Layout
-        content={
-          <div className={styles.container}>
-            <h2 className={styles.title}>비밀번호 찾기</h2>
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <UserInput
-                type="email"
-                placeholder="이메일"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                maxLength={50}
-              />
-              <UserInput
-                type="text"
-                placeholder="이름"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                maxLength={20}
-              />
-              <UserInput
-                type="text"
-                placeholder="아이디"
-                name="id"
-                value={formData.id}
-                onChange={handleChange}
-                maxLength={30}
-              />
-              <button type="submit" className={styles.submitButton}>
-                비밀번호 찾기
-              </button>
-            </form>
-            <div className={styles.links}>
-              <a href="/signup" className={styles.link}>
-                회원가입하기
-              </a>
-              <a href="/login" className={styles.link}>
-                로그인하기
-              </a>
-            </div>
+    <div className={style.wrapper}>
+      <Header />
+      <div className={style.contents}>
+        <div className={style.container}>
+          <h1 className={style.title}>비밀번호 찾기</h1>
+          <form className={style.form} onSubmit={handleSubmit}>
+            <UserInput
+              type="email"
+              placeholder="이메일"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              maxLength={50}
+            />
+            <UserInput
+              type="text"
+              placeholder="이름"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              maxLength={20}
+            />
+            <UserInput
+              type="text"
+              placeholder="아이디"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              maxLength={20}
+            />
+            <button type="submit" className={style.submitButton}>
+              비밀번호 찾기
+            </button>
+          </form>
+          <div className={style.links}>
+            <a href="/signup" className={style.link}>
+              회원가입하기
+            </a>
+            <div className={style.verticalLine}> </div>
+            <a href="/login" className={style.link}>
+              로그인하기
+            </a>
           </div>
-        }
-      />
-    </>
+        </div>
+      </div>
+      <Footer />
+    </div>
   );
 };
 
