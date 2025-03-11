@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import style from './BookEdit.module.css';
-import Header from '../../../components/Header/Header';
-import Footer from '../../../components/Footer/Footer'
-import axios from 'axios';
-import swal from 'sweetalert';
+import React, { useEffect, useState } from "react";
+import style from "./BookEdit.module.css";
+import Header from "../../../components/Header/Header";
+import Footer from "../../../components/Footer/Footer";
+import axios from "axios";
+import swal from "sweetalert";
 
 const BookEdit = () => {
   const [books, setBooks] = useState([]);
@@ -12,7 +12,7 @@ const BookEdit = () => {
   const [reservations, setReservations] = useState([]);
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem('accessToken'));
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const SERVER = import.meta.env.VITE_SERVER_URL; // 서버 주소
 
   useEffect(() => {
@@ -35,18 +35,18 @@ const BookEdit = () => {
   }, [SERVER, token]);
 
   const handleDragStart = (e, book) => {
-    e.dataTransfer.setData('book', JSON.stringify(book));
+    e.dataTransfer.setData("book", JSON.stringify(book));
   };
 
   const handleEditDrop = (e) => {
     e.preventDefault();
-    const book = JSON.parse(e.dataTransfer.getData('book'));
+    const book = JSON.parse(e.dataTransfer.getData("book"));
     setEditingBook(book);
   };
 
   const handleDeleteDrop = (e) => {
     e.preventDefault();
-    const book = JSON.parse(e.dataTransfer.getData('book'));
+    const book = JSON.parse(e.dataTransfer.getData("book"));
     setDeletingBook(book);
   };
 
@@ -60,7 +60,7 @@ const BookEdit = () => {
         title: editingBook.title,
         author: editingBook.author,
         publisher: editingBook.publisher,
-        publishYear: editingBook.publishYear
+        publishYear: editingBook.publishYear,
       };
 
       const response = await axios.put(
@@ -74,11 +74,11 @@ const BookEdit = () => {
       );
 
       if (response.data.success) {
-        setBooks(books.map(book =>
-          book.id === editingBook.id ?
-            { ...book, ...editData } :
-            book
-        ));
+        setBooks(
+          books.map((book) =>
+            book.id === editingBook.id ? { ...book, ...editData } : book
+          )
+        );
         setEditingBook(null);
         swal("성공", "도서가 성공적으로 수정되었습니다.", "success");
       }
@@ -95,12 +95,12 @@ const BookEdit = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
         }
       );
 
       if (response.data.success) {
-        setBooks(books.filter(book => book.id !== deletingBook.id));
+        setBooks(books.filter((book) => book.id !== deletingBook.id));
         setDeletingBook(null);
         swal("성공", "도서가 성공적으로 삭제되었습니다.", "success");
       }
@@ -130,13 +130,17 @@ const BookEdit = () => {
             </thead>
             <tbody>
               {books.map((book) => (
-                <tr key={book.id} draggable onDragStart={(e) => handleDragStart(e, book)}>
+                <tr
+                  key={book.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, book)}
+                >
                   <td>
                     {book.bookUrl && (
                       <img
                         src={book.bookUrl}
                         alt={`${book.title} cover`}
-                        style={{ width: '50px', height: 'auto' }}
+                        style={{ width: "50px", height: "auto" }}
                       />
                     )}
                   </td>
@@ -163,22 +167,36 @@ const BookEdit = () => {
               <div className={style.editForm}>
                 <input
                   value={editingBook.title}
-                  onChange={(e) => setEditingBook({ ...editingBook, title: e.target.value })}
+                  onChange={(e) =>
+                    setEditingBook({ ...editingBook, title: e.target.value })
+                  }
                   placeholder="도서 제목"
                 />
                 <input
                   value={editingBook.author}
-                  onChange={(e) => setEditingBook({ ...editingBook, author: e.target.value })}
+                  onChange={(e) =>
+                    setEditingBook({ ...editingBook, author: e.target.value })
+                  }
                   placeholder="저자"
                 />
                 <input
                   value={editingBook.publishYear}
-                  onChange={(e) => setEditingBook({ ...editingBook, publishYear: e.target.value })}
+                  onChange={(e) =>
+                    setEditingBook({
+                      ...editingBook,
+                      publishYear: e.target.value,
+                    })
+                  }
                   placeholder="출판 연도"
                 />
                 <input
                   value={editingBook.publisher}
-                  onChange={(e) => setEditingBook({ ...editingBook, publisher: e.target.value })}
+                  onChange={(e) =>
+                    setEditingBook({
+                      ...editingBook,
+                      publisher: e.target.value,
+                    })
+                  }
                   placeholder="출판사"
                 />
                 <button onClick={handleEditSubmit}>수정하기</button>
@@ -194,7 +212,7 @@ const BookEdit = () => {
             <h2 className={style.title}>도서 삭제</h2>
             {deletingBook && (
               <div className={style.deleteConfirm}>
-                <p>"{deletingBook.title}" 도서를 삭제하시겠습니까?</p>
+                <p>{deletingBook.title} 도서를 삭제하시겠습니까?</p>
                 <button onClick={handleDeleteSubmit}>삭제하기</button>
               </div>
             )}
