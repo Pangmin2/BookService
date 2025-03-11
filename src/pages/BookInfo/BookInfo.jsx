@@ -6,14 +6,13 @@ import GuestBlock from "../../components/GuestBlock/GuestBlock";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
-import useBookStore from "../../../store/useBookStore";
 import swal from "sweetalert";
 
 const BookInfo = () => {
   const [book, setBook] = useState(null);
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
-  const { addReservation, removeReservation } = useBookStore();
+  const [canReserved, setCanReserved] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,11 +24,21 @@ const BookInfo = () => {
         const response = await requestWithAuth("GET", `/books/${id}`);
         // console.log(response);
 
-        if (response === null) {
+        if (!response || !response.success) {
           throw new Error();
         }
-        if (response.success) {
-          setBook(response.data);
+
+        const bookData = response.data; // ← book을 상태에 저장하기 전 변수에 담음
+        setBook(bookData);
+
+        // 동기적으로 예약 상태 설정
+        if (
+          bookData.reservationStatus === "RESERVED" ||
+          bookData.reservationStatus === "BORROWING"
+        ) {
+          setCanReserved(false);
+        } else {
+          setCanReserved(true);
         }
       } catch (error) {
         console.error("도서 정보를 가져오는 데 실패했습니다.", error);
@@ -59,12 +68,12 @@ const BookInfo = () => {
           icon: "success",
           button: "완료",
         });
-        addReservation(book?.id);
 
         setBook((prevBook) => ({
           ...prevBook,
           borrowCount: prevBook.borrowCount + 1, // 예약 인원 증가
         }));
+        setCanReserved(!canReserved);
         console.log(response.data);
         return true;
       }
@@ -120,11 +129,12 @@ const BookInfo = () => {
           icon: "success",
           button: "완료",
         });
-        removeReservation(book?.id);
+
         setBook((prevBook) => ({
           ...prevBook,
           borrowCount: prevBook.borrowCount - 1, // 예약 인원 감소
         }));
+        setCanReserved(!canReserved);
         console.log(response.data);
         return true;
       }
@@ -150,6 +160,7 @@ const BookInfo = () => {
               book={book}
               requestReservation={requestReservation}
               requestCancel={requestCancel}
+              canReserved={canReserved}
             />
           ) : (
             <div>도서 정보를 불러오는 중...</div>
