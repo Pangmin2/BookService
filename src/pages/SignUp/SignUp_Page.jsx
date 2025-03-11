@@ -3,8 +3,9 @@ import swal from "sweetalert";
 import UserInput from "../../components/UserInput/UserInput";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Layout from "../../components/Layout/Layout";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const SERVER = import.meta.env.VITE_SERVER_URL;
 
@@ -33,6 +34,8 @@ const SignUp = () => {
 
   // 이메일 인증 관련 상태
   const [isverify_mailCode, setIsVerify_mailCode] = useState(false);
+  // 웹메일 인증번호 전송 후 웹메일 변경 가능 상태
+  const [canEdit, setCanEdit] = useState(true);
   // const [canPost_username, setCanPostUsername] = useState(false);
   const [isVerificationPending, setIsVerificationPending] = useState(false);
 
@@ -63,11 +66,11 @@ const SignUp = () => {
         icon: "warning",
         button: "확인",
       });
-      // alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
 
     try {
+      console.log("사용자 정보: ", userInfo);
       const response = await axios.post(`${SERVER}/register`, userInfo, {
         headers: {
           "Content-Type": "application/json",
@@ -80,6 +83,7 @@ const SignUp = () => {
           icon: "success",
           button: "확인",
         });
+
         // alert("회원가입이 완료되었습니다.");
         navigate("/login");
         return response.data.success;
@@ -106,6 +110,7 @@ const SignUp = () => {
   // 웹메일 인증번호 요청
   const verify_username = async () => {
     try {
+      setCanEdit(false);
       const response = await axios.post(
         `${SERVER}/register/mail`,
         { username: userInfo.username },
@@ -128,9 +133,9 @@ const SignUp = () => {
     } catch (error) {
       if (error.response.data.code === "U001") {
         swal({
-          title: error.response.data.msg,
+          text: error.response.data.msg,
           button: "확인",
-          icon: "warning",
+          icon: "error",
         });
       } else {
         console.error("웹메일 인증 중 오류가 발생했습니다.");
@@ -161,9 +166,13 @@ const SignUp = () => {
       }
     } catch (error) {
       if (error.response.data.code === "U006") {
-        alert(error.response.data.msg);
+        swal({
+          title: error.response.data.msg,
+          button: "확인",
+          icon: "error",
+        });
         setIsVerify_mailCode(false);
-        setIsVerificationPending(false);
+        setIsVerificationPending(true);
         setUserInfo({ ...userInfo, mailCode: "" });
         return null;
       }
@@ -265,174 +274,168 @@ const SignUp = () => {
   };
 
   return (
-    <Layout
-      content={
-        <div className={style.wrapper}>
-          <div className={style.container}>
-            <h1>회원가입</h1>
-            <div className={style.contents}>
-              <form onSubmit={submit_userInfo}>
-                <div className={style.webMail}>
-                  <UserInput
-                    type="text"
-                    placeholder="금오공대 웹메일"
-                    value={userInfo.username}
-                    name="username"
-                    onChange={onChange}
-                    disabled={isverify_mailCode} // 인증 완료 후 입력 불가
-                  />
-                  <button
-                    type="button"
-                    onClick={verify_username}
-                    disabled={
-                      !userInfo.username ||
-                      usernameError ||
-                      isVerificationPending ||
-                      isverify_mailCode
-                    } // 인증 완료 시 버튼 비활성화
-                    className={`${style.button} ${
-                      !isVerificationPending &&
-                      userInfo.username &&
-                      !usernameError &&
-                      !isverify_mailCode
-                        ? style.buttonActive
-                        : ""
-                    }`}
-                  >
-                    인증
-                  </button>
-                </div>
-
-                {usernameError && (
-                  <div className={style.error}>
-                    <small>{usernameError}</small>
-                  </div>
-                )}
-
-                {/* 인증번호 입력 필드는 인증번호 요청 후(isVerificationPending === true)이고, 아직 인증이 완료되지 않았을 때만 보여줌 */}
-                {isVerificationPending && !isverify_mailCode && (
-                  <div className={style.verificationCode}>
-                    <UserInput
-                      type="text"
-                      placeholder="인증번호"
-                      value={userInfo.mailCode}
-                      name="mailCode"
-                      onChange={onChange}
-                    />
-                    <button
-                      type="button"
-                      onClick={check_mailCode}
-                      className={style.button}
-                    >
-                      확인
-                    </button>
-                  </div>
-                )}
-
-                {/* 이후 비밀번호, 이름, 학번 등 나머지 필드들 */}
-                <div className={style.passwd}>
-                  <UserInput
-                    type="password"
-                    placeholder="비밀번호"
-                    value={userInfo.password}
-                    name="password"
-                    onChange={onChange}
-                    maxLength={20}
-                  />
-                </div>
-                {passwordError && (
-                  <div className={style.error}>
-                    <small>{passwordError}</small>
-                  </div>
-                )}
-                <div className={style.checkPasswd}>
-                  <UserInput
-                    type="password"
-                    placeholder="비밀번호 확인"
-                    value={userInfo.confirmPassword}
-                    name="confirmPassword"
-                    onChange={onChange}
-                  />
-                </div>
-                {passwordCheckError && (
-                  <div className={style.error}>
-                    <small>{passwordCheckError}</small>
-                  </div>
-                )}
-                <div className={style.name}>
-                  <UserInput
-                    type="text"
-                    placeholder="이름"
-                    value={userInfo.name}
-                    name="name"
-                    onChange={onChange}
-                  />
-                </div>
-                <div className={style.id}>
-                  <UserInput
-                    type="text"
-                    placeholder="학번"
-                    value={userInfo.student_id}
-                    name="student_id"
-                    onChange={onChange}
-                    maxLength={10}
-                  />
-                </div>
-                {student_idError && (
-                  <div className={style.error}>
-                    <small>{student_idError}</small>
-                  </div>
-                )}
-                <div className={style.major}>
-                  <select
-                    name="department"
-                    onChange={onChange}
-                    value={userInfo.department}
-                  >
-                    <option>학과</option>
-                    {departments.map((depart, index) => (
-                      <option key={index} value={depart}>
-                        {depart}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className={style.grade}>
-                  <select
-                    name="grade"
-                    onChange={onChange}
-                    value={userInfo.grade}
-                  >
-                    <option value="">학년</option>
-                    <option value="1">1학년</option>
-                    <option value="2">2학년</option>
-                    <option value="3">3학년</option>
-                    <option value="4">4학년</option>
-                  </select>
-                </div>
-                <div className={style.tel}>
-                  <UserInput
-                    type="text"
-                    placeholder="전화번호"
-                    value={userInfo.phone_number}
-                    name="phone_number"
-                    onChange={onChange}
-                  />
-                </div>
-                {phone_numberError && (
-                  <div className={style.error}>
-                    <small>{phone_numberError}</small>
-                  </div>
-                )}
-                <div className={style.signupButton}>
-                  <button type="submit">회원가입</button>
-                </div>
-              </form>
+    <div className={style.wrapper}>
+      <Header />
+      <div className={style.contents}>
+        <div className={style.container}>
+          <h1>회원가입</h1>
+          <form onSubmit={submit_userInfo}>
+            <div className={style.webMail}>
+              <UserInput
+                type="text"
+                placeholder="금오공대 웹메일"
+                value={userInfo.username}
+                name="username"
+                onChange={onChange}
+                disabled={!canEdit} // 인증 완료 후 입력 불가
+              />
+              <button
+                type="button"
+                onClick={verify_username}
+                disabled={
+                  !userInfo.username ||
+                  usernameError ||
+                  isVerificationPending ||
+                  isverify_mailCode
+                } // 인증 완료 시 버튼 비활성화
+                className={`${style.button} ${
+                  !isVerificationPending &&
+                  userInfo.username &&
+                  !usernameError &&
+                  !isverify_mailCode
+                    ? style.buttonActive
+                    : ""
+                }`}
+              >
+                인증
+              </button>
             </div>
-          </div>
+
+            {usernameError && (
+              <div className={style.error}>
+                <small>{usernameError}</small>
+              </div>
+            )}
+
+            {/* 인증번호 입력 필드는 인증번호 요청 후(isVerificationPending === true)이고, 아직 인증이 완료되지 않았을 때만 보여줌 */}
+            {isVerificationPending && !isverify_mailCode && (
+              <div className={style.verificationCode}>
+                <UserInput
+                  type="text"
+                  placeholder="인증번호"
+                  value={userInfo.mailCode}
+                  name="mailCode"
+                  onChange={onChange}
+                />
+                <button
+                  type="button"
+                  onClick={check_mailCode}
+                  className={style.button}
+                >
+                  확인
+                </button>
+              </div>
+            )}
+
+            {/* 이후 비밀번호, 이름, 학번 등 나머지 필드들 */}
+            <div className={style.passwd}>
+              <UserInput
+                type="password"
+                placeholder="비밀번호"
+                value={userInfo.password}
+                name="password"
+                onChange={onChange}
+                maxLength={20}
+              />
+            </div>
+            {passwordError && (
+              <div className={style.error}>
+                <small>{passwordError}</small>
+              </div>
+            )}
+            <div className={style.checkPasswd}>
+              <UserInput
+                type="password"
+                placeholder="비밀번호 확인"
+                value={userInfo.confirmPassword}
+                name="confirmPassword"
+                onChange={onChange}
+              />
+            </div>
+            {passwordCheckError && (
+              <div className={style.error}>
+                <small>{passwordCheckError}</small>
+              </div>
+            )}
+            <div className={style.name}>
+              <UserInput
+                type="text"
+                placeholder="이름"
+                value={userInfo.name}
+                name="name"
+                onChange={onChange}
+              />
+            </div>
+            <div className={style.id}>
+              <UserInput
+                type="text"
+                placeholder="학번"
+                value={userInfo.student_id}
+                name="student_id"
+                onChange={onChange}
+                maxLength={10}
+              />
+            </div>
+            {student_idError && (
+              <div className={style.error}>
+                <small>{student_idError}</small>
+              </div>
+            )}
+            <div className={style.major}>
+              <select
+                name="department"
+                onChange={onChange}
+                value={userInfo.department}
+              >
+                <option>학과</option>
+                {departments.map((depart, index) => (
+                  <option key={index} value={depart}>
+                    {depart}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={style.grade}>
+              <select name="grade" onChange={onChange} value={userInfo.grade}>
+                <option value="">학년</option>
+                <option value="1">1학년</option>
+                <option value="2">2학년</option>
+                <option value="3">3학년</option>
+                <option value="4">4학년</option>
+              </select>
+            </div>
+            <div className={style.tel}>
+              <UserInput
+                type="text"
+                placeholder="전화번호"
+                value={userInfo.phone_number}
+                name="phone_number"
+                onChange={onChange}
+              />
+            </div>
+            {phone_numberError && (
+              <div className={style.error}>
+                <small>{phone_numberError}</small>
+              </div>
+            )}
+            <div className={style.signupButton}>
+              <button type="submit">회원가입</button>
+            </div>
+          </form>
         </div>
-      }
-    />
+      </div>
+      <Footer />
+    </div>
   );
 };
 
