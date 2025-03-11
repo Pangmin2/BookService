@@ -10,7 +10,6 @@ import Login from "./pages/Login/Login_Page";
 import SignUp from "./pages/SignUp/SignUp_Page";
 import BookInfo from "./pages/BookInfo/BookInfo";
 import Findform from "./pages/Findform/Findform";
-import MyBookPage from "./pages/MyPage/MyBookPage";
 import BookEdit from "./pages/Administrator/BookEdit/BookEdit";
 import MyPage from "./pages/MyPage/MyPage";
 
@@ -28,7 +27,6 @@ function App() {
         <Route path="/member_manage" element={<MemberManage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/findform" element={<Findform />} />
-        <Route path="/my_book_page" element={<MyBookPage />} />
         <Route path="/book_edit" element={<BookEdit />} />
       </Routes>
     </Router>
