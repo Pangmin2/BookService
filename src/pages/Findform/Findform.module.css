@@ -1,10 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.contents {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 80vh;
-  gap: 1rem;
+  gap: 34px;
+}
+
+.container h1 {
+  margin: 0;
+  padding: 0;
 }
 
 .title {
@@ -18,6 +36,7 @@
   display: flex;
   flex-direction: column;
   width: 300px;
+  gap: 12px;
 }
 
 .submitButton {
@@ -25,27 +44,34 @@
   padding: 10px;
   background-color: #1f98ff;
   color: white;
-  font-size: 16px;
   border: none;
   border-radius: 7px;
   cursor: pointer;
   margin-top: 10px;
-  cursor: pointer;
 }
 
 .links {
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  gap: 10px;
 }
 
 .link {
-  color: #1f98ff;
+  color: #c3c3c3;
+  cursor: pointer;
   text-decoration: none;
-  margin: 0 10px;
   font-size: 14px;
 }
 
 .link:hover {
   text-decoration: underline;
+}
+
+.verticalLine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 14px;
+  border-left: 1.4px solid #c3c3c3;
+  margin: 0 0.4rem;
 }
