@@ -175,9 +175,18 @@ const BookAdmin = () => {
 
     } catch (error) {
       console.error("도서 등록 중 오류 발생:", error);
+      let errorMessage = "도서 등록 중 오류가 발생했습니다.";
+
+      // 서버에서 받은 에러 메시지가 있는 경우 표시
+      if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       await swal({
         title: "도서 등록 실패",
-        text: "도서 등록 중 오류가 발생했습니다. 다시 시도해주세요.",
+        text: errorMessage,
         icon: "error",
         button: "확인",
       });
