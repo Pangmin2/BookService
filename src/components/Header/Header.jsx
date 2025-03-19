@@ -15,6 +15,8 @@ const Header = () => {
   const department = useUserStore((state) => state.department);
   const setUserInfo = useUserStore((state) => state.setUserInfo);
 
+  const [toggle, setToggle] = useState(false);
+
   const onLogout = () => {
     setIsLogined(false);
     setRole(null);
@@ -34,16 +36,21 @@ const Header = () => {
 
   const userMenuItems = [
     { path: "/", label: "메인 홈" },
-    { path: "/my_book_page", label: "도서 대여 현황" },
-    { path: "/my_info_page", label: "마이페이지" },
+    { label: "도서 대여 현황", isExpandable: true },
+    { path: "/mypage", label: "마이페이지" },
   ];
 
   const menuItems =
     role === "ADMIN"
       ? adminMenuItems
       : role === "USER"
-        ? userMenuItems
-        : userMenuItems;
+      ? userMenuItems
+      : userMenuItems;
+
+  // 도서 대여 현황 클릭 시 항목을 펼치기 위한 함수
+  const confirmMyBookStatus = () => {
+    setToggle(!toggle);
+  };
 
   return (
     <header>
@@ -70,7 +77,28 @@ const Header = () => {
             <ul>
               {menuItems.map((item, index) => (
                 <li key={index}>
-                  <Link to={item.path}>{item.label}</Link>
+                  {item.isExpandable ? (
+                    <>
+                      <button onClick={confirmMyBookStatus}>
+                        {item.label}
+                      </button>
+                      {toggle && (
+                        <ul className={style.subMenu}>
+                          <li>
+                            <Link to="/reservedBook">예약 현황</Link>
+                          </li>
+                          <li>
+                            <Link to="/borrowingBook">대출 현황</Link>
+                          </li>
+                          <li>
+                            <Link to="/revertBook">반납 현황</Link>
+                          </li>
+                        </ul>
+                      )}
+                    </>
+                  ) : (
+                    <Link to={item.path}>{item.label}</Link>
+                  )}
                 </li>
               ))}
             </ul>
