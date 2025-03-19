@@ -1,0 +1,21 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.icon svg {
+  width: 100px;
+  height: 100px;
+  color: #1f98ff;
+}
+
+.wrapper span {
+  color: #1f98ff;
+  font-size: 20px;
+  font-weight: bold;
+}
