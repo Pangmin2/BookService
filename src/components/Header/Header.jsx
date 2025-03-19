@@ -30,8 +30,8 @@ const Header = () => {
     { path: "/book_admin", label: "도서 등록" },
     { path: "/book_edit", label: "도서 수정" },
     { path: "/book_manage", label: "도서 관리" },
-    { path: "/my_book_page", label: "도서 대여 현황" },
-    { path: "/my_info_page", label: "마이페이지" },
+    { label: "도서 대여 현황", isExpandable: true },
+    { path: "/mypage", label: "마이페이지" },
   ];
 
   const userMenuItems = [
