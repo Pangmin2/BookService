@@ -24,11 +24,11 @@ function App() {
         <Route path="/" element={<SearchBook />} />
         <Route path="/book_info" element={<BookInfo />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/reservedBook" element={<UserReservedBook />} />
         <Route path="/borrowingBook" element={<UserBorrowingBook />} />
         <Route path="/revertBook" element={<UserRevertBook />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/book_manage" element={<BookManage />} />
         <Route path="/book_admin" element={<BookAdmin />} />
         <Route path="/member_manage" element={<MemberManage />} />
