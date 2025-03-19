@@ -35,6 +35,10 @@ const Login = () => {
     e.preventDefault();
     if (login_userInfo.username && login_userInfo.password) {
       try {
+        // 인증 관련 데이터만 선택적으로 제거
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem("login_state"); // Zustand persist 데이터 제거
+
         const response = await axios.post(
           `${SERVER}/login`,
           {
