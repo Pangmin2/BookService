@@ -7,15 +7,23 @@ import Hero from "../../components/Hero/Hero";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 
 const MyPage = () => {
-  const [image, setImage] = useState("사진진");
+  const [image, setImage] = useState("사진");
   const [file, setFile] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
   const fileInput = useRef(null);
 
   const [userInfo, setUserInfo] = useState({
     role: "",
     username: "",
+    prePassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
     name: "",
-    department: [],
+    department: "",
+    departments: [],
     studentId: "",
     grade: "",
     phoneNumber: "",
@@ -23,9 +31,32 @@ const MyPage = () => {
     studentIdPublic: false,
     gradePublic: true,
     phonePublic: false,
-    prePassword: "",
-    newPassword: "",
   });
+
+  const {
+    prePassword,
+    newPassword,
+    department,
+    grade,
+    phoneNumber,
+    departmentPublic,
+    studentIdPublic,
+    gradePublic,
+    phonePublic,
+  } = userInfo;
+
+  const newUserInfo = {
+    prePassword,
+    newPassword,
+    grade,
+    phoneNumber,
+    departmentPublic,
+    studentIdPublic,
+    gradePublic,
+    phonePublic,
+    department: selectedDepartment,
+  };
+
   const [modifyMode, setModifyMode] = useState(false);
 
   useEffect(() => {
@@ -35,7 +66,7 @@ const MyPage = () => {
   const requestUserInfo = async () => {
     try {
       const response = await requestWithAuth("GET", "/myPage");
-      console.log("사용자 정보 확인 응답: ", response);
+      console.log(response.data);
       if (response === null) {
         throw new Error();
       }
@@ -54,7 +85,8 @@ const MyPage = () => {
   const submitUserInfo = async (e) => {
     e.preventDefault();
     try {
-      const response = await requestWithAuth("PATCH", "/myPage", userInfo);
+      console.log(newUserInfo);
+      const response = await requestWithAuth("PATCH", "/myPage", newUserInfo);
       if (response === null) {
         throw new Error();
       }
@@ -64,7 +96,7 @@ const MyPage = () => {
         button: "확인",
       });
       setModifyMode(!modifyMode);
-      console.log(userInfo);
+      console.log(newUserInfo);
     } catch (e) {
       console.error(e.response.data);
     }
@@ -103,6 +135,47 @@ const MyPage = () => {
       ...userInfo,
       [name]: value,
     });
+
+    switch (name) {
+      case "departments":
+        setSelectedDepartment(value);
+        break;
+      case "newPassword":
+        passwordCheck(value);
+        break;
+      case "confirmNewPassword":
+        setConfirmPassword(
+          value !== userInfo.newPassword ? "비밀번호가 일치하지 않습니다." : ""
+        );
+        break;
+      case "phoneNumber":
+        phoneNumberCheck(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const passwordCheck = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{10,20}$/;
+    if (!passwordRegex.test(password)) {
+      setPasswordError(
+        "영문 대/소문자, 숫자, 특수문자를 조합하여 입력해주세요. (10~20자)"
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  // 전화번호 정규식 확인
+  const phoneNumberCheck = (phoneNumber) => {
+    const phone_numberRegex = /^\d{3}-\d{4}-\d{4}$/;
+    if (!phone_numberRegex.test(phoneNumber)) {
+      setPhoneNumberError("010-1234-5678 형식으로 입력해주세요.");
+    } else {
+      setPhoneNumberError("");
+    }
   };
 
   return (
@@ -112,8 +185,12 @@ const MyPage = () => {
         content={
           <div className={style.container}>
             <h3>회원 정보</h3>
-            <form className={style.contents} onSubmit={submitUserInfo}>
-              <hr />
+            <hr />
+            <form
+              id="userForm"
+              className={style.contents}
+              onSubmit={submitUserInfo}
+            >
               <div className={style.img}>
                 <img src={image} alt="프로필" />
                 {modifyMode ? (
@@ -163,28 +240,37 @@ const MyPage = () => {
                 <div className={style.passWordContainer}>
                   <UserInput
                     type="password"
+                    name="prePassword"
                     placeholder="기존 비밀번호"
                     onChange={onChange}
                     disabled={!modifyMode}
                   />
                   {modifyMode ? (
                     <>
-                      <div className={style.passWordRegex}>
+                      <div>
                         <UserInput
                           type="password"
+                          name="newPassword"
                           placeholder="새 비밀번호"
                           onChange={onChange}
                         />
-                        <small className={style.error}>
-                          영문 대/소문자, 숫자, 특수문자를 조합하여
-                          입력해주세요. (10~20자)
-                        </small>
+                        {passwordError && (
+                          <small className={style.error}>{passwordError}</small>
+                        )}
                       </div>
-                      <UserInput
-                        type="password"
-                        placeholder="새 비밀번호 확인"
-                        onChange={onChange}
-                      />
+                      <div>
+                        <UserInput
+                          type="password"
+                          name="confirmNewPassword"
+                          placeholder="새 비밀번호 확인"
+                          onChange={onChange}
+                        />
+                        {confirmPassword && (
+                          <small className={style.error}>
+                            {confirmPassword}
+                          </small>
+                        )}
+                      </div>
                     </>
                   ) : (
                     <></>
@@ -203,25 +289,19 @@ const MyPage = () => {
               </div>
               <div className={style.field}>
                 <label>학과</label>
-                {/* <select
+                <select
                   name="department"
                   onChange={onChange}
-                  value={userInfo?.department}
+                  value={selectedDepartment}
                   disabled={!modifyMode}
                 >
-                  {userInfo?.department?.map((depart, index) => (
+                  <option value={userInfo?.department}></option>
+                  {userInfo?.departments?.map((depart, index) => (
                     <option key={index} value={depart}>
                       {depart}
                     </option>
                   ))}
-                </select> */}
-                <UserInput
-                  type="text"
-                  name="department"
-                  value={userInfo?.department}
-                  onChange={onChange}
-                  disabled={!modifyMode}
-                />
+                </select>
               </div>
               <div className={style.field}>
                 <label>학번</label>
@@ -257,7 +337,7 @@ const MyPage = () => {
                     onChange={onChange}
                     disabled={!modifyMode}
                   />
-                  {modifyMode ? (
+                  {phoneNumberError ? (
                     <small className={style.error}>
                       010-1234-5678 형식으로 입력해주세요.
                     </small>
@@ -266,25 +346,32 @@ const MyPage = () => {
                   )}
                 </div>
               </div>
-              <div className={style.deleteAccount}>
-                <button>회원 탈퇴</button>
-              </div>
-              <hr />
-              <div className={style.buttonContainer}>
-                {modifyMode ? (
-                  <>
-                    <button className={style.button} onClick={onModify}>
-                      취소
-                    </button>
-                    <button className={style.button}>완료</button>
-                  </>
-                ) : (
-                  <button className={style.button} onClick={onModify}>
-                    수정
-                  </button>
-                )}
-              </div>
             </form>
+            <div className={style.deleteAccount}>
+              <button>회원 탈퇴</button>
+            </div>
+
+            <hr />
+            <div className={style.buttonContainer}>
+              {modifyMode ? (
+                <>
+                  <button className={style.button} onClick={onModify}>
+                    취소
+                  </button>
+                  <button
+                    className={style.button}
+                    type="submit"
+                    form="userForm"
+                  >
+                    완료
+                  </button>
+                </>
+              ) : (
+                <button className={style.button} onClick={onModify}>
+                  수정
+                </button>
+              )}
+            </div>
           </div>
         }
       />
