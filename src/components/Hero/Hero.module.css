@@ -10,27 +10,32 @@
   padding: 2rem 0;
 }
 
-h1 {
-  font-size: 32px;
+.contents h1 {
+  font-size: 38px;
   margin: 0 0 20px 0;
   padding: 20px;
 }
 
 .search {
   width: 100%;
-  display: flex; /* 검색창과 버튼을 가로로 배치 */
-  justify-content: center; /* 가로 가운데 정렬 */
+  display: flex;
+  /* 검색창과 버튼을 가로로 배치 */
+  justify-content: center;
+  /* 가로 가운데 정렬 */
   align-items: center;
 }
 
 .search input {
-  width: 36%; /* 입력창 너비 */
+  width: 36%;
+  /* 입력창 너비 */
   padding: 12px;
-  font-size: 12px; /* 텍스트 크기 */
+  font-size: 12px;
+  /* 텍스트 크기 */
   background-color: white;
   border: 1px solid white;
   outline: none;
-  border-radius: 12px 0 0 12px; /* 모서리 둥글게 */
+  border-radius: 12px 0 0 12px;
+  /* 모서리 둥글게 */
 }
 
 .search button {
