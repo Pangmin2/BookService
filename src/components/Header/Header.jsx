@@ -28,14 +28,14 @@ const Header = () => {
     { path: "/book_admin", label: "도서 등록" },
     { path: "/book_edit", label: "도서 수정" },
     { path: "/book_manage", label: "도서 관리" },
-    { path: "/my_book_page", label: "도서 대여 현황" },
-    { path: "/my_info_page", label: "마이페이지" },
+    { path: "/mybookpage", label: "도서 대여 현황" },
+    { path: "/mypage", label: "마이페이지" },
   ];
 
   const userMenuItems = [
     { path: "/", label: "메인 홈" },
-    { path: "/my_book_page", label: "도서 대여 현황" },
-    { path: "/my_info_page", label: "마이페이지" },
+    { path: "/mybookpage", label: "도서 대여 현황" },
+    { path: "/mypage", label: "마이페이지" },
   ];
 
   const menuItems =
@@ -88,10 +88,10 @@ const Header = () => {
               )}
             </li>
             <li>
-              <div></div>
+              {!isLogined && <div></div>}
             </li>
             <li>
-              <Link to="/signup">회원가입</Link>
+              {!isLogined && <Link to="/signup">회원가입</Link>}
             </li>
           </ul>
         </nav>
