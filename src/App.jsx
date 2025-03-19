@@ -12,7 +12,7 @@ import BookInfo from "./pages/BookInfo/BookInfo";
 import Findform from "./pages/Findform/Findform";
 import BookEdit from "./pages/Administrator/BookEdit/BookEdit";
 import MyPage from "./pages/MyPage/MyPage";
-import NotFound from "./pages/Notfound/NotFound";
+import NotFound from "./pages/NotFound/NotFound";
 import UserReservedBook from "./pages/UserBookInfo/UserReservedBook";
 import UserBorrowingBook from "./pages/UserBookInfo/UserBorrowingBook";
 import UserRevertBook from "./pages/UserBookInfo/UserRevertBook";
