@@ -15,6 +15,8 @@ const Header = () => {
   const department = useUserStore((state) => state.department);
   const setUserInfo = useUserStore((state) => state.setUserInfo);
 
+  const [toggle, setToggle] = useState(false);
+
   const onLogout = () => {
     setIsLogined(false);
     setRole(null);
@@ -34,7 +36,10 @@ const Header = () => {
 
   const userMenuItems = [
     { path: "/", label: "메인 홈" },
-    { path: "/my_book_page", label: "도서 대여 현황" },
+    // { path: "/my_book_page", label: "도서 대여 현황" },
+    { path: "/reservedBook", label: "예약 현황" },
+    { path: "/borrowingBook", label: "대출 현황" },
+    { path: "/revertBook", label: "반납 현황" },
     { path: "/my_info_page", label: "마이페이지" },
   ];
 
@@ -44,6 +49,11 @@ const Header = () => {
       : role === "USER"
       ? userMenuItems
       : userMenuItems;
+
+  // 도서 대여 현황 클릭 시 항목을 펼치기 위한 함수
+  const confirmMyBookStatus = () => {
+    setToggle(!toggle);
+  };
 
   return (
     <header>
@@ -69,22 +79,37 @@ const Header = () => {
             </div>
             <ul>
               <li>
-                <a href="/">메인 홈</a>
+                <Link to="/">메인 홈</Link>
               </li>
               <li>
-                <a href="/book_admin">도서 등록</a>
+                <Link to="/book_admin">도서 등록</Link>
               </li>
               <li>
-                <a href="/book_manage">도서 관리</a>
+                <Link to="/book_manage">도서 관리</Link>
               </li>
               <li>
-                <a href="/member_manage">부원 관리</a>
+                <Link to="//member_manage">부원 관리</Link>
               </li>
               <li>
-                <a href="/mybookpage">도서 대여 현황</a>
+                <button onClick={confirmMyBookStatus}>도서 대여 현황</button>
+                {toggle ? (
+                  <ul className={style.subMenu}>
+                    <li>
+                      <Link to="/reservedBook">예약 현황</Link>
+                    </li>
+                    <li>
+                      <Link to="/borrowingBook">대출 현황</Link>
+                    </li>
+                    <li>
+                      <Link to="/revertBook">반납 현황</Link>
+                    </li>
+                  </ul>
+                ) : (
+                  ""
+                )}
               </li>
               <li>
-                <a href="/mypage">마이페이지</a>
+                <Link to="/mypage">마이페이지</Link>
               </li>
             </ul>
           </div>
