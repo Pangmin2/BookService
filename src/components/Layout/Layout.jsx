@@ -14,7 +14,7 @@ const Layout = ({ hero, content }) => {
       {isLogined ? (
         <>
           {hero && hero}
-          <div className={style.main}>{content}</div>
+          <div className={style.contents}>{content}</div>
         </>
       ) : (
         <GuestBlock />
