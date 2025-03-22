@@ -9,7 +9,6 @@ import { requestWithAuth } from "../../utils/requestWithAuth";
 const MyPage = () => {
   const [image, setImage] = useState("사진");
   const [file, setFile] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
@@ -22,7 +21,7 @@ const MyPage = () => {
     newPassword: "",
     confirmNewPassword: "",
     name: "",
-    department: "",
+    userDepartment: "",
     departments: [],
     studentId: "",
     grade: "",
@@ -36,7 +35,7 @@ const MyPage = () => {
   const {
     prePassword,
     newPassword,
-    department,
+    userDepartment,
     grade,
     phoneNumber,
     departmentPublic,
@@ -48,13 +47,13 @@ const MyPage = () => {
   const newUserInfo = {
     prePassword,
     newPassword,
+    userDepartment,
     grade,
     phoneNumber,
     departmentPublic,
     studentIdPublic,
     gradePublic,
     phonePublic,
-    department: selectedDepartment,
   };
 
   const [modifyMode, setModifyMode] = useState(false);
@@ -90,6 +89,7 @@ const MyPage = () => {
       if (response === null) {
         throw new Error();
       }
+      await requestUserInfo();
       swal({
         title: "정보가 수정되었습니다.",
         icon: "success",
@@ -137,9 +137,6 @@ const MyPage = () => {
     });
 
     switch (name) {
-      case "departments":
-        setSelectedDepartment(value);
-        break;
       case "newPassword":
         passwordCheck(value);
         break;
@@ -241,7 +238,7 @@ const MyPage = () => {
                   <UserInput
                     type="password"
                     name="prePassword"
-                    placeholder="기존 비밀번호"
+                    placeholder={modifyMode ? "기존 비밀번호" : ""}
                     onChange={onChange}
                     disabled={!modifyMode}
                   />
@@ -290,12 +287,12 @@ const MyPage = () => {
               <div className={style.field}>
                 <label>학과</label>
                 <select
-                  name="department"
+                  name="userDepartment"
                   onChange={onChange}
-                  value={selectedDepartment}
+                  value={userInfo.userDepartment}
                   disabled={!modifyMode}
                 >
-                  <option value={userInfo?.department}></option>
+                  <option value={userInfo?.userDepartment}></option>
                   {userInfo?.departments?.map((depart, index) => (
                     <option key={index} value={depart}>
                       {depart}
