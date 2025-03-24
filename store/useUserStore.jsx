@@ -10,7 +10,8 @@ const useUserStore = create(
       department: null,
       setIsLogined: (state) => set({ isLogined: state }),
       setRole: (role) => set({ role }),
-      setUserInfo: (name, department) => set({ name, department }),
+      setUserName: (name) => set({ name }),
+      setUserDepartment: (department) => set({ department }),
     }),
     {
       name: "login_state",
