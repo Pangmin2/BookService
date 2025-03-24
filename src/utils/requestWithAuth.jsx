@@ -4,7 +4,12 @@ import { RefreshAccessToken } from "./token";
 const SERVER = import.meta.env.VITE_SERVER_URL;
 const ACCESS_TOKEN = "accessToken";
 
-export const requestWithAuth = async (method, endpoint, data = null) => {
+export const requestWithAuth = async (
+  method,
+  endpoint,
+  data = null,
+  logout
+) => {
   try {
     let accessToken = localStorage.getItem(ACCESS_TOKEN);
 
@@ -28,14 +33,20 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
 
     const ERROR = error.response.data;
 
-    // 액세스 토큰 만료(A007) 시 새로운 토큰으로 재요청
-    if (ERROR.code === "A007") {
+    // 액세스 토큰이 위조되거나 유효하지 않은 경우 (A005)
+    if (ERROR.code === "A005") {
+      logout();
+      return null;
+    }
+
+    // 액세스 토큰 만료(A007) 또는 액세스 토큰 존재X(C001) 시 새로운 토큰으로 재요청
+    if (ERROR.code === "A007" || ERROR.cod === "C001") {
       console.log("액세스 토큰 만료됨. 리프레시 토큰을 사용하여 갱신 시도...");
       const newAccessToken = await RefreshAccessToken();
 
       if (newAccessToken === null) {
-        throw error;
-        // return null;
+        logout();
+        return null;
       }
 
       // 새로운 토큰을 저장 후 다시 요청
@@ -58,12 +69,6 @@ export const requestWithAuth = async (method, endpoint, data = null) => {
         console.error("재요청 실패:", retryError.response?.data || retryError);
         return null;
       }
-    }
-
-    // 액세스 토큰이 위조되거나 유효하지 않은 경우 (A005)
-    if (ERROR.code === "A005") {
-      alert("사용자의 액세스 정보가 유효하지 않습니다. 다시 로그인해 주세요.");
-      return null;
     }
 
     // 기타 오류 처리
