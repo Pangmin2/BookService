@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import Loading from "../../components/Loading/Loading";
 import Hero from "../../components/Hero/Hero";
+import { useLogout } from "../../hooks/useLogout";
 
 const UserReservedBook = () => {
   const [reservedBooks, setReservedBooks] = useState([]);
+  const logout = useLogout();
 
   useEffect(() => {
     requestReservedBooks();
@@ -14,7 +16,12 @@ const UserReservedBook = () => {
 
   const requestReservedBooks = async () => {
     try {
-      const response = await requestWithAuth("GET", "/myPage/reservation");
+      const response = await requestWithAuth(
+        "GET",
+        "/myPage/reservation",
+        null,
+        logout
+      );
       console.log(response.data);
       if (response === null) {
         throw new Error();
