@@ -20,7 +20,8 @@ const Login = () => {
   const navigate = useNavigate();
   const setIsLogined = useUserStore((state) => state.setIsLogined);
   const setRole = useUserStore((state) => state.setRole);
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
+  const setUserName = useUserStore((state) => state.setUserName);
+  const setUserDepartment = useUserStore((state) => state.setUserDepartment);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -48,13 +49,13 @@ const Login = () => {
             withCredentials: true,
           }
         );
-
         if (response.data.success) {
           console.log(response.data.data.message);
           localStorage.setItem(ACCESS_TOKEN, response.data.data.accessToken);
           setIsLogined(true);
           setRole(response.data.data.role);
-          setUserInfo(response.data.data.name, response.data.data.department);
+          setUserName(response.data.data.name);
+          setUserDepartment(response.data.data.department);
           navigate("/"); // 로그인 후 이동할 페이지 설정
         }
       } catch (error) {
