@@ -116,10 +116,10 @@ const Header = () => {
               )}
             </li>
             <li>
-              <div></div>
+              {!isLogined && <div></div>}
             </li>
             <li>
-              <Link to="/signup">회원가입</Link>
+              {!isLogined && <Link to="/signup">회원가입</Link>}
             </li>
           </ul>
         </nav>
