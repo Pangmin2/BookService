@@ -22,17 +22,17 @@ export const RefreshAccessToken = async () => {
     }
   } catch (error) {
     console.error("Refresh Token 요청 실패:", error.response?.data || error);
-
-    if (
-      error.response?.data.code === "A008" ||
-      error.response?.data.code === "A009"
-    ) {
-      // alert("세션이 만료되었습니다. 다시 로그인해 주세요.");
-      // 로그인 페이지로 이동
-      return null;
+    const ERROR_CODE = error.response?.data.code;
+    switch (ERROR_CODE) {
+      // case "A008": //고의로 쿠키에서 RT를 삭제한 경우
+      //   break;
+      case "A009": //RT가 유효하지 않은 경우
+      case "A010": //RT가 만료된 경우
+        break;
+      default:
+        console.log(error.response?.data?.msg);
+        break;
     }
-
-    console.warn("알 수 없는 오류 발생:", error.response?.data?.msg);
     return null;
   }
 };
