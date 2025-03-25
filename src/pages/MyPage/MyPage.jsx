@@ -5,21 +5,27 @@ import UserInput from "../../components/UserInput/UserInput";
 import { useEffect, useRef, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import { requestWithAuth } from "../../utils/requestWithAuth";
+import { useLogout } from "../../hooks/useLogout";
+import useUserStore from "../../../store/useUserStore";
 
 const MyPage = () => {
   const [image, setImage] = useState("사진");
   const [file, setFile] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [inputKey, setInputKey] = useState(0); // 비밀번호 필드 강제 리렌더링용 key
   const fileInput = useRef(null);
+  const logout = useLogout();
+
+  const setUserDepartment = useUserStore((state) => state.setUserDepartment);
 
   const [userInfo, setUserInfo] = useState({
     role: "",
     username: "",
     prePassword: "",
     newPassword: "",
-    confirmNewPassword: "",
+    newPasswordConfirm: "",
     name: "",
     userDepartment: "",
     departments: [],
@@ -35,6 +41,7 @@ const MyPage = () => {
   const {
     prePassword,
     newPassword,
+    newPasswordConfirm,
     userDepartment,
     grade,
     phoneNumber,
@@ -47,6 +54,7 @@ const MyPage = () => {
   const newUserInfo = {
     prePassword,
     newPassword,
+    newPasswordConfirm,
     userDepartment,
     grade,
     phoneNumber,
@@ -64,7 +72,7 @@ const MyPage = () => {
 
   const requestUserInfo = async () => {
     try {
-      const response = await requestWithAuth("GET", "/myPage");
+      const response = await requestWithAuth("GET", "/myPage", null, logout);
       console.log(response.data);
       if (response === null) {
         throw new Error();
@@ -83,21 +91,60 @@ const MyPage = () => {
   //수정된 정보 전송
   const submitUserInfo = async (e) => {
     e.preventDefault();
+
+    if (passwordError || newPasswordError) {
+      swal({
+        title: "변경할 비밀번호를 다시 확인해주세요.",
+        icon: "warning",
+        button: "확인",
+      });
+      return;
+    } else if (phoneNumberError) {
+      swal({
+        title: "전화번호 형식을 다시 확인해주세요.",
+        icon: "warning",
+        button: "확인",
+      });
+      return;
+    }
+
     try {
       console.log(newUserInfo);
-      const response = await requestWithAuth("PATCH", "/myPage", newUserInfo);
+      const response = await requestWithAuth(
+        "PATCH",
+        "/myPage",
+        newUserInfo,
+        logout
+      );
       if (response === null) {
         throw new Error();
       }
-      await requestUserInfo();
       swal({
         title: "정보가 수정되었습니다.",
         icon: "success",
         button: "확인",
       });
       setModifyMode(!modifyMode);
-      console.log(newUserInfo);
+      console.log("수정한 사용자 정보", newUserInfo);
+      await requestUserInfo();
+      setInputKey((prevKey) => prevKey + 1);
+      setUserDepartment(newUserInfo.userDepartment);
     } catch (e) {
+      const ERROR_CODE = e.response.data.code;
+      switch (ERROR_CODE) {
+        case "U012":
+          swal({
+            title: "입력한 새 비밀번호가 일치하지 않습니다.",
+            icon: "warning",
+            button: "확인",
+          });
+          break;
+        case "U011":
+        case "U003":
+        case "C002":
+          swal({ title: e.response.data.msg, icon: "warning", button: "확인" });
+          break;
+      }
       console.error(e.response.data);
     }
   };
@@ -131,17 +178,17 @@ const MyPage = () => {
   const onChange = (e) => {
     const { name, value } = e.target;
 
-    setUserInfo({
-      ...userInfo,
+    setUserInfo((prevState) => ({
+      ...prevState,
       [name]: value,
-    });
+    }));
 
     switch (name) {
       case "newPassword":
         passwordCheck(value);
         break;
-      case "confirmNewPassword":
-        setConfirmPassword(
+      case "newPasswordConfirm":
+        setNewPasswordError(
           value !== userInfo.newPassword ? "비밀번호가 일치하지 않습니다." : ""
         );
         break;
@@ -153,6 +200,7 @@ const MyPage = () => {
     }
   };
 
+  // 비밀번호 정규식 확인
   const passwordCheck = (password) => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{10,20}$/;
@@ -236,6 +284,7 @@ const MyPage = () => {
                 <label>비밀번호</label>
                 <div className={style.passWordContainer}>
                   <UserInput
+                    inputKey={inputKey}
                     type="password"
                     name="prePassword"
                     placeholder={modifyMode ? "기존 비밀번호" : ""}
@@ -258,13 +307,13 @@ const MyPage = () => {
                       <div>
                         <UserInput
                           type="password"
-                          name="confirmNewPassword"
+                          name="newPasswordConfirm"
                           placeholder="새 비밀번호 확인"
                           onChange={onChange}
                         />
-                        {confirmPassword && (
+                        {newPasswordError && (
                           <small className={style.error}>
-                            {confirmPassword}
+                            {newPasswordError}
                           </small>
                         )}
                       </div>
@@ -292,7 +341,7 @@ const MyPage = () => {
                   value={userInfo.userDepartment}
                   disabled={!modifyMode}
                 >
-                  <option value={userInfo?.userDepartment}></option>
+                  <option>{userInfo?.userDepartment}</option>
                   {userInfo?.departments?.map((depart, index) => (
                     <option key={index} value={depart}>
                       {depart}

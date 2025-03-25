@@ -6,6 +6,7 @@ import style from "./SearchBook.module.css";
 import useUserStore from "../../../store/useUserStore";
 import Book from "../../components/Book/Book";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
 
 const SearchBook = () => {
   const [books, setBooks] = useState([]);
@@ -13,11 +14,12 @@ const SearchBook = () => {
 
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
+  const logout = useLogout();
 
   // API 요청 함수 (requestWithAuth 사용)
   const fetchBooks = async () => {
     try {
-      const response = await requestWithAuth("GET", "/books", null, null);
+      const response = await requestWithAuth("GET", "/books", null, logout);
 
       console.log("API Response:", response); // 전체 응답 로그 출력
 
@@ -30,8 +32,7 @@ const SearchBook = () => {
     } catch (error) {
       console.error("책 정보를 불러오는 데 실패했습니다:", error);
       setBooks([]); // 오류 발생 시 빈 배열 설정
-      setIsLogined(false);
-      // navigate("/login");
+      logout();
     }
   };
 

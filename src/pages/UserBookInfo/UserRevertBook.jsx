@@ -4,9 +4,11 @@ import Layout from "../../components/Layout/Layout";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import Loading from "../../components/Loading/Loading";
 import Hero from "../../components/Hero/Hero";
+import { useLogout } from "../../hooks/useLogout";
 
 const UserRevertBook = () => {
   const [revertBooks, setRevertBooks] = useState([]);
+  const logout = useLogout();
 
   useEffect(() => {
     requestReservedBooks();
@@ -14,7 +16,12 @@ const UserRevertBook = () => {
 
   const requestReservedBooks = async () => {
     try {
-      const response = await requestWithAuth("GET", "/myPage/return");
+      const response = await requestWithAuth(
+        "GET",
+        "/myPage/return",
+        null,
+        logout
+      );
       console.log(response.data);
       if (response === null) {
         throw new Error();
