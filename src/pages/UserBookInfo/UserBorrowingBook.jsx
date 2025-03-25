@@ -4,9 +4,11 @@ import Layout from "../../components/Layout/Layout";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import Loading from "../../components/Loading/Loading";
 import Hero from "../../components/Hero/Hero";
+import { useLogout } from "../../hooks/useLogout";
 
 const UserBorrowingBook = () => {
   const [borrowingBooks, setBorrowingBooks] = useState([]);
+  const logout = useLogout();
 
   useEffect(() => {
     requestBorrowingBooks();
@@ -14,7 +16,12 @@ const UserBorrowingBook = () => {
 
   const requestBorrowingBooks = async () => {
     try {
-      const response = await requestWithAuth("GET", "/myPage/loan");
+      const response = await requestWithAuth(
+        "GET",
+        "/myPage/loan",
+        null,
+        logout
+      );
       console.log(response.data);
       if (response === null) {
         throw new Error();
@@ -58,8 +65,7 @@ const UserBorrowingBook = () => {
                       <td>
                         {new Date(book.reservationDate).toLocaleDateString()}
                       </td>
-                      {/* <td>{new Date(book.returnDate).toLocaleDateString()}</td> */}
-                      <td>{book.returnDate}</td>
+                      <td>{new Date(book.returnDate).toLocaleDateString()}</td>
                       <td>{book.overdueDate}</td>
                     </tr>
                   ))}

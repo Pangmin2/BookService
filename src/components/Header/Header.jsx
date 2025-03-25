@@ -10,19 +10,17 @@ const Header = () => {
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
   const role = useUserStore((state) => state.role);
-  const setRole = useUserStore((state) => state.setRole);
   const name = useUserStore((state) => state.name);
   const department = useUserStore((state) => state.department);
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   const [toggle, setToggle] = useState(false);
 
   const onLogout = () => {
-    setIsLogined(false);
-    setRole(null);
-    setUserInfo(null, null);
-    localStorage.removeItem("accessToken");
-    swal("로그아웃", "로그아웃 되었습니다.", "success");
+    swal("로그아웃", "로그아웃 되었습니다.", "success").then(() => {
+      setIsLogined(false);
+      localStorage.removeItem("accessToken");
+      setIsMenuVisible(false); // 로그아웃 하면 메뉴바 안열리도록
+    });
   };
 
   const adminMenuItems = [
@@ -55,10 +53,15 @@ const Header = () => {
   return (
     <header>
       <div className={style.HeaderContents}>
-        <div className={style.bars} onMouseEnter={() => setIsMenuVisible(true)}>
+        <div
+          className={style.bars}
+          onMouseEnter={() => {
+            if (isLogined) setIsMenuVisible(true);
+          }}
+        >
           <FaBars />
         </div>
-        {isMenuVisible && (
+        {isMenuVisible && isLogined && (
           <div
             className={style.sideMenu}
             onMouseLeave={() => setIsMenuVisible(false)}
