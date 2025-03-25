@@ -36,9 +36,6 @@ const Login = () => {
     e.preventDefault();
     if (login_userInfo.username && login_userInfo.password) {
       try {
-        // localStorage.removeItem(ACCESS_TOKEN);
-        // localStorage.removeItem("login_state"); // Zustand persist 데이터 제거
-
         const response = await axios.post(
           `${SERVER}/login`,
           {
