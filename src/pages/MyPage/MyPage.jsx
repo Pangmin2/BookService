@@ -84,8 +84,24 @@ const MyPage = () => {
   const submitUserInfo = async (e) => {
     e.preventDefault();
     try {
-      console.log(newUserInfo);
-      const response = await requestWithAuth("PATCH", "/myPage", newUserInfo);
+      const formData = new FormData();
+      
+      // 파일이 있는 경우에만 FormData에 추가
+      if (file) {
+        formData.append('profileImage', file);
+      }
+      
+      // 나머지 사용자 정보를 FormData에 추가
+      Object.keys(newUserInfo).forEach(key => {
+        formData.append(key, newUserInfo[key]);
+      });
+
+      const response = await requestWithAuth("PATCH", "/myPage", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
       if (response === null) {
         throw new Error();
       }
@@ -96,9 +112,13 @@ const MyPage = () => {
         button: "확인",
       });
       setModifyMode(!modifyMode);
-      console.log(newUserInfo);
     } catch (e) {
-      console.error(e.response.data);
+      console.error(e.response?.data);
+      swal({
+        title: "정보 수정에 실패했습니다.",
+        icon: "error",
+        button: "확인",
+      });
     }
   };
 

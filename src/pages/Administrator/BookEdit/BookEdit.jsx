@@ -14,6 +14,7 @@ const BookEdit = () => {
   const [returns, setReturns] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const SERVER = import.meta.env.VITE_SERVER_URL; // 서버 주소
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -110,6 +111,37 @@ const BookEdit = () => {
     }
   };
 
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      try {
+        // 이미지 수정 URL 받아오기
+        const urlResponse = await axios.get(`${SERVER}/files/bookImage/update-url?bookImageId=${editingBook.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (urlResponse.data.success) {
+          const uploadUrl = urlResponse.data.data.url;
+          
+          // 이미지 파일 업로드
+          await axios.put(uploadUrl, file, {
+            headers: {
+              'Content-Type': file.type,
+            },
+          });
+
+          swal("성공", "도서 이미지가 성공적으로 업로드되었습니다.", "success");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        swal("오류", "이미지 업로드 중 오류가 발생했습니다.", "error");
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -199,6 +231,20 @@ const BookEdit = () => {
                   }
                   placeholder="출판사"
                 />
+                <div className={style.imageUpload}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                  {editingBook.bookUrl && (
+                    <img
+                      src={editingBook.bookUrl}
+                      alt="현재 도서 이미지"
+                      style={{ width: "100px", height: "auto", marginTop: "10px" }}
+                    />
+                  )}
+                </div>
                 <button onClick={handleEditSubmit}>수정하기</button>
               </div>
             )}
