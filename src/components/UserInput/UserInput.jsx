@@ -1,6 +1,7 @@
 import style from "./UserInput.module.css";
 
 const UserInput = ({
+  inputKey,
   type,
   placeholder,
   value,
@@ -12,6 +13,7 @@ const UserInput = ({
   return (
     <input
       className={style.userInput}
+      key={inputKey}
       type={type}
       placeholder={placeholder}
       value={value}

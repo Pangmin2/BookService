@@ -7,12 +7,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import swal from "sweetalert";
+import { useLogout } from "../../hooks/useLogout";
 
 const BookInfo = () => {
   const [book, setBook] = useState(null);
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
   const [canReserved, setCanReserved] = useState(true);
+  const logout = useLogout();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,8 +23,13 @@ const BookInfo = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await requestWithAuth("GET", `/books/${id}`);
-        // console.log(response);
+        const response = await requestWithAuth(
+          "GET",
+          `/books/${id}`,
+          null,
+          logout
+        );
+        console.log("도서 정보", response);
 
         if (!response || !response.success) {
           throw new Error();
@@ -42,19 +49,26 @@ const BookInfo = () => {
         }
       } catch (error) {
         console.error("도서 정보를 가져오는 데 실패했습니다.", error);
-        setIsLogined(false);
-        navigate("/login");
+        logout();
       }
     };
 
     if (id) fetchBookDetails();
   }, [id]);
 
+  const updatedBookStatus = (borrowCount) => {
+    if (borrowCount === 0) return "AVAILABLE"; // 대여 가능
+    if (borrowCount >= 3) return "FULLY_RESERVED"; // 예약 불가
+    return "RESERVED"; // 예약 중
+  };
+
   const requestReservation = async () => {
     try {
       const response = await requestWithAuth(
         "POST",
-        `/books/reservation/${book?.id}`
+        `/books/reservation/${book?.id}`,
+        null,
+        logout
       );
       console.log("응답: ", response);
 
@@ -69,10 +83,15 @@ const BookInfo = () => {
           button: "완료",
         });
 
-        setBook((prevBook) => ({
-          ...prevBook,
-          borrowCount: prevBook.borrowCount + 1, // 예약 인원 증가
-        }));
+        setBook((prevBook) => {
+          const updatedCount = prevBook.borrowCount + 1;
+          return {
+            ...prevBook,
+            borrowCount: updatedCount,
+            status: updatedBookStatus(updatedCount), //계산한 값을 전달
+          };
+        });
+
         setCanReserved(!canReserved);
         console.log(response.data);
         return true;
@@ -119,7 +138,9 @@ const BookInfo = () => {
     try {
       const response = await requestWithAuth(
         "DELETE",
-        `/books/reservation/${book?.id}`
+        `/books/reservation/${book?.id}`,
+        null,
+        logout
       );
       console.log("취소:", response);
       if (response.success) {
@@ -130,10 +151,15 @@ const BookInfo = () => {
           button: "완료",
         });
 
-        setBook((prevBook) => ({
-          ...prevBook,
-          borrowCount: prevBook.borrowCount - 1, // 예약 인원 감소
-        }));
+        setBook((prevBook) => {
+          const updatedCount = prevBook.borrowCount - 1;
+          return {
+            ...prevBook,
+            borrowCount: updatedCount,
+            status: updatedBookStatus(updatedCount), //계산한 값을 전달
+          };
+        });
+
         setCanReserved(!canReserved);
         console.log(response.data);
         return true;
