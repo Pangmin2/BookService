@@ -13,9 +13,8 @@ const BookEdit = () => {
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
-  const SERVER = import.meta.env.VITE_SERVER_URL;
+  const SERVER = import.meta.env.VITE_SERVER_URL; // 서버 주소
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -112,75 +111,34 @@ const BookEdit = () => {
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-
-    setSelectedFile(file);
-    // 파일 선택 시 미리보기 생성
-    setPreviewImage(URL.createObjectURL(file));
-  };
-
-  const handleImageUpload = async () => {
-    if (!selectedFile) {
-      swal("오류", "업로드할 이미지를 선택해주세요.", "error");
-      return;
-    }
-
-    try {
-      // 이미지 파일 타입 체크
-      if (!selectedFile.type.startsWith('image/')) {
-        throw new Error('이미지 파일만 업로드 가능합니다.');
-      }
-
-      // 이미지 수정 URL 받아오기
-      const urlResponse = await axios.post(
-        `${SERVER}/files/bookImage/update-url?bookImageId=${editingBook.bookImageId}`,
-        {
-          fileName: editingBook.bookUrl.split('/').pop(),
-          contentType: 'image/jpeg'
-        },
-        {
+    if (file) {
+      setSelectedFile(file);
+      try {
+        // 이미지 수정 URL 받아오기
+        const urlResponse = await axios.get(`${SERVER}/files/bookImage/update-url?bookImageId=${editingBook.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
+        });
+
+        if (urlResponse.data.success) {
+          const uploadUrl = urlResponse.data.data.url;
+          
+          // 이미지 파일 업로드
+          await axios.put(uploadUrl, file, {
+            headers: {
+              'Content-Type': file.type,
+            },
+          });
+
+          swal("성공", "도서 이미지가 성공적으로 업로드되었습니다.", "success");
         }
-      );
-
-      if (!urlResponse.data.success || !urlResponse.data.data.url) {
-        throw new Error('업로드 URL을 받아오는데 실패했습니다.');
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        swal("오류", "이미지 업로드 중 오류가 발생했습니다.", "error");
       }
-
-      const uploadUrl = urlResponse.data.data.url;
-
-      // 받아온 URL에 새로운 이미지 파일 업로드
-      const uploadResponse = await axios.put(uploadUrl, selectedFile, {
-        headers: {
-          'Content-Type': selectedFile.type,
-        },
-      });
-
-      if (uploadResponse.status !== 200) {
-        throw new Error('이미지 업로드에 실패했습니다.');
-      }
-
-      swal("성공", "도서 이미지가 성공적으로 업로드되었습니다.", "success");
-
-      // 성공 후 books 상태 업데이트
-      setBooks(books.map(book =>
-        book.id === editingBook.id
-          ? { ...book, bookUrl: previewImage }
-          : book
-      ));
-
-      // 업로드 후 상태 초기화
-      setSelectedFile(null);
-      setPreviewImage(null);
-
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      swal("오류", `이미지 업로드 중 오류가 발생했습니다: 
-        ${error.message}`, "error");
     }
   };
 
@@ -273,38 +231,21 @@ const BookEdit = () => {
                   }
                   placeholder="출판사"
                 />
-                <button onClick={handleEditSubmit}>수정하기</button>
-                <div></div>
                 <div className={style.imageUpload}>
-                  <div className={style.imageUploadRow}>
-                    {(editingBook.bookUrl || previewImage) && (
-                      <img
-                        src={previewImage || editingBook.bookUrl}
-                        alt="현재 도서 이미지"
-                        style={{ width: "100px", height: "auto" }}
-                      />
-                    )}
-                    <div className={style.buttonColumn}>
-                      <label className={style.fileInputLabel}>
-                        파일 선택
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          className={style.fileInput}
-                        />
-                      </label>
-                      <button className={style.uploadButton} onClick={handleImageUpload}>
-                        이미지 수정하기
-                      </button>
-                      {selectedFile && (
-                        <span style={{ fontSize: '14px', color: '#666', marginTop: '5px' }}>
-                          선택된 파일: {selectedFile.name}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                  {editingBook.bookUrl && (
+                    <img
+                      src={editingBook.bookUrl}
+                      alt="현재 도서 이미지"
+                      style={{ width: "100px", height: "auto", marginTop: "10px" }}
+                    />
+                  )}
                 </div>
+                <button onClick={handleEditSubmit}>수정하기</button>
               </div>
             )}
           </div>
