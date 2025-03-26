@@ -5,19 +5,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 36px;
-  padding: 36px;
+  gap: 52px;
+  padding: 52px;
 }
 
 .contents h1 {
-  font-size: 32px;
+  font-size: 38px;
   margin: 0;
 }
 
 .search {
   width: 100%;
   display: flex;
-  justify-content: center; /* 가로 가운데 정렬 */
+  justify-content: center;
+  /* 가로 가운데 정렬 */
   align-items: center;
 }
 

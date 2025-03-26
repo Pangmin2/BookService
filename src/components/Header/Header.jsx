@@ -18,6 +18,7 @@ const Header = () => {
   const onLogout = () => {
     swal("로그아웃", "로그아웃 되었습니다.", "success").then(() => {
       setIsLogined(false);
+      localStorage.removeItem("login_state")
       localStorage.removeItem("accessToken");
       setIsMenuVisible(false); // 로그아웃 하면 메뉴바 안열리도록
     });
@@ -42,8 +43,8 @@ const Header = () => {
     role === "ADMIN"
       ? adminMenuItems
       : role === "USER"
-      ? userMenuItems
-      : userMenuItems;
+        ? userMenuItems
+        : userMenuItems;
 
   // 도서 대여 현황 클릭 시 항목을 펼치기 위한 함수
   const confirmMyBookStatus = () => {
@@ -119,10 +120,10 @@ const Header = () => {
               )}
             </li>
             <li>
-              <div></div>
+              {!isLogined && <div></div>}
             </li>
             <li>
-              <Link to="/signup">회원가입</Link>
+              {!isLogined && <Link to="/signup">회원가입</Link>}
             </li>
           </ul>
         </nav>
