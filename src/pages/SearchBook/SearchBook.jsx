@@ -1,11 +1,11 @@
 import Hero from "../../components/Hero/Hero";
+import swal from "sweetalert";
 import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import style from "./SearchBook.module.css";
 import useUserStore from "../../../store/useUserStore";
 import Book from "../../components/Book/Book";
-import { useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/useLogout";
 
 const SearchBook = () => {
@@ -13,7 +13,6 @@ const SearchBook = () => {
   const [filterBooks, setFilterBooks] = useState([]);
 
   const isLogined = useUserStore((state) => state.isLogined);
-  const setIsLogined = useUserStore((state) => state.setIsLogined);
   const logout = useLogout();
 
   // API 요청 함수 (requestWithAuth 사용)
@@ -21,23 +20,23 @@ const SearchBook = () => {
     try {
       const response = await requestWithAuth("GET", "/books", null, logout);
 
-      console.log("API Response:", response); // 전체 응답 로그 출력
-
       if (response === null) {
         throw new Error();
       }
-      // 응답 구조 확인
-      console.log("Response Data:", response.data);
+      // console.log("Response Data:", response.data);
       setBooks(response.data);
     } catch (error) {
-      console.error("책 정보를 불러오는 데 실패했습니다:", error);
+      swal({
+        title: "책 정보를 불러오는 데 실패했습니다.",
+        button: "확인",
+        icon: "error",
+      });
       setBooks([]); // 오류 발생 시 빈 배열 설정
       logout();
     }
   };
 
   useEffect(() => {
-    console.log(isLogined);
     if (isLogined) {
       fetchBooks();
     }
