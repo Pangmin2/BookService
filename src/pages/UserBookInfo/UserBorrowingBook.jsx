@@ -22,7 +22,7 @@ const UserBorrowingBook = () => {
         null,
         logout
       );
-      console.log(response.data);
+      // console.log(response.data);
       if (response === null) {
         throw new Error();
       }
