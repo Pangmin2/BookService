@@ -15,7 +15,7 @@ import MyPage from "./pages/MyPage/MyPage";
 import UserReservedBook from "./pages/UserBookInfo/UserReservedBook";
 import UserBorrowingBook from "./pages/UserBookInfo/UserBorrowingBook";
 import UserRevertBook from "./pages/UserBookInfo/UserRevertBook";
-import NotFound from "./pages/NotFound/NotFound";
+import NotFound from "./components/NotFound/NotFound";
 
 function App() {
   return (
