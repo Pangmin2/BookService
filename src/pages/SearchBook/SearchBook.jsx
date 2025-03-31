@@ -65,19 +65,27 @@ const SearchBook = () => {
       }
       content={
         <div className={style.container}>
-          <hr className={style.outline} />
-          {filterBooks.map((book, index) => (
-            <div key={book.id}>
-              <Book book={book} />
-              {index < filterBooks.length - 1 && (
-                <hr className={style.inline} />
-              )}
+          {books.length === 0 ? (
+            <div className={style.empty}>
+              현재 대여 가능한 도서가 존재하지 않습니다.
             </div>
-          ))}
-          <hr className={style.outline} />
+          ) : (
+            <>
+              <hr className={style.outline} />
+              {filterBooks.map((book, index) => (
+                <div key={book.id}>
+                  <Book book={book} />
+                  {index < filterBooks.length - 1 && (
+                    <hr className={style.inline} />
+                  )}
+                </div>
+              ))}
+              <hr className={style.outline} />
+            </>
+          )}
         </div>
       }
-    ></Layout>
+    />
   );
 };
 
