@@ -1,5 +1,4 @@
 .wrapper {
-  margin-top: 4rem;
   height: 100%;
   width: 100%;
   padding: 0 25rem;
@@ -16,7 +15,7 @@ h2 {
   margin: 12px 0;
 }
 
-hr {
+.container hr {
   border: 1px solid #cecece;
   width: 100%;
 }
