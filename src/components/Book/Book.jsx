@@ -1,12 +1,15 @@
 import styles from "./Book.module.css";
 import Tag from "../Tag/Tag";
 import { Link } from "react-router-dom";
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const Book = ({ book }) => {
+  const isMobile = useIsMobile();
+
   return (
     <div className={styles.container}>
       <div className={styles.contents}>
-        <div className={styles.bookImage}>
+        <div className={`${styles.bookImage} ${isMobile ? styles.mobileImage : ''}`}>
           <img
             src={book.bookUrl || "https://picsum.photos/200"}
             alt={book.title}

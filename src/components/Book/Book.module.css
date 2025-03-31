@@ -59,3 +59,9 @@ p {
   color: #808080;
   font-size: 12px;
 }
+
+.mobileImage {
+  width: 120px;
+  height: 180px;
+  transform: scale(0.9);
+}
