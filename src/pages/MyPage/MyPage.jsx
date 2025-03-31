@@ -109,7 +109,7 @@ const MyPage = () => {
     }
 
     try {
-      console.log(newUserInfo);
+      // console.log(newUserInfo);
       const response = await requestWithAuth(
         "PATCH",
         "/myPage",
