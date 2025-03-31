@@ -29,7 +29,7 @@ const BookInfo = () => {
           null,
           logout
         );
-        console.log("도서 정보", response);
+        // console.log("도서 정보", response);
 
         if (!response || !response.success) {
           throw new Error();
@@ -48,7 +48,11 @@ const BookInfo = () => {
           setCanReserved(true);
         }
       } catch (error) {
-        console.error("도서 정보를 가져오는 데 실패했습니다.", error);
+        swal({
+          title: "도서 정보를 불러오는 데 실패했습니다.",
+          button: "확인",
+          icon: "error",
+        });
         logout();
       }
     };
@@ -70,7 +74,6 @@ const BookInfo = () => {
         null,
         logout
       );
-      console.log("응답: ", response);
 
       if (response === null) {
         throw new Error();
@@ -93,11 +96,9 @@ const BookInfo = () => {
         });
 
         setCanReserved(!canReserved);
-        console.log(response.data);
         return true;
       }
     } catch (error) {
-      console.log("현재 에러:", error.response.data);
       const ERROR = error.response.data;
       switch (ERROR.code) {
         case "B002":
@@ -121,13 +122,11 @@ const BookInfo = () => {
         default:
           swal({
             title: "예약 신청 실패",
-            text: "다시 로그인 후 요청해주세요.",
+            text: "다시 로그인 해주세요.",
             icon: "error",
             button: "완료",
           });
-          setIsLogined(false);
-          navigate("/login");
-          console.error("토큰 만료로 요청 실패: ", error);
+          logout();
           return null;
       }
     }
@@ -142,7 +141,6 @@ const BookInfo = () => {
         null,
         logout
       );
-      console.log("취소:", response);
       if (response.success) {
         swal({
           title: "예약이 취소되었습니다.",
@@ -161,17 +159,20 @@ const BookInfo = () => {
         });
 
         setCanReserved(!canReserved);
-        console.log(response.data);
         return true;
       }
     } catch (error) {
-      console.log("예약 취소 관련 에러", error);
+      // console.log("예약 취소 관련 에러", error);
       if (error.code === "B003") {
-        alert(error.msg);
-        console.warn(error.msg);
+        //해당하는 예약이 존재하지 않는 경우
+        swal({ title: error.msg, button: "확인", icon: "error" });
       } else {
-        alert("예약 취소 실패");
-        console.warn(error);
+        swal({
+          title: "예약 취소에 실패하였습니다.",
+          text: "관리자에게 문의해주세요.",
+          button: "확인",
+          icon: "error",
+        });
       }
     }
   };

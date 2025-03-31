@@ -50,7 +50,7 @@ const Login = () => {
           }
         );
         if (response.data.success) {
-          console.log(response.data.data.message);
+          // console.log(response.data.data.message);
           localStorage.setItem(ACCESS_TOKEN, response.data.data.accessToken);
           setIsLogined(true);
           setRole(response.data.data.role);
