@@ -12,10 +12,10 @@ import BookInfo from "./pages/BookInfo/BookInfo";
 import Findform from "./pages/Findform/Findform";
 import BookEdit from "./pages/Administrator/BookEdit/BookEdit";
 import MyPage from "./pages/MyPage/MyPage";
-// import NotFound from "./pages/NotFound/NotFound";
 import UserReservedBook from "./pages/UserBookInfo/UserReservedBook";
 import UserBorrowingBook from "./pages/UserBookInfo/UserBorrowingBook";
 import UserRevertBook from "./pages/UserBookInfo/UserRevertBook";
+import NotFound from "./components/NotFound/NotFound";
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/findform" element={<Findform />} />
         <Route path="/book_edit" element={<BookEdit />} />
-        {/* <Route path="*" element={<NotFound />} />  */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

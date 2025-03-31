@@ -73,7 +73,7 @@ const MyPage = () => {
   const requestUserInfo = async () => {
     try {
       const response = await requestWithAuth("GET", "/myPage", null, logout);
-      console.log(response.data);
+      // console.log(response.data);
       if (response === null) {
         throw new Error();
       }
@@ -109,7 +109,7 @@ const MyPage = () => {
     }
 
     try {
-      console.log(newUserInfo);
+      // console.log(newUserInfo);
       const response = await requestWithAuth(
         "PATCH",
         "/myPage",
@@ -125,7 +125,7 @@ const MyPage = () => {
         button: "확인",
       });
       setModifyMode(!modifyMode);
-      console.log("수정한 사용자 정보", newUserInfo);
+      // console.log("수정한 사용자 정보", newUserInfo);
       await requestUserInfo();
       setInputKey((prevKey) => prevKey + 1);
       setUserDepartment(newUserInfo.userDepartment);
@@ -145,7 +145,7 @@ const MyPage = () => {
           swal({ title: e.response.data.msg, icon: "warning", button: "확인" });
           break;
       }
-      console.error(e.response.data);
+      // console.error(e.response.data);
     }
   };
 
