@@ -8,6 +8,7 @@ export const useLogout = () => {
 
   return () => {
     setIsLogined(false);
+    localStorage.removeItem("login_state")
     localStorage.removeItem("accessToken");
 
     swal({
