@@ -107,7 +107,12 @@ const SignUp = () => {
       );
 
       if (response.data.success) {
-        swal({ text: "인증번호를 보냈습니다. 확인해주세요.", button: "확인" });
+        swal({
+          title: "인증번호를 보냈습니다.",
+          text: "웹메일을 확인해주세요.",
+          icon: "success",
+          button: "확인",
+        });
         setIsVerificationPending(true);
         return true;
       }
@@ -126,6 +131,7 @@ const SignUp = () => {
           icon: "error",
         });
       }
+      setCanEdit(true);
       return null;
     }
   };
