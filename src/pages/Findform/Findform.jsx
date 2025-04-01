@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import swal from "sweetalert";
 import axios from "axios";
 import style from "./Findform.module.css";
 import UserInput from "../../components/UserInput/UserInput";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 const SERVER = import.meta.env.VITE_SERVER_URL;
 
@@ -13,6 +15,7 @@ const Findform = () => {
     name: "",
     email: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,16 +38,26 @@ const Findform = () => {
       });
 
       const result = response.data;
-      console.log(result);
       if (result.success) {
-        console.log(data);
-        alert("비밀번호 찾기 성공: " + result.data);
-      } else {
-        alert("비밀번호 찾기 실패: " + result.code);
+        swal({
+          title: "임시 비밀번호가 발급되었습니다.",
+          text: "웹메일을 확인해주세요.",
+          icon: "success",
+          button: "확인",
+        }).then(() => navigate("/login"));
+        return;
       }
     } catch (error) {
+      if (error.response.data.code === "A003") {
+        swal({
+          title: "존재하지 않는 사용자입니다.",
+          text: "모든 정보를 올바르게 입력했는지 확인해주세요.",
+          icon: "error",
+          button: "확인",
+        });
+        return;
+      }
       console.error("오류 발생:", error);
-      alert("오류 발생: " + error.message);
     }
   };
 
@@ -78,7 +91,7 @@ const Findform = () => {
             />
             <UserInput
               type="text"
-              placeholder="아이디"
+              placeholder="학번"
               name="id"
               value={formData.id}
               onChange={handleChange}
@@ -90,11 +103,11 @@ const Findform = () => {
           </form>
           <div className={style.links}>
             <a href="/signup" className={style.link}>
-              회원가입하기
+              회원가입
             </a>
             <div className={style.verticalLine}> </div>
             <a href="/login" className={style.link}>
-              로그인하기
+              로그인
             </a>
           </div>
         </div>
