@@ -3,23 +3,18 @@ import BookDetails from "../../components/BookDetails/BookDetails";
 import Layout from "../../components/Layout/Layout";
 import useUserStore from "../../../store/useUserStore";
 import GuestBlock from "../../components/GuestBlock/GuestBlock";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestWithAuth } from "../../utils/requestWithAuth";
 import swal from "sweetalert";
 import { useLogout } from "../../hooks/useLogout";
-import { useIsMobile } from '../../hooks/useIsMobile';
-import BookDetailsMobile from '../../components/BookDetails/BookDetailsMobile';
 
 const BookInfo = () => {
   const [book, setBook] = useState(null);
   const isLogined = useUserStore((state) => state.isLogined);
-  const setIsLogined = useUserStore((state) => state.setIsLogined);
   const [canReserved, setCanReserved] = useState(true);
   const logout = useLogout();
-  const isMobile = useIsMobile();
 
-  const navigate = useNavigate();
   const location = useLocation();
   const id = location.state?.id;
 
@@ -186,21 +181,12 @@ const BookInfo = () => {
       content={
         isLogined ? (
           book ? (
-            isMobile ? (
-              <BookDetailsMobile
-                book={book}
-                requestReservation={requestReservation}
-                requestCancel={requestCancel}
-                canReserved={canReserved}
-              />
-            ) : (
-              <BookDetails
-                book={book}
-                requestReservation={requestReservation}
-                requestCancel={requestCancel}
-                canReserved={canReserved}
-              />
-            )
+            <BookDetails
+              book={book}
+              requestReservation={requestReservation}
+              requestCancel={requestCancel}
+              canReserved={canReserved}
+            />
           ) : (
             <div>도서 정보를 불러오는 중...</div>
           )
