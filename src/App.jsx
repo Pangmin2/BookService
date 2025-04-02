@@ -16,25 +16,103 @@ import UserReservedBook from "./pages/UserBookInfo/UserReservedBook";
 import UserBorrowingBook from "./pages/UserBookInfo/UserBorrowingBook";
 import UserRevertBook from "./pages/UserBookInfo/UserRevertBook";
 import NotFound from "./components/NotFound/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* 공개 라우트 */}
         <Route path="/" element={<SearchBook />} />
-        <Route path="/book_info" element={<BookInfo />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/reservedBook" element={<UserReservedBook />} />
-        <Route path="/borrowingBook" element={<UserBorrowingBook />} />
-        <Route path="/revertBook" element={<UserRevertBook />} />
-        <Route path="/book_manage" element={<BookManage />} />
-        <Route path="/book_admin" element={<BookAdmin />} />
-        <Route path="/member_manage" element={<MemberManage />} />
-        <Route path="/main" element={<MainPage />} />
         <Route path="/findform" element={<Findform />} />
-        <Route path="/book_edit" element={<BookEdit />} />
+
+        {/* 보호된 라우트 - 로그인 필요 */}
+        <Route
+          path="/book_info"
+          element={
+            <ProtectedRoute>
+              <BookInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mypage"
+          element={
+            <ProtectedRoute>
+              <MyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reservedBook"
+          element={
+            <ProtectedRoute>
+              <UserReservedBook />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/borrowingBook"
+          element={
+            <ProtectedRoute>
+              <UserBorrowingBook />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/revertBook"
+          element={
+            <ProtectedRoute>
+              <UserRevertBook />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 관리자 전용 라우트 */}
+        <Route
+          path="/book_manage"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <BookManage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/book_admin"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <BookAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/member_manage"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <MemberManage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/main"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <MainPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/book_edit"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <BookEdit />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
