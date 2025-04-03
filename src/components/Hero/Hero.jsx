@@ -8,6 +8,17 @@ const Hero = ({ section, onSearch }) => {
     onSearch(searchTitle);
   };
 
+  const onKeydown = (e) => {
+    if (e.keyCode === 13) {
+      onSearch(searchTitle);
+    }
+  };
+
+  const onChange = (e) => {
+    const value = e.target.value;
+    setSearchTitle(value);
+  };
+
   return (
     <section>
       <div className={style.contents}>
@@ -17,9 +28,8 @@ const Hero = ({ section, onSearch }) => {
             <input
               placeholder="검색어를 입력하세요."
               value={searchTitle}
-              onChange={(e) => {
-                setSearchTitle(e.target.value);
-              }}
+              onChange={onChange}
+              onKeyDown={onKeydown}
             />
             <button onClick={searchHandler}>검색</button>
           </div>
