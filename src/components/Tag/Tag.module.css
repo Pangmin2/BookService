@@ -18,3 +18,10 @@
 .fullyReserved {
   background-color: #fe6e42;
 }
+
+@media (max-width: 480px) {
+  .tag {
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+}

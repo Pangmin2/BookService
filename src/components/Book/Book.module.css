@@ -60,8 +60,38 @@ p {
   font-size: 12px;
 }
 
-.mobileImage {
-  width: 120px;
-  height: 180px;
-  transform: scale(0.9);
+@media (max-width: 1024px) {
+  .contents {
+    padding: 10px 14px;
+    gap: 12px;
+  }
+
+  .bookImage {
+    width: 140px;
+    height: 200px;
+  }
+
+  .bookIntro p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contents {
+    padding: 10px 8px;
+    gap: 10px;
+  }
+
+  .bookImage {
+    width: 100px;
+    height: 140px;
+  }
+
+  .bookIntro h2 {
+    font-size: 20px;
+  }
+
+  .bookIntro p {
+    font-size: 12px;
+  }
 }

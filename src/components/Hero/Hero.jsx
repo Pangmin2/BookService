@@ -1,10 +1,8 @@
 import { useState } from "react";
 import style from "./Hero.module.css";
-import { useIsMobile } from '../../hooks/useIsMobile';
 
 const Hero = ({ section, onSearch }) => {
   const [searchTitle, setSearchTitle] = useState("");
-  const isMobile = useIsMobile();
 
   const searchHandler = () => {
     onSearch(searchTitle);
@@ -12,12 +10,11 @@ const Hero = ({ section, onSearch }) => {
 
   return (
     <section>
-      <div className={`${style.contents} ${isMobile ? style.mobileContainer : ''}`}>
+      <div className={style.contents}>
         <h1>{section || "제목"}</h1>
         {onSearch && (
-          <div className={`${style.search} ${isMobile ? style.mobileSearchForm : ''}`}>
+          <div className={style.search}>
             <input
-              className={isMobile ? style.mobileInput : ''}
               placeholder="검색어를 입력하세요."
               value={searchTitle}
               onChange={(e) => {

@@ -93,6 +93,7 @@
   background-color: #1f98ff;
   color: white;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .error {
