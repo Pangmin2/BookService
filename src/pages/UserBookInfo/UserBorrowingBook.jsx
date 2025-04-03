@@ -62,9 +62,7 @@ const UserBorrowingBook = () => {
                     <tr key={book.bookId}>
                       <td>{book.bookId}</td>
                       <td>{book.bookName}</td>
-                      <td>
-                        {new Date(book.reservationDate).toLocaleDateString()}
-                      </td>
+                      <td>{new Date(book.loanDate).toLocaleDateString()}</td>
                       <td>{new Date(book.returnDate).toLocaleDateString()}</td>
                       <td>{book.overdueDate}</td>
                     </tr>
