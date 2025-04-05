@@ -9,7 +9,6 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
 const SERVER = import.meta.env.VITE_SERVER_URL;
-const ACCESS_TOKEN = "accessToken";
 
 const Login = () => {
   const [login_userInfo, setLogin_userInfo] = useState({
@@ -43,15 +42,14 @@ const Login = () => {
             password: login_userInfo.password,
           },
           {
+            withCredentials: true,
             headers: {
               "Content-Type": "application/json",
             },
-            withCredentials: true,
           }
         );
         if (response.data.success) {
           // console.log(response.data.data.message);
-          localStorage.setItem(ACCESS_TOKEN, response.data.data.accessToken);
           setIsLogined(true);
           setRole(response.data.data.role);
           setUserName(response.data.data.name);

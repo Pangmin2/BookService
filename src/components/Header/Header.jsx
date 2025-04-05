@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import style from "./Header.module.css";
 import { FaBars } from "react-icons/fa";
+import { FaAnglesLeft } from "react-icons/fa6";
 import { useState } from "react";
 import useUserStore from "../../../store/useUserStore";
 import swal from "sweetalert";
 
 const Header = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [menuAnimation, setMenuAnimation] = useState("");
   const isLogined = useUserStore((state) => state.isLogined);
   const setIsLogined = useUserStore((state) => state.setIsLogined);
   const role = useUserStore((state) => state.role);
@@ -18,7 +20,7 @@ const Header = () => {
   const onLogout = () => {
     swal("로그아웃", "로그아웃 되었습니다.", "success").then(() => {
       setIsLogined(false);
-      localStorage.removeItem("login_state")
+      localStorage.removeItem("login_state");
       localStorage.removeItem("accessToken");
       setIsMenuVisible(false); // 로그아웃 하면 메뉴바 안열리도록
     });
@@ -43,12 +45,24 @@ const Header = () => {
     role === "ADMIN"
       ? adminMenuItems
       : role === "USER"
-        ? userMenuItems
-        : userMenuItems;
+      ? userMenuItems
+      : userMenuItems;
 
   // 도서 대여 현황 클릭 시 항목을 펼치기 위한 함수
   const confirmMyBookStatus = () => {
     setToggle(!toggle);
+  };
+
+  const openMenu = () => {
+    setIsMenuVisible(true);
+    setMenuAnimation("slideIn");
+  };
+
+  const closeMenu = () => {
+    setMenuAnimation("slideOut");
+    setTimeout(() => {
+      setIsMenuVisible(false);
+    }, 300);
   };
 
   return (
@@ -56,18 +70,14 @@ const Header = () => {
       <div className={style.HeaderContents}>
         <div
           className={style.bars}
-          onMouseEnter={() => {
-            if (isLogined) setIsMenuVisible(true);
+          onClick={() => {
+            if (isLogined) openMenu();
           }}
         >
           <FaBars />
         </div>
         {isMenuVisible && isLogined && (
-          <div
-            className={style.sideMenu}
-            onMouseLeave={() => setIsMenuVisible(false)}
-            onMouseEnter={() => setIsMenuVisible(true)}
-          >
+          <div className={`${style.sideMenu} ${style[menuAnimation]}`}>
             <div className={style.profileSection}>
               <div className={style.profileImage}>{/* 프로필 이미지 */}</div>
               <div className={style.profileInfo}>
@@ -106,6 +116,14 @@ const Header = () => {
                 </li>
               ))}
             </ul>
+            <div
+              className={style.close}
+              onClick={() => {
+                if (isLogined) closeMenu();
+              }}
+            >
+              <FaAnglesLeft />
+            </div>
           </div>
         )}
         <nav className={style.navigation}>
@@ -119,12 +137,8 @@ const Header = () => {
                 <Link to="/login">로그인</Link>
               )}
             </li>
-            <li>
-              {!isLogined && <div></div>}
-            </li>
-            <li>
-              {!isLogined && <Link to="/signup">회원가입</Link>}
-            </li>
+            <li>{!isLogined && <div></div>}</li>
+            <li>{!isLogined && <Link to="/signup">회원가입</Link>}</li>
           </ul>
         </nav>
       </div>

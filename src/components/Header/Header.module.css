@@ -19,6 +19,8 @@
 }
 
 .sideMenu {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
   left: 0;
@@ -28,13 +30,21 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   z-index: 1000;
-  animation: slideIn 0.3s ease-out;
+}
+
+.close {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0;
+  padding-top: 1rem;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .profileSection {
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
 }
@@ -63,6 +73,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
 }
 
 .sideMenu li {
@@ -120,6 +131,24 @@
   to {
     transform: translateX(0);
   }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.slideIn {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.slideOut {
+  animation: slideOut 0.3s ease-in forwards;
 }
 
 .navigation {
