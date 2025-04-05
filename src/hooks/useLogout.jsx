@@ -8,8 +8,7 @@ export const useLogout = () => {
 
   return () => {
     setIsLogined(false);
-    localStorage.removeItem("login_state")
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("login_state");
 
     swal({
       title: "세션이 만료되었습니다.",
