@@ -10,7 +10,10 @@ export const RefreshAccessToken = async () => {
       {},
       { withCredentials: true }
     );
-    return response.data.success ?? false;
+    console.error("Refresh Token 요청 성공", response);
+    if (response.data.success === true) {
+      return true;
+    }
   } catch (error) {
     console.error("Refresh Token 요청 실패:", error.response?.data || error);
     return null;
