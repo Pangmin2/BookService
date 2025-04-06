@@ -35,8 +35,9 @@ export const requestWithAuth = async (
     }
 
     // 액세스 토큰 만료(A007) 또는 액세스 토큰 존재X(C001) 시 새로운 토큰으로 재요청
-    if (ERROR.code === "A007" || ERROR.cod === "C001") {
-      // console.log("액세스 토큰 만료됨. 리프레시 토큰을 사용하여 갱신 시도...");
+    // if (ERROR.code === "A007" || ERROR.cod === "C001")
+    if (ERROR.code === "A011") {
+      console.log("액세스 토큰 만료됨. 리프레시 토큰을 사용하여 갱신 시도...");
       const refreshed = await RefreshAccessToken();
 
       if (!refreshed) {
@@ -48,10 +49,10 @@ export const requestWithAuth = async (
       // console.log("새로운 토큰으로 API 재요청...");
       try {
         const retryResponse = await axios(config);
-        // console.log("재요청 성공:", retryResponse.data);
+        console.log("재요청 성공:", retryResponse.data);
         return retryResponse.data.success;
       } catch (retryError) {
-        // console.error("재요청 실패:", retryError.response?.data || retryError);
+        console.error("재요청 실패:", retryError.response?.data || retryError);
         return null;
       }
     }
