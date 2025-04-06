@@ -11,13 +11,8 @@ export const RefreshAccessToken = async () => {
       { withCredentials: true }
     );
     return response.data.success ?? false;
-
-    // if (response.data.success && response.data.data) {
-    //   // console.log("새로운 Access Token 발급 완료:", newAccessToken);
-    //   return;
-    // }
   } catch (error) {
-    // console.error("Refresh Token 요청 실패:", error.response?.data || error);
+    console.error("Refresh Token 요청 실패:", error.response?.data || error);
     return null;
   }
 };
