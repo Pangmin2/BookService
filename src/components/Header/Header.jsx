@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import style from "./Header.module.css";
 import { FaBars } from "react-icons/fa";
 import { FaAnglesLeft } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import useUserStore from "../../../store/useUserStore";
 import swal from "sweetalert";
 
@@ -14,8 +14,22 @@ const Header = () => {
   const role = useUserStore((state) => state.role);
   const name = useUserStore((state) => state.name);
   const department = useUserStore((state) => state.department);
+  const sideMenuRef = useRef(null);
 
   const [toggle, setToggle] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuVisible && sideMenuRef.current && !sideMenuRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuVisible]);
 
   const onLogout = () => {
     swal("로그아웃", "로그아웃 되었습니다.", "success").then(() => {
@@ -45,8 +59,8 @@ const Header = () => {
     role === "ADMIN"
       ? adminMenuItems
       : role === "USER"
-      ? userMenuItems
-      : userMenuItems;
+        ? userMenuItems
+        : userMenuItems;
 
   // 도서 대여 현황 클릭 시 항목을 펼치기 위한 함수
   const confirmMyBookStatus = () => {
@@ -77,7 +91,7 @@ const Header = () => {
           <FaBars />
         </div>
         {isMenuVisible && isLogined && (
-          <div className={`${style.sideMenu} ${style[menuAnimation]}`}>
+          <div ref={sideMenuRef} className={`${style.sideMenu} ${style[menuAnimation]}`}>
             <div className={style.profileSection}>
               <div className={style.profileImage}>{/* 프로필 이미지 */}</div>
               <div className={style.profileInfo}>
