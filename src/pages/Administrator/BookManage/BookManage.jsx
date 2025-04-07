@@ -12,7 +12,6 @@ const BookManagement = () => {
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
   const [activeTab, setActiveTab] = useState('reservations');
-  const [token, setToken] = useState(localStorage.getItem('accessToken'));
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -33,9 +32,7 @@ const BookManagement = () => {
   const acceptReservation = async (reservationId) => {
     try {
       const response = await axios.post(`${SERVER}/book/admin/${reservationId}/accept`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        withCredentials: true
       });
 
       if (response.data.success) {
@@ -54,9 +51,7 @@ const BookManagement = () => {
   const fetchReturns = useCallback(async (page = 0) => {
     try {
       const response = await axios.get(`${SERVER}/book/admin/returns?page=${page}&size=10&sort=returnDate,desc`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        withCredentials: true
       });
 
       if (response.data.success) {
@@ -74,7 +69,7 @@ const BookManagement = () => {
     } catch (error) {
       console.error("반납 조회 중 오류 발생:", error);
     }
-  }, [SERVER, token]);
+  }, [SERVER]);
 
   // 페이지 변경 핸들러 추가
   const handlePageChange = (newPage) => {
@@ -85,9 +80,7 @@ const BookManagement = () => {
   const fetchReservations = useCallback(async () => {
     try {
       const response = await axios.get(`${SERVER}/book/admin/reservations?page=0&size=10&sort=reservationDate%2Casc`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        withCredentials: true
       });
 
       if (response.data.success) {
@@ -102,15 +95,13 @@ const BookManagement = () => {
     } catch (error) {
       console.error("예약 조회 중 오류 발생:", error);
     }
-  }, [SERVER, token]);
+  }, [SERVER]);
 
   // 대출 목록을 가져오는 함수
   const fetchLoans = useCallback(async () => {
     try {
       const response = await axios.get(`${SERVER}/book/admin/loans?page=0&size=10&sort=borrowDate,asc`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        withCredentials: true
       });
 
       if (response.data.success) {
@@ -125,15 +116,13 @@ const BookManagement = () => {
     } catch (error) {
       console.error("대여 조회 중 오류 발생:", error);
     }
-  }, [SERVER, token]);
+  }, [SERVER]);
 
   // 반납 처리 함수 추가
   const returnLoan = async (loanId) => {
     try {
       const response = await axios.post(`${SERVER}/book/admin/${loanId}/return`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        withCredentials: true
       });
 
       if (response.data.success) {
@@ -166,9 +155,7 @@ const BookManagement = () => {
   const updateReturnStatus = async (reservationId, newStatus) => {
     try {
       const response = await axios.post(`${SERVER}/book/admin/${reservationId}/return/correct?status=${newStatus}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`, // 토큰을 헤더에 추가
-        },
+        withCredentials: true
       });
 
       if (response.data.success) {

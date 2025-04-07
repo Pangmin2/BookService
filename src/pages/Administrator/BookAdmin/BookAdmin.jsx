@@ -7,7 +7,6 @@ import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 
 const SERVER = import.meta.env.VITE_SERVER_URL;
-const token = localStorage.getItem("accessToken");
 
 const BookAdmin = () => {
   const navigate = useNavigate();
@@ -50,9 +49,7 @@ const BookAdmin = () => {
           contentType: form.selectedFile.type,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         }
       );
 
@@ -80,9 +77,7 @@ const BookAdmin = () => {
           fileId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         }
       );
 

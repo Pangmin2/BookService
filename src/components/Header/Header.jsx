@@ -35,7 +35,6 @@ const Header = () => {
     swal("로그아웃", "로그아웃 되었습니다.", "success").then(() => {
       setIsLogined(false);
       localStorage.removeItem("login_state");
-      localStorage.removeItem("accessToken");
       setIsMenuVisible(false); // 로그아웃 하면 메뉴바 안열리도록
     });
   };
