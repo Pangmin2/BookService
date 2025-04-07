@@ -12,7 +12,6 @@ const BookEdit = () => {
   const [reservations, setReservations] = useState([]);
   const [loans, setLoans] = useState([]);
   const [returns, setReturns] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const SERVER = import.meta.env.VITE_SERVER_URL;
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
@@ -21,9 +20,7 @@ const BookEdit = () => {
     const fetchBooks = async () => {
       try {
         const response = await axios.get(`${SERVER}/books`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         });
         if (response.data.success) {
           setBooks(response.data.data);
@@ -34,7 +31,7 @@ const BookEdit = () => {
     };
 
     fetchBooks();
-  }, [SERVER, token]);
+  }, [SERVER]);
 
   const handleDragStart = (e, book) => {
     e.dataTransfer.setData("book", JSON.stringify(book));
@@ -69,9 +66,7 @@ const BookEdit = () => {
         `${SERVER}/book/admin?bookId=${editingBook.id}`,
         editData,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         }
       );
 
@@ -95,9 +90,7 @@ const BookEdit = () => {
       const response = await axios.delete(
         `${SERVER}/book/admin?bookId=${deletingBook.id}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         }
       );
 
@@ -141,9 +134,7 @@ const BookEdit = () => {
           contentType: 'image/jpeg'
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
+          withCredentials: true
         }
       );
 
