@@ -24,7 +24,7 @@ export const requestWithAuth = async (
     // console.log("API 요청 성공:", response.data);
     return response.data; // 정상적인 응답 반환
   } catch (error) {
-    console.error("요청 에러 발생:", error);
+    // console.error("요청 에러 발생:", error);
 
     const ERROR = error.response.data;
 
@@ -36,7 +36,7 @@ export const requestWithAuth = async (
 
     // 액세스 토큰 만료(A007) 또는 액세스 토큰 존재X(C001) 시 새로운 토큰으로 재요청
     if (ERROR.code === "A007" || ERROR.cod === "C001") {
-      console.log("액세스 토큰 만료됨. 리프레시 토큰을 사용하여 갱신 시도...");
+      // console.log("액세스 토큰 만료됨. 리프레시 토큰을 사용하여 갱신 시도...");
       const refreshed = await RefreshAccessToken();
 
       if (!refreshed) {
@@ -51,10 +51,10 @@ export const requestWithAuth = async (
         if (retryResponse === null) {
           throw error;
         }
-        console.log("재요청 성공:", retryResponse.data);
+        // console.log("재요청 성공:", retryResponse.data);
         return retryResponse.data;
       } catch (retryError) {
-        console.error("재요청 실패:", retryError.response?.data || retryError);
+        // console.error("재요청 실패:", retryError.response?.data || retryError);
         return null;
       }
     }

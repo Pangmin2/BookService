@@ -19,7 +19,7 @@ const SearchBook = () => {
   const fetchBooks = async () => {
     try {
       const response = await requestWithAuth("GET", "/books", null, logout);
-
+      // console.log("응답:", response);
       if (response === null) {
         throw new Error();
       }
