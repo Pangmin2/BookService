@@ -39,12 +39,18 @@
   border: none;
   border-radius: 0 12px 12px 0;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search button:hover {
+  background-color: #1a7fd1;
 }
 
 @media (max-width: 1024px) {
   .search input {
     width: 52%;
   }
+
   .contents h1 {
     font-size: 32px;
     margin: 0;

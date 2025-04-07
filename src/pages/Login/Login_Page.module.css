@@ -63,6 +63,11 @@
   background: #1f98ff;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: #1a7fd1;
 }
 
 .signupButton {
@@ -73,4 +78,9 @@
   background: #c3c3c3;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signupButton:hover {
+  background-color: #a8a8a8;
 }
