@@ -4,6 +4,9 @@
 
 동아리 부원을 대상으로 한 도서 대여시스템 및 관리자 페이지를 통해 동아리 도서와 관련된 것들을 관리합니다.
 
+![image](https://github.com/user-attachments/assets/e703e708-1dc1-4ec9-b618-35295fdabc43)
+
+
 ### 주소
 
 홈페이지 주소 : https://chipsatbooks.vercel.app/
