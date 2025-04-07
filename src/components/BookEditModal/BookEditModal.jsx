@@ -13,7 +13,6 @@ const BookEditModal = ({ book, onClose, onUpdate }) => {
     });
 
     const SERVER = import.meta.env.VITE_SERVER_URL;
-    const token = localStorage.getItem("accessToken");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -46,9 +45,7 @@ const BookEditModal = ({ book, onClose, onUpdate }) => {
                         contentType: formData.selectedFile.type,
                     },
                     {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
+                        withCredentials: true
                     }
                 );
 
