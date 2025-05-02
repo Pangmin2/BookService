@@ -250,7 +250,7 @@ const SignUp = () => {
 
   // 학번 정규식 확인
   const student_idCheck = (student_id) => {
-    const student_idRegex = /^\d{8,10}$/;
+    const student_idRegex = /^(\d{8}|\d{10})$/;
     if (!student_idRegex.test(student_id)) {
       setStudentIdError("학번 8-10자를 모두 입력해주세요.");
     } else {
