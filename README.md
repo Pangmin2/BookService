@@ -9,7 +9,7 @@
 
 ### 주소
 
-홈페이지 주소 : https://chipsatbooks.vercel.app/
+홈페이지 주소 : https://www.chip-sat.com
 
 ### 팀원
 
